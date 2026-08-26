@@ -26,4 +26,9 @@ struct SemanticTableCell: Equatable, Sendable
         self.sourceLocation = sourceLocation
         self.confidence = confidence
     }
+
+    var plainText: String
+    {
+        runs.map(\.text).joined()
+    }
 }
