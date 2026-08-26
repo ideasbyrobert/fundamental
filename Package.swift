@@ -9,7 +9,12 @@ let package = Package(
         .executable(name: "lint", targets: ["lint"])
     ],
     targets: [
+        .target(name: "FundamentalDocument"),
         .executableTarget(name: "lint"),
+        .testTarget(
+            name: "FundamentalDocumentTests",
+            dependencies: ["FundamentalDocument"]
+        ),
         .testTarget(name: "lintTests", dependencies: ["lint"])
     ]
 )
