@@ -1,4 +1,4 @@
-struct SemanticTableRow: Equatable, Sendable
+struct SemanticTableRow: Codable, Equatable, Sendable
 {
     var cells: [SemanticTableCell]
     var sourceLocation: String?
