@@ -1,4 +1,4 @@
-struct SemanticTableCell: Equatable, Sendable
+struct SemanticTableCell: Codable, Equatable, Sendable
 {
     var runs: [SemanticRun]
     var isHeader: Bool
