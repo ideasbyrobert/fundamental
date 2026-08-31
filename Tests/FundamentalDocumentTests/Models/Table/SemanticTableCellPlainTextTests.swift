@@ -14,8 +14,8 @@ extension SemanticTableCellTests
         let language = try #require(
             SemanticLanguageIdentifier("hy")
         )
-        var cell = SemanticTableCell(
-            runs: [
+        let regular = SemanticTableCell.regular(
+            RegularSemanticTableCell(runs: [
                 SemanticRun(
                     text: "First ",
                     traits: [.strong]
@@ -29,32 +29,33 @@ extension SemanticTableCellTests
                         language: language
                     )
                 ))
-            ],
-            isHeader: true,
-            rowSpan: 2,
-            columnSpan: 3,
-            alignment: .center,
-            sourceLocation: "table:1:1",
-            confidence: 0.5
+            ])
         )
-        let unchanged = cell
+        let extent = try #require(
+            SemanticTableCellExtent(
+                rowCount: 2,
+                columnCount: 3
+            )
+        )
+        let spanning = SemanticTableCell.spanning(
+            SpanningSemanticTableCell(
+                runs: regular.runs,
+                alignment: .center,
+                extent: extent
+            )
+        )
         let expected = "First \(decomposed)\nԲարև 😀"
 
-        #expect(SemanticTableCell(runs: []).plainText.isEmpty)
-        #expect(cell.plainText == expected)
         #expect(
-            cell.plainText.unicodeScalars.map(\.value)
-                == expected.unicodeScalars.map(\.value)
+            SemanticTableCell.regular(
+                RegularSemanticTableCell(runs: [])
+            ).plainText.isEmpty
         )
-        #expect(cell == unchanged)
-
-        cell.runs[0] = SemanticRun(text: "Changed ")
-        cell.runs.swapAt(0, 2)
-        cell.runs.append(SemanticRun(text: "!"))
-
+        #expect(regular.plainText == expected)
+        #expect(spanning.plainText == expected)
         #expect(
-            cell.plainText
-                == "\(decomposed)\nԲարև 😀Changed !"
+            regular.plainText.unicodeScalars.map(\.value)
+                == expected.unicodeScalars.map(\.value)
         )
     }
 }

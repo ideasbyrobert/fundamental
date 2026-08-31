@@ -24,15 +24,19 @@ struct SemanticTableTests
         let rows = [
             SemanticTableRow(
                 cells: [
-                    SemanticTableCell(
-                        runs: [SemanticRun(text: "First")]
+                    SemanticTableCell.regular(
+                        RegularSemanticTableCell(
+                            runs: [SemanticRun(text: "First")]
+                        )
                     )
                 ]
             ),
             SemanticTableRow(
                 cells: [
-                    SemanticTableCell(
-                        runs: [SemanticRun(text: "Second")]
+                    SemanticTableCell.regular(
+                        RegularSemanticTableCell(
+                            runs: [SemanticRun(text: "Second")]
+                        )
                     )
                 ]
             )

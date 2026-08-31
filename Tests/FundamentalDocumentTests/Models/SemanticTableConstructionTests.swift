@@ -8,8 +8,12 @@ extension SemanticTableTests
     func headerRowCountClampsOnlyAtConstruction()
     {
         let rows = [
-            SemanticTableRow(cells: []),
-            SemanticTableRow(cells: [])
+            SemanticTableRow(cells: [
+                .regular(RegularSemanticTableCell(runs: []))
+            ]),
+            SemanticTableRow(cells: [
+                .regular(RegularSemanticTableCell(runs: []))
+            ])
         ]
         let negative = SemanticTable(
             rows: rows,

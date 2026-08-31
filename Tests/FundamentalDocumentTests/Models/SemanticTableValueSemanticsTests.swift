@@ -7,7 +7,9 @@ extension SemanticTableTests
     @Test("every stored field remains mutable")
     func everyStoredFieldRemainsMutable()
     {
-        let rows = [SemanticTableRow(cells: [])]
+        let rows = [SemanticTableRow(cells: [
+            .regular(RegularSemanticTableCell(runs: []))
+        ])]
         let caption = [SemanticRun(text: "Changed")]
         var table = SemanticTable(rows: [])
 
@@ -30,7 +32,9 @@ extension SemanticTableTests
     func equalityObservesEveryStoredField()
     {
         let table = SemanticTable(
-            rows: [SemanticTableRow(cells: [])],
+            rows: [SemanticTableRow(cells: [
+                .regular(RegularSemanticTableCell(runs: []))
+            ])],
             headerRowCount: 1,
             columnAlignments: [.leading],
             caption: [SemanticRun(text: "Caption")],

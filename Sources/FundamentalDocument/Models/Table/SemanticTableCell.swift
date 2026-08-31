@@ -1,30 +1,50 @@
-struct SemanticTableCell: Codable, Equatable, Sendable
+enum SemanticTableCell: Equatable, Sendable
 {
-    var runs: [SemanticRun]
-    var isHeader: Bool
-    var rowSpan: Int
-    var columnSpan: Int
-    var alignment: SemanticTableColumnAlignment
-    var sourceLocation: String?
-    var confidence: Double
+    case regular(RegularSemanticTableCell)
+    case spanning(SpanningSemanticTableCell)
 
-    init(
-        runs: [SemanticRun],
-        isHeader: Bool = false,
-        rowSpan: Int = 1,
-        columnSpan: Int = 1,
-        alignment: SemanticTableColumnAlignment = .unspecified,
-        sourceLocation: String? = nil,
-        confidence: Double = 1
-    )
+    var runs: [SemanticRun]
     {
-        self.runs = runs
-        self.isHeader = isHeader
-        self.rowSpan = max(1, rowSpan)
-        self.columnSpan = max(1, columnSpan)
-        self.alignment = alignment
-        self.sourceLocation = sourceLocation
-        self.confidence = confidence
+        switch self
+        {
+        case let .regular(cell):
+            cell.runs
+        case let .spanning(cell):
+            cell.runs
+        }
+    }
+
+    var alignment: SemanticTableColumnAlignment
+    {
+        switch self
+        {
+        case let .regular(cell):
+            cell.alignment
+        case let .spanning(cell):
+            cell.alignment
+        }
+    }
+
+    var rowCount: Int
+    {
+        switch self
+        {
+        case .regular:
+            1
+        case let .spanning(cell):
+            cell.extent.rowCount
+        }
+    }
+
+    var columnCount: Int
+    {
+        switch self
+        {
+        case .regular:
+            1
+        case let .spanning(cell):
+            cell.extent.columnCount
+        }
     }
 
     var plainText: String

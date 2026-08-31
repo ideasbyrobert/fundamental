@@ -18,12 +18,15 @@ struct SemanticTableRowTests
     func fullInitializationPreservesCellsAndSourceLocation()
     {
         let cells = [
-            SemanticTableCell(
-                runs: [SemanticRun(text: "First")]
+            SemanticTableCell.regular(
+                RegularSemanticTableCell(
+                    runs: [SemanticRun(text: "First")]
+                )
             ),
-            SemanticTableCell(
-                runs: [SemanticRun(text: "Second")],
-                isHeader: true
+            SemanticTableCell.regular(
+                RegularSemanticTableCell(
+                    runs: [SemanticRun(text: "Second")]
+                )
             )
         ]
         let row = SemanticTableRow(
@@ -39,8 +42,10 @@ struct SemanticTableRowTests
     func everyStoredFieldRemainsMutable()
     {
         let cells = [
-            SemanticTableCell(
-                runs: [SemanticRun(text: "Changed")]
+            SemanticTableCell.regular(
+                RegularSemanticTableCell(
+                    runs: [SemanticRun(text: "Changed")]
+                )
             )
         ]
         var row = SemanticTableRow(cells: [])
@@ -57,8 +62,10 @@ struct SemanticTableRowTests
     {
         let row = SemanticTableRow(
             cells: [
-                SemanticTableCell(
-                    runs: [SemanticRun(text: "Body")]
+                SemanticTableCell.regular(
+                    RegularSemanticTableCell(
+                        runs: [SemanticRun(text: "Body")]
+                    )
                 )
             ],
             sourceLocation: "table:1"
