@@ -22,23 +22,23 @@ struct SemanticTableTests
     func fullInitializationPreservesValuesAndOrder()
     {
         let rows = [
-            SemanticTableRow(
-                cells: [
+            SemanticTableRow.header(
+                HeaderSemanticTableRow(cells: [
                     SemanticTableCell.regular(
                         RegularSemanticTableCell(
                             runs: [SemanticRun(text: "First")]
                         )
                     )
-                ]
+                ])
             ),
-            SemanticTableRow(
-                cells: [
+            SemanticTableRow.body(
+                BodySemanticTableRow(cells: [
                     SemanticTableCell.regular(
                         RegularSemanticTableCell(
                             runs: [SemanticRun(text: "Second")]
                         )
                     )
-                ]
+                ])
             )
         ]
         let alignments: [SemanticTableColumnAlignment] = [

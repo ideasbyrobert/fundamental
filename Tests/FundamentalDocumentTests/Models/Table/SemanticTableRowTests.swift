@@ -5,84 +5,60 @@ import Testing
 @Suite("A semantic table row")
 struct SemanticTableRowTests
 {
-    @Test("minimal initialization uses the exact default")
-    func minimalInitializationUsesDefault()
+    @Test("the header form exposes exact cells")
+    func headerFormExposesExactCells()
     {
-        let row = SemanticTableRow(cells: [])
-
-        #expect(row.cells.isEmpty)
-        #expect(row.sourceLocation == nil)
-    }
-
-    @Test("full initialization preserves cell order and source location")
-    func fullInitializationPreservesCellsAndSourceLocation()
-    {
-        let cells = [
-            SemanticTableCell.regular(
-                RegularSemanticTableCell(
-                    runs: [SemanticRun(text: "First")]
-                )
-            ),
-            SemanticTableCell.regular(
-                RegularSemanticTableCell(
-                    runs: [SemanticRun(text: "Second")]
-                )
-            )
+        let cells: [SemanticTableCell] = [
+            .regular(RegularSemanticTableCell(
+                runs: [SemanticRun(text: "Header")]
+            ))
         ]
-        let row = SemanticTableRow(
-            cells: cells,
-            sourceLocation: "table:2"
+        let row = SemanticTableRow.header(
+            HeaderSemanticTableRow(cells: cells)
         )
 
         #expect(row.cells == cells)
-        #expect(row.sourceLocation == "table:2")
+        guard case .header = row
+        else
+        {
+            Issue.record("Expected the header form")
+            return
+        }
     }
 
-    @Test("every stored field remains mutable")
-    func everyStoredFieldRemainsMutable()
+    @Test("the body form exposes exact cells")
+    func bodyFormExposesExactCells()
     {
-        let cells = [
-            SemanticTableCell.regular(
-                RegularSemanticTableCell(
-                    runs: [SemanticRun(text: "Changed")]
-                )
-            )
+        let cells: [SemanticTableCell] = [
+            .regular(RegularSemanticTableCell(
+                runs: [SemanticRun(text: "Body")]
+            ))
         ]
-        var row = SemanticTableRow(cells: [])
-
-        row.cells = cells
-        row.sourceLocation = "table:3"
+        let row = SemanticTableRow.body(
+            BodySemanticTableRow(cells: cells)
+        )
 
         #expect(row.cells == cells)
-        #expect(row.sourceLocation == "table:3")
+        guard case .body = row
+        else
+        {
+            Issue.record("Expected the body form")
+            return
+        }
     }
 
-    @Test("equality observes every stored field")
-    func equalityObservesEveryStoredField()
+    @Test("both forms admit empty rows and remain distinct")
+    func bothFormsAdmitEmptyRowsAndRemainDistinct()
     {
-        let row = SemanticTableRow(
-            cells: [
-                SemanticTableCell.regular(
-                    RegularSemanticTableCell(
-                        runs: [SemanticRun(text: "Body")]
-                    )
-                )
-            ],
-            sourceLocation: "table:1"
+        let header = SemanticTableRow.header(
+            HeaderSemanticTableRow(cells: [])
         )
-        let identical = SemanticTableRow(
-            cells: row.cells,
-            sourceLocation: row.sourceLocation
+        let body = SemanticTableRow.body(
+            BodySemanticTableRow(cells: [])
         )
-        var changed = row
 
-        #expect(row == identical)
-
-        changed.cells = []
-        #expect(changed != row)
-
-        changed = row
-        changed.sourceLocation = nil
-        #expect(changed != row)
+        #expect(header.cells.isEmpty)
+        #expect(body.cells.isEmpty)
+        #expect(header != body)
     }
 }

@@ -1,14 +1,16 @@
-struct SemanticTableRow: Equatable, Sendable
+enum SemanticTableRow: Equatable, Sendable
 {
-    var cells: [SemanticTableCell]
-    var sourceLocation: String?
+    case header(HeaderSemanticTableRow)
+    case body(BodySemanticTableRow)
 
-    init(
-        cells: [SemanticTableCell],
-        sourceLocation: String? = nil
-    )
+    var cells: [SemanticTableCell]
     {
-        self.cells = cells
-        self.sourceLocation = sourceLocation
+        switch self
+        {
+        case let .header(row):
+            row.cells
+        case let .body(row):
+            row.cells
+        }
     }
 }
