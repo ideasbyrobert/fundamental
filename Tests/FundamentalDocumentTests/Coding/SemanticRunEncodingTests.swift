@@ -34,36 +34,17 @@ extension SemanticRunTests
             )
 
             #expect(rawValues == expectedTraits.map(\.rawValue))
-            #expect(Set(object.keys) == Set(["text", "traits"]))
         }
     }
 
-    @Test("a full Unicode run round trips semantically")
-    func fullUnicodeRunRoundTrips() throws
+    @Test("a direct run omits scope keys")
+    func directRunOmitsScopeKeys() throws
     {
-        let run = SemanticRun(
-            text: "Բարև 😀",
-            traits: [.strong, .emphasis, .inlineCode],
-            link: "chapter one",
-            language: "hy"
+        let object = try encodedObject(
+            for: SemanticRun(text: "Body")
         )
-        let data = try JSONEncoder().encode(run)
-        let decoded = try JSONDecoder().decode(
-            SemanticRun.self,
-            from: data
-        )
-        let object = try encodedObject(for: run)
 
-        #expect(decoded == run)
-        #expect(object["text"] as? String == run.text)
-        #expect(object["link"] as? String == run.link)
-        #expect(object["language"] as? String == run.language)
-        #expect(Set(object.keys) == Set([
-            "language",
-            "link",
-            "text",
-            "traits"
-        ]))
+        #expect(Set(object.keys) == Set(["text", "traits"]))
     }
 
     private func encodedObject(

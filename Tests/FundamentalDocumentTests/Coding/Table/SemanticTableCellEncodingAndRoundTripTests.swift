@@ -8,18 +8,26 @@ extension SemanticTableCellTests
     @Test("a full cell round trips with the exact coding keys")
     func fullCellRoundTripsWithExactCodingKeys() throws
     {
+        let link = try #require(
+            SemanticLinkDestination("chapter two")
+        )
+        let language = try #require(
+            SemanticLanguageIdentifier("hy")
+        )
         let cell = SemanticTableCell(
             runs: [
                 SemanticRun(
                     text: "First",
                     traits: [.strong]
                 ),
-                SemanticRun(
+                .scoped(SemanticScopedRun(
                     text: "Բարև 😀",
                     traits: [.emphasis],
-                    link: "chapter two",
-                    language: "hy"
-                )
+                    scopes: .linkAndLanguage(
+                        link: link,
+                        language: language
+                    )
+                ))
             ],
             isHeader: true,
             rowSpan: 2,

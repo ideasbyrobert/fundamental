@@ -5,83 +5,64 @@ import Testing
 @Suite("A semantic text run")
 struct SemanticRunTests
 {
-    @Test("text-only initialization uses the exact defaults")
-    func textOnlyInitializationUsesDefaults()
+    @Test("direct initialization creates a direct run")
+    func directInitializationCreatesDirectRun()
     {
         let run = SemanticRun(text: "Plain text")
 
-        #expect(run.text == "Plain text")
-        #expect(run.traits.isEmpty)
-        #expect(run.link == nil)
-        #expect(run.language == nil)
+        guard case let .direct(direct) = run
+        else
+        {
+            Issue.record("Expected a direct run")
+            return
+        }
+
+        #expect(direct.text == "Plain text")
+        #expect(direct.traits.isEmpty)
+        #expect(run.text == direct.text)
+        #expect(run.traits == direct.traits)
     }
 
-    @Test("every stored field remains mutable")
-    func everyStoredFieldRemainsMutable()
+    @Test("a scoped run preserves its scope facts")
+    func scopedRunPreservesItsScopeFacts() throws
     {
-        var run = SemanticRun(text: "Before")
-
-        run.text = "After"
-        run.traits = [.inlineCode]
-        run.link = "chapter two"
-        run.language = "en"
-
-        #expect(run.text == "After")
-        #expect(run.traits == [.inlineCode])
-        #expect(run.link == "chapter two")
-        #expect(run.language == "en")
-    }
-
-    @Test("full initialization preserves every equatable field")
-    func fullInitializationPreservesEveryField()
-    {
-        let text = "Բարև 😀"
-        let traits: Set<SemanticInlineTrait> = [
-            .strong,
-            .emphasis
-        ]
-        let link = "chapter one"
-        let language = "hy"
-        let run = SemanticRun(
-            text: text,
-            traits: traits,
-            link: link,
-            language: language
+        let link = try #require(
+            SemanticLinkDestination("chapter one")
+        )
+        let run = SemanticRun.scoped(
+            SemanticScopedRun(
+                text: "Բարև 😀",
+                traits: [.strong, .emphasis],
+                scopes: .link(link)
+            )
         )
 
-        #expect(run.text == text)
-        #expect(run.traits == traits)
-        #expect(run.link == link)
-        #expect(run.language == language)
-        #expect(run == SemanticRun(
-            text: text,
-            traits: traits,
-            link: link,
-            language: language
+        guard case let .scoped(scoped) = run
+        else
+        {
+            Issue.record("Expected a scoped run")
+            return
+        }
+
+        #expect(scoped.scopes == .link(link))
+        #expect(run.text == "Բարև 😀")
+        #expect(run.traits == [.strong, .emphasis])
+    }
+
+    @Test("reconstruction leaves the original run unchanged")
+    func reconstructionLeavesOriginalRunUnchanged()
+    {
+        let original = SemanticRun(text: "Before")
+        let changed = SemanticRun(
+            text: "After",
+            traits: [.inlineCode]
+        )
+
+        #expect(original == SemanticRun(text: "Before"))
+        #expect(changed == SemanticRun(
+            text: "After",
+            traits: [.inlineCode]
         ))
-        #expect(run != SemanticRun(
-            text: "Different",
-            traits: traits,
-            link: link,
-            language: language
-        ))
-        #expect(run != SemanticRun(
-            text: text,
-            traits: [.strong],
-            link: link,
-            language: language
-        ))
-        #expect(run != SemanticRun(
-            text: text,
-            traits: traits,
-            link: nil,
-            language: language
-        ))
-        #expect(run != SemanticRun(
-            text: text,
-            traits: traits,
-            link: link,
-            language: nil
-        ))
+        #expect(original != changed)
     }
 }

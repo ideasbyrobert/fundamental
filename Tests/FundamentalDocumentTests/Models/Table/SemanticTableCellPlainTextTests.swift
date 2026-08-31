@@ -5,9 +5,15 @@ import Testing
 extension SemanticTableCellTests
 {
     @Test("plain text joins current run text without separators")
-    func plainTextJoinsCurrentRunTextWithoutSeparators()
+    func plainTextJoinsCurrentRunTextWithoutSeparators() throws
     {
         let decomposed = "e\u{301}"
+        let link = try #require(
+            SemanticLinkDestination("chapter two")
+        )
+        let language = try #require(
+            SemanticLanguageIdentifier("hy")
+        )
         var cell = SemanticTableCell(
             runs: [
                 SemanticRun(
@@ -15,12 +21,14 @@ extension SemanticTableCellTests
                     traits: [.strong]
                 ),
                 SemanticRun(text: ""),
-                SemanticRun(
+                .scoped(SemanticScopedRun(
                     text: "\(decomposed)\nԲարև 😀",
                     traits: [.emphasis],
-                    link: "chapter two",
-                    language: "hy"
-                )
+                    scopes: .linkAndLanguage(
+                        link: link,
+                        language: language
+                    )
+                ))
             ],
             isHeader: true,
             rowSpan: 2,
@@ -40,7 +48,7 @@ extension SemanticTableCellTests
         )
         #expect(cell == unchanged)
 
-        cell.runs[0].text = "Changed "
+        cell.runs[0] = SemanticRun(text: "Changed ")
         cell.runs.swapAt(0, 2)
         cell.runs.append(SemanticRun(text: "!"))
 

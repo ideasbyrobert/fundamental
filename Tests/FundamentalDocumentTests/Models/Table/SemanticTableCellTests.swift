@@ -20,19 +20,27 @@ struct SemanticTableCellTests
     }
 
     @Test("full initialization preserves supplied values and run order")
-    func fullInitializationPreservesValuesAndRunOrder()
+    func fullInitializationPreservesValuesAndRunOrder() throws
     {
+        let link = try #require(
+            SemanticLinkDestination("chapter two")
+        )
+        let language = try #require(
+            SemanticLanguageIdentifier("hy")
+        )
         let runs = [
             SemanticRun(
                 text: "First",
                 traits: [.strong]
             ),
-            SemanticRun(
+            SemanticRun.scoped(SemanticScopedRun(
                 text: "Բարև 😀",
                 traits: [.emphasis],
-                link: "chapter two",
-                language: "hy"
-            )
+                scopes: .linkAndLanguage(
+                    link: link,
+                    language: language
+                )
+            ))
         ]
         let cell = SemanticTableCell(
             runs: runs,
