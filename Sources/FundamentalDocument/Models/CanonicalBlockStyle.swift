@@ -10,6 +10,49 @@ enum CanonicalBlockStyle:
     case body
     case monostyled
 
+    func semanticBlock(
+        runs: [SemanticRun]
+    ) -> SemanticBlock
+    {
+        switch self
+        {
+        case .title:
+            .heading(
+                .title(
+                    TitleSemanticHeading(runs: runs)
+                )
+            )
+        case .heading:
+            .heading(
+                .section(
+                    SectionSemanticHeading(
+                        runs: runs,
+                        level: .two
+                    )
+                )
+            )
+        case .subheading:
+            .heading(
+                .section(
+                    SectionSemanticHeading(
+                        runs: runs,
+                        level: .three
+                    )
+                )
+            )
+        case .body:
+            .paragraph(
+                SemanticParagraph(runs: runs)
+            )
+        case .monostyled:
+            .code(
+                .plain(
+                    PlainSemanticCodeBlock(runs: runs)
+                )
+            )
+        }
+    }
+
     var semanticKind: SemanticBlockKind
     {
         switch self
