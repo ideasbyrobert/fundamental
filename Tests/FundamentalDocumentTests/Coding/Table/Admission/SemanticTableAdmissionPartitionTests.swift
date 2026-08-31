@@ -10,7 +10,7 @@ extension SemanticTableAdmissionTests
         let regularCaptions: [[SemanticRun]?] = [nil, []]
         for caption in regularCaptions
         {
-            let admission = try Self.admit(Self.table(caption: caption))
+            let admission = try Self.sourced(Self.table(caption: caption))
             guard case .regular = admission.table
             else
             {
@@ -27,7 +27,7 @@ extension SemanticTableAdmissionTests
         ]
         for runs in captionedRuns
         {
-            let admission = try Self.admit(Self.table(caption: runs))
+            let admission = try Self.sourced(Self.table(caption: runs))
             guard case let .captioned(table) = admission.table
             else
             {
@@ -53,7 +53,7 @@ extension SemanticTableAdmissionTests
                     isHeader: $0 >= headerRowCount
                 )
             }
-            let admission = try Self.admit(Self.table(
+            let admission = try Self.sourced(Self.table(
                 rows: rows,
                 headerRowCount: headerRowCount
             ))
@@ -66,7 +66,7 @@ extension SemanticTableAdmissionTests
                 admission.table.content.bodyRows.count
                     == 2 - headerRowCount
             )
-            let contradictionTargets = admission.evidence.compactMap
+            let contradictionTargets = admission.evidence.facts.compactMap
             { fact -> SemanticTableEvidenceTarget? in
                 guard case let .repair(repair) = fact
                 else
@@ -85,7 +85,7 @@ extension SemanticTableAdmissionTests
                 .cell(row: firstRow, cell: cell),
                 .cell(row: secondRow, cell: cell)
             ])
-            #expect(!admission.evidence.contains
+            #expect(!admission.evidence.facts.contains
             {
                 guard case let .repair(repair) = $0
                 else

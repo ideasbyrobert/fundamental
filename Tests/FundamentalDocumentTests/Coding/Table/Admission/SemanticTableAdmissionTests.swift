@@ -25,7 +25,6 @@ struct SemanticTableAdmissionTests
             sourceLocation: sourceLocation
         )
     }
-
     static func table(
         rows: [LegacySemanticTableRow] = [],
         headerRowCount: Int = 0,
@@ -44,20 +43,37 @@ struct SemanticTableAdmissionTests
             confidence: confidence
         )
     }
-
     static func admit(
         _ legacy: LegacySemanticTable
-    ) throws -> SemanticTableAdmission
+    ) throws -> (
+        table: SemanticTable,
+        evidence: [SemanticTableEvidenceFact]
+    )
     {
-        try #require(
+        let sourced = try sourced(legacy)
+        return (sourced.table, sourced.evidence.facts)
+    }
+    static func sourced(
+        _ legacy: LegacySemanticTable
+    ) throws -> SourcedSemanticTable
+    {
+        let admission = try #require(
             SemanticTableAdmissionAdapter.admit(legacy)
         )
+        let sourced: SourcedSemanticTable?
+        switch admission.record
+        {
+        case .semantic:
+            sourced = nil
+        case let .sourced(table):
+            sourced = table
+        }
+        return try #require(sourced)
     }
-
     @Test("normalized row order and alignments survive admission")
     func normalizedRowOrderAndAlignmentsSurviveAdmission() throws
     {
-        let admission = try Self.admit(Self.table(
+        let admission = try Self.sourced(Self.table(
             rows: [
                 Self.row("Header", isHeader: true),
                 Self.row("First"),
@@ -70,7 +86,6 @@ struct SemanticTableAdmissionTests
                 .leading
             ]
         ))
-
         #expect(admission.table.content.headerRows
             .flatMap(\.cells).map(\.plainText) == ["Header"])
         #expect(admission.table.content.bodyRows
