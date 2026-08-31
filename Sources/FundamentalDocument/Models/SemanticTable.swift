@@ -1,26 +1,16 @@
-struct SemanticTable: Equatable, Sendable
+enum SemanticTable: Equatable, Sendable
 {
-    var rows: [SemanticTableRow]
-    var headerRowCount: Int
-    var columnAlignments: [SemanticTableColumnAlignment]
-    var caption: [SemanticRun]?
-    var sourceLocation: String?
-    var confidence: Double
+    case regular(RegularSemanticTable)
+    case captioned(CaptionedSemanticTable)
 
-    init(
-        rows: [SemanticTableRow],
-        headerRowCount: Int = 0,
-        columnAlignments: [SemanticTableColumnAlignment] = [],
-        caption: [SemanticRun]? = nil,
-        sourceLocation: String? = nil,
-        confidence: Double = 1
-    )
+    var content: SemanticTableContent
     {
-        self.rows = rows
-        self.headerRowCount = min(max(0, headerRowCount), rows.count)
-        self.columnAlignments = columnAlignments
-        self.caption = caption
-        self.sourceLocation = sourceLocation
-        self.confidence = confidence
+        switch self
+        {
+        case let .regular(table):
+            table.content
+        case let .captioned(table):
+            table.content
+        }
     }
 }

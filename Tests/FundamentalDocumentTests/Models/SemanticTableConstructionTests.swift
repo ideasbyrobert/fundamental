@@ -4,51 +4,27 @@ import Testing
 
 extension SemanticTableTests
 {
-    @Test("header row count clamps only at construction")
-    func headerRowCountClampsOnlyAtConstruction()
+    @Test("only the captioned form owns a caption")
+    func onlyCaptionedFormOwnsCaption()
     {
-        let rows = [
-            SemanticTableRow.body(BodySemanticTableRow(cells: [
-                .regular(RegularSemanticTableCell(runs: []))
-            ])),
-            SemanticTableRow.body(BodySemanticTableRow(cells: [
-                .regular(RegularSemanticTableCell(runs: []))
-            ]))
-        ]
-        let negative = SemanticTable(
-            rows: rows,
-            headerRowCount: -2
+        let regular = SemanticTable.regular(
+            RegularSemanticTable(content: Self.content())
         )
-        let zero = SemanticTable(
-            rows: rows,
-            headerRowCount: 0
+        let caption = Self.caption()
+        let captioned = SemanticTable.captioned(
+            CaptionedSemanticTable(
+                content: Self.content(),
+                caption: caption
+            )
         )
-        let within = SemanticTable(
-            rows: rows,
-            headerRowCount: 1
-        )
-        let boundary = SemanticTable(
-            rows: rows,
-            headerRowCount: 2
-        )
-        let excessive = SemanticTable(
-            rows: rows,
-            headerRowCount: 3
-        )
-        let empty = SemanticTable(
-            rows: [],
-            headerRowCount: 1
-        )
-        var mutated = within
 
-        mutated.headerRowCount = -1
-
-        #expect(negative.headerRowCount == 0)
-        #expect(zero.headerRowCount == 0)
-        #expect(within.headerRowCount == 1)
-        #expect(boundary.headerRowCount == 2)
-        #expect(excessive.headerRowCount == 2)
-        #expect(empty.headerRowCount == 0)
-        #expect(mutated.headerRowCount == -1)
+        guard case .regular = regular,
+              case let .captioned(table) = captioned
+        else
+        {
+            Issue.record("Expected exact table forms")
+            return
+        }
+        #expect(table.caption == caption)
     }
 }

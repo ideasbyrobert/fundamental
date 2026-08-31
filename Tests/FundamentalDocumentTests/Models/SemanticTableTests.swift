@@ -5,64 +5,60 @@ import Testing
 @Suite("A semantic table")
 struct SemanticTableTests
 {
-    @Test("minimal initialization uses the exact defaults")
-    func minimalInitializationUsesDefaults()
+    static func content(
+        alignment: SemanticTableColumnAlignment = .leading
+    ) -> SemanticTableContent
     {
-        let table = SemanticTable(rows: [])
-
-        #expect(table.rows.isEmpty)
-        #expect(table.headerRowCount == 0)
-        #expect(table.columnAlignments.isEmpty)
-        #expect(table.caption == nil)
-        #expect(table.sourceLocation == nil)
-        #expect(table.confidence == 1)
+        SemanticTableContent(
+            headerRows: [HeaderSemanticTableRow(cells: [])],
+            bodyRows: [BodySemanticTableRow(cells: [])],
+            columnAlignments: [alignment]
+        )
     }
 
-    @Test("full initialization preserves supplied values and order")
-    func fullInitializationPreservesValuesAndOrder()
+    static func caption(
+        _ text: String = "Caption"
+    ) -> SemanticTableCaption
     {
-        let rows = [
-            SemanticTableRow.header(
-                HeaderSemanticTableRow(cells: [
-                    SemanticTableCell.regular(
-                        RegularSemanticTableCell(
-                            runs: [SemanticRun(text: "First")]
-                        )
-                    )
-                ])
-            ),
-            SemanticTableRow.body(
-                BodySemanticTableRow(cells: [
-                    SemanticTableCell.regular(
-                        RegularSemanticTableCell(
-                            runs: [SemanticRun(text: "Second")]
-                        )
-                    )
-                ])
-            )
-        ]
-        let alignments: [SemanticTableColumnAlignment] = [
-            .leading,
-            .trailing
-        ]
-        let caption = [
-            SemanticRun(text: "Caption "),
-            SemanticRun(text: "two", traits: [.emphasis])
-        ]
-        let table = SemanticTable(
-            rows: rows,
-            headerRowCount: 1,
-            columnAlignments: alignments,
-            caption: caption,
-            sourceLocation: "table:2",
-            confidence: 0.75
+        SemanticTableCaption(
+            firstRun: SemanticRun(text: text),
+            remainingRuns: []
+        )
+    }
+
+    @Test("regular and captioned forms preserve exact leaves")
+    func regularAndCaptionedFormsPreserveExactLeaves()
+    {
+        let content = Self.content()
+        let caption = Self.caption()
+        let regular = RegularSemanticTable(content: content)
+        let captioned = CaptionedSemanticTable(
+            content: content,
+            caption: caption
         )
 
-        #expect(table.rows == rows)
-        #expect(table.headerRowCount == 1)
-        #expect(table.columnAlignments == alignments)
-        #expect(table.caption == caption)
-        #expect(table.sourceLocation == "table:2")
-        #expect(table.confidence == 0.75)
+        #expect(SemanticTable.regular(regular) == .regular(regular))
+        #expect(
+            SemanticTable.captioned(captioned) == .captioned(captioned)
+        )
+    }
+
+    @Test("content projection exposes only canonical facts")
+    func contentProjectionExposesOnlyCanonicalFacts()
+    {
+        let regularContent = Self.content(alignment: .leading)
+        let captionedContent = Self.content(alignment: .trailing)
+        let regular = SemanticTable.regular(
+            RegularSemanticTable(content: regularContent)
+        )
+        let captioned = SemanticTable.captioned(
+            CaptionedSemanticTable(
+                content: captionedContent,
+                caption: Self.caption()
+            )
+        )
+
+        #expect(regular.content == regularContent)
+        #expect(captioned.content == captionedContent)
     }
 }
