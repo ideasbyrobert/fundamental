@@ -9,9 +9,9 @@ extension EditableSemanticBlockUTF16Tests
     {
         let editable = try Self.editable(["A🌍B"])
 
-        #expect(!editable.admitsEditableBoundary(at: try Self.offset(2)))
-        #expect(editable.admitsEditableBoundary(at: try Self.offset(1)))
-        #expect(editable.admitsEditableBoundary(at: try Self.offset(3)))
+        #expect(!editable.admitsCharacterBoundary(at: try Self.offset(2)))
+        #expect(editable.admitsCharacterBoundary(at: try Self.offset(1)))
+        #expect(editable.admitsCharacterBoundary(at: try Self.offset(3)))
     }
 
     @Test("a decomposed grapheme interior is refused")
@@ -19,8 +19,8 @@ extension EditableSemanticBlockUTF16Tests
     {
         let editable = try Self.editable(["e\u{301}"])
 
-        #expect(!editable.admitsEditableBoundary(at: try Self.offset(1)))
-        #expect(editable.admitsEditableBoundary(at: try Self.offset(2)))
+        #expect(!editable.admitsCharacterBoundary(at: try Self.offset(1)))
+        #expect(editable.admitsCharacterBoundary(at: try Self.offset(2)))
     }
 
     @Test("ZWJ and flag grapheme interiors are refused")
@@ -31,7 +31,7 @@ extension EditableSemanticBlockUTF16Tests
             let editable = try Self.editable([text])
             for value in 1..<editable.utf16Count
             {
-                #expect(!editable.admitsEditableBoundary(
+                #expect(!editable.admitsCharacterBoundary(
                     at: try Self.offset(value)
                 ))
             }
@@ -44,6 +44,6 @@ extension EditableSemanticBlockUTF16Tests
         let editable = try Self.editable(["e", "\u{301}"])
 
         #expect(editable.utf16Count == 2)
-        #expect(!editable.admitsEditableBoundary(at: try Self.offset(1)))
+        #expect(!editable.admitsCharacterBoundary(at: try Self.offset(1)))
     }
 }

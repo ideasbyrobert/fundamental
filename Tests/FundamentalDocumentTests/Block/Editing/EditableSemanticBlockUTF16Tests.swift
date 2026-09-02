@@ -21,8 +21,8 @@ struct EditableSemanticBlockUTF16Tests
         let editable = try Self.editable([])
 
         #expect(editable.utf16Count == 0)
-        #expect(editable.admitsEditableBoundary(at: try Self.offset(0)))
-        #expect(!editable.admitsEditableBoundary(at: try Self.offset(1)))
+        #expect(editable.admitsCharacterBoundary(at: try Self.offset(0)))
+        #expect(!editable.admitsCharacterBoundary(at: try Self.offset(1)))
     }
 
     @Test("ASCII beginning interior and end are boundaries")
@@ -32,7 +32,9 @@ struct EditableSemanticBlockUTF16Tests
 
         for value in 0...3
         {
-            #expect(editable.admitsEditableBoundary(at: try Self.offset(value)))
+            #expect(editable.admitsCharacterBoundary(
+                at: try Self.offset(value)
+            ))
         }
     }
 
@@ -41,7 +43,7 @@ struct EditableSemanticBlockUTF16Tests
     {
         let editable = try Self.editable(["ABC"])
 
-        #expect(!editable.admitsEditableBoundary(at: try Self.offset(4)))
+        #expect(!editable.admitsCharacterBoundary(at: try Self.offset(4)))
     }
 
     static func editable(

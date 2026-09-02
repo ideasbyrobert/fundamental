@@ -5,29 +5,51 @@ extension EditableSemanticBlock
         canonicalTextForMeasurement.utf16.count
     }
 
-    func admitsEditableBoundary(
+    func admitsCharacterBoundary(
         at offset: DocumentUTF16Offset
     ) -> Bool
     {
         let text = canonicalTextForMeasurement
-        guard offset.value <= text.utf16.count
+        guard let scalarIndex = scalarIndex(
+            at: offset,
+            in: text
+        )
         else
         {
             return false
+        }
+
+        return scalarIndex.samePosition(in: text) != nil
+    }
+
+    func admitsScalarBoundary(
+        at offset: DocumentUTF16Offset
+    ) -> Bool
+    {
+        scalarIndex(
+            at: offset,
+            in: canonicalTextForMeasurement
+        ) != nil
+    }
+
+    private func scalarIndex(
+        at offset: DocumentUTF16Offset,
+        in text: String
+    ) -> String.Index?
+    {
+        guard offset.value <= text.utf16.count
+        else
+        {
+            return nil
         }
 
         let utf16Index = text.utf16.index(
             text.utf16.startIndex,
             offsetBy: offset.value
         )
-        guard let scalarIndex = utf16Index.samePosition(
+        return utf16Index.samePosition(
             in: text.unicodeScalars
         )
-        else
-        {
-            return false
-        }
-        return scalarIndex.samePosition(in: text) != nil
     }
 
     private var canonicalTextForMeasurement: String

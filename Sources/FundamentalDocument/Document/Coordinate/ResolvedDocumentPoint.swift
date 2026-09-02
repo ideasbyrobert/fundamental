@@ -32,7 +32,7 @@ struct ResolvedDocumentPoint: Equatable, Sendable
         let editableBlock = EditableSemanticBlock(
             blocks[blockIndex].block
         ),
-        editableBlock.admitsEditableBoundary(
+        editableBlock.admitsCharacterBoundary(
             at: point.utf16Offset
         ),
         let runPosition = Self.runPosition(
