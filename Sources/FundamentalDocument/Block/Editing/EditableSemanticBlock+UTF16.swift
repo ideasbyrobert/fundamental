@@ -32,6 +32,59 @@ extension EditableSemanticBlock
         ) != nil
     }
 
+    func characterBoundary(
+        resolving offset: DocumentUTF16Offset,
+        affinity: PostEditCaretAffinity
+    ) -> DocumentUTF16Offset?
+    {
+        let text = canonicalTextForMeasurement
+        guard let scalarIndex = scalarIndex(
+            at: offset,
+            in: text
+        )
+        else
+        {
+            return nil
+        }
+
+        guard scalarIndex.samePosition(in: text) == nil
+        else
+        {
+            return offset
+        }
+
+        let characterIndex: String.Index
+        switch affinity
+        {
+        case .preceding:
+            guard let preceding = text.indices.last(
+                where: { $0 < scalarIndex }
+            )
+            else
+            {
+                return nil
+            }
+            characterIndex = preceding
+        case .following:
+            characterIndex = text.indices.first(
+                where: { $0 > scalarIndex }
+            ) ?? text.endIndex
+        }
+
+        guard let utf16Index = characterIndex.samePosition(
+            in: text.utf16
+        )
+        else
+        {
+            return nil
+        }
+        let distance = text.utf16.distance(
+            from: text.utf16.startIndex,
+            to: utf16Index
+        )
+        return DocumentUTF16Offset(distance)
+    }
+
     private func scalarIndex(
         at offset: DocumentUTF16Offset,
         in text: String
