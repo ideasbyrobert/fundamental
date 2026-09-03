@@ -6,6 +6,10 @@ let package = Package(
     name: "Fundamental",
     platforms: [.macOS(.v26)],
     products: [
+        .executable(
+            name: "FundamentalApplication",
+            targets: ["FundamentalApplication"]
+        ),
         .executable(name: "lint", targets: ["lint"])
     ],
     targets: [
@@ -29,6 +33,14 @@ let package = Package(
         .target(
             name: "FundamentalPresentation",
             dependencies: ["FundamentalRaster"]
+        ),
+        .target(
+            name: "FundamentalMacOracle",
+            dependencies: ["FundamentalPresentation"]
+        ),
+        .executableTarget(
+            name: "FundamentalApplication",
+            dependencies: ["FundamentalMacOracle"]
         ),
         .executableTarget(name: "lint"),
         .testTarget(
@@ -78,6 +90,13 @@ let package = Package(
                 "FundamentalProjection",
                 "FundamentalRaster",
                 "FundamentalViewport"
+            ]
+        ),
+        .testTarget(
+            name: "FundamentalMacOracleTests",
+            dependencies: [
+                "FundamentalMacOracle",
+                "FundamentalPresentation"
             ]
         ),
         .testTarget(name: "lintTests", dependencies: ["lint"])
