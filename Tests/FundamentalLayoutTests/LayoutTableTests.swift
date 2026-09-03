@@ -60,7 +60,8 @@ struct LayoutTableTests
             }
             switch fragment.content
             {
-            case .region, .captionLine, .cell, .cellLine:
+            case .region, .captionLine, .columnTrack, .rowTrack,
+                 .cell, .cellLine, .rule:
                 break
             }
         }

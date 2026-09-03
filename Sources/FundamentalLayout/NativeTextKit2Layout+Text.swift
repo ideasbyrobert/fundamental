@@ -65,6 +65,7 @@ extension NativeTextKit2Layout
             ))
             segments.append(NativeSourceSegment(
                 source: run.source,
+                scope: runScope(run),
                 localRange: offset ..< offset + length,
                 sourceLowerBound: sourceRange(run.source).lowerBound
             ))
@@ -146,6 +147,28 @@ extension NativeTextKit2Layout
             throw LayoutFailure.missingNativeLine
         }
         return lines
+    }
+
+    func runScope(_ run: ProjectedRun) -> LayoutRunScope
+    {
+        switch run
+        {
+        case .direct:
+            .direct
+        case let .scoped(_, _, _, scope):
+            switch scope
+            {
+            case let .link(destination):
+                .link(destination)
+            case let .language(identifier):
+                .language(identifier)
+            case let .linkAndLanguage(link, language):
+                .linkAndLanguage(
+                    link: link,
+                    language: language
+                )
+            }
+        }
     }
 
     func line(

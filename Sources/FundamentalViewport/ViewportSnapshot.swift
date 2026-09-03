@@ -152,8 +152,8 @@ package struct ViewportSnapshot: Equatable, Sendable
         guard let first = residents.first,
               let anchorResident = residents.first(where:
               {
-                  $0.residence == .visible
-              }) ?? overscan.first
+                  $0.residence == .visible && $0.canAnchor
+              }) ?? overscan.first(where: \.canAnchor)
         else
         {
             return nil

@@ -33,6 +33,7 @@ struct LayoutExactSourceTests
                     run: 0,
                     range: ProjectedUTF16Range(0 ..< 3)
                 ),
+                scope: .direct,
                 range: 0 ..< 3,
                 text: "A😀"
             ),
@@ -42,6 +43,7 @@ struct LayoutExactSourceTests
                     run: 1,
                     range: ProjectedUTF16Range(3 ..< 4)
                 ),
+                scope: .direct,
                 range: 3 ..< 4,
                 text: "B"
             )

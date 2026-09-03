@@ -49,6 +49,10 @@ extension NativeTextKit2Layout
         let heights = try rowHeights(
             measured,
             count: dimensions.rows,
+            structuralLineHeight:
+                structuralFont.metrics.ascent
+                    + structuralFont.metrics.descent
+                    + structuralFont.metrics.leading,
             parameters: parameters
         )
         let rows = try rowTracks(
@@ -68,8 +72,7 @@ extension NativeTextKit2Layout
         {
             $0.origin + $0.extent
         } ?? contentY
-        if rows.isEmpty,
-           caption.isEmpty
+        if rows.isEmpty
         {
             rowBottom += structuralFont.metrics.ascent
                 + structuralFont.metrics.descent

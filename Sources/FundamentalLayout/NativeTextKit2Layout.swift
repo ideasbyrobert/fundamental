@@ -177,6 +177,8 @@ package struct NativeTextKit2Layout
                     break
                 case let .captionLine(line):
                     appendFonts(of: line, to: &fonts, seen: &seen)
+                case .columnTrack, .rowTrack, .rule:
+                    break
                 case .cell:
                     break
                 case let .cellLine(gridLine):

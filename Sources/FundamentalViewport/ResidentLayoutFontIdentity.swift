@@ -1,0 +1,3 @@
+import FundamentalLayout
+
+package typealias ResidentLayoutFontIdentity = LayoutFontIdentity

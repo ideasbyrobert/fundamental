@@ -31,6 +31,7 @@ extension NativeTextKit2Layout
             let sourceUpper = sourceLower + sliceUpper - sliceLower
             return LayoutSourceSlice(
                 source: segment.source,
+                scope: segment.scope,
                 range: sourceLower ..< sourceUpper,
                 text: text.substring(with: NSRange(
                     location: sliceLower,

@@ -43,11 +43,16 @@ extension NativeTextKit2Layout
     func rowHeights(
         _ cells: [NativeMeasuredCell],
         count: Int,
+        structuralLineHeight: Double,
         parameters: LayoutParameters
     ) throws -> [Double]
     {
-        let base = parameters.cellPadding * 2
-        guard base.isFinite
+        let base = max(
+            structuralLineHeight,
+            parameters.cellPadding * 2
+        )
+        guard base.isFinite,
+              base > 0
         else
         {
             throw LayoutFailure.nonfiniteNativeGeometry

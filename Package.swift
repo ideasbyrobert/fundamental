@@ -22,6 +22,10 @@ let package = Package(
             name: "FundamentalViewport",
             dependencies: ["FundamentalLayout"]
         ),
+        .target(
+            name: "FundamentalRaster",
+            dependencies: ["FundamentalViewport"]
+        ),
         .executableTarget(name: "lint"),
         .testTarget(
             name: "FundamentalDocumentTests",
@@ -48,6 +52,16 @@ let package = Package(
                 "FundamentalDocument",
                 "FundamentalLayout",
                 "FundamentalProjection",
+                "FundamentalViewport"
+            ]
+        ),
+        .testTarget(
+            name: "FundamentalRasterTests",
+            dependencies: [
+                "FundamentalDocument",
+                "FundamentalLayout",
+                "FundamentalProjection",
+                "FundamentalRaster",
                 "FundamentalViewport"
             ]
         ),
