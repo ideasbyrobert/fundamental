@@ -8,6 +8,7 @@ package final class MacReaderView: NSView
     private let executor: MacRasterExecutor
     private var pointerState: MacPointerSelectionState
     private var accessibilityNodes: [MacAccessibilityElement]
+    private var isSynchronizingPublication: Bool
 
     package init(
         frame: NSRect,
@@ -18,9 +19,9 @@ package final class MacReaderView: NSView
         executor = MacRasterExecutor()
         pointerState = .resting
         accessibilityNodes = []
+        isSynchronizingPublication = false
         super.init(frame: frame)
         setAccessibilityElement(false)
-        refreshAccessibility()
     }
 
     @available(*, unavailable)
@@ -61,7 +62,14 @@ package final class MacReaderView: NSView
     package override func viewDidMoveToWindow()
     {
         super.viewDidMoveToWindow()
-        synchronizeFromScrollView()
+        if window == nil
+        {
+            removeAccessibility()
+        }
+        else
+        {
+            _ = synchronizeFromScrollView()
+        }
     }
 
     package override func viewDidChangeEffectiveAppearance()
@@ -123,17 +131,28 @@ package final class MacReaderView: NSView
     }
 
     @discardableResult
-    package func synchronize(
-        viewportWidth: Double,
-        viewportHeight: Double,
-        visibleOriginY: Double
-    ) -> Bool
+    package func synchronizeFromScrollView() -> Bool
     {
-        guard let screen = window?.screen,
-              model.update(
-            viewportWidth: viewportWidth,
-            viewportHeight: viewportHeight,
-            visibleOriginY: visibleOriginY,
+        guard !isSynchronizingPublication,
+              let scrollView = enclosingScrollView,
+              let clip = enclosingScrollView?.contentView,
+              let screen = window?.screen,
+              clip.bounds.width > 64,
+              clip.bounds.height > 0
+        else
+        {
+            return false
+        }
+        isSynchronizingPublication = true
+        defer
+        {
+            isSynchronizingPublication = false
+        }
+        let requestedOriginY = clip.bounds.minY
+        guard model.update(
+            viewportWidth: clip.bounds.width,
+            viewportHeight: clip.bounds.height,
+            visibleOriginY: requestedOriginY,
             screen: screen,
             appearance: effectiveAppearance,
             increasedContrast: NSWorkspace.shared
@@ -143,8 +162,48 @@ package final class MacReaderView: NSView
         {
             return false
         }
-        refresh()
+        setFrameSize(NSSize(
+            width: clip.bounds.width,
+            height: max(clip.bounds.height, model.documentHeight)
+        ))
+        var requestedBounds = clip.bounds
+        requestedBounds.origin = NSPoint(x: 0, y: requestedOriginY)
+        let admittedBounds = clip.constrainBoundsRect(requestedBounds)
+        clip.scroll(to: admittedBounds.origin)
+        scrollView.reflectScrolledClipView(clip)
+        let settledOriginY = clip.bounds.minY
+        if requestedOriginY != settledOriginY
+            || model.visibleOriginY != settledOriginY
+        {
+            guard model.update(
+                viewportWidth: clip.bounds.width,
+                viewportHeight: clip.bounds.height,
+                visibleOriginY: settledOriginY,
+                screen: screen,
+                appearance: effectiveAppearance,
+                increasedContrast: NSWorkspace.shared
+                    .accessibilityDisplayShouldIncreaseContrast
+            )
+            else
+            {
+                removeAccessibility()
+                return false
+            }
+        }
+        guard model.visibleOriginY == settledOriginY
+        else
+        {
+            removeAccessibility()
+            return false
+        }
+        needsDisplay = true
+        refreshAccessibility()
         return true
+    }
+
+    package func refreshAccessibilityGeometry()
+    {
+        refreshAccessibility()
     }
 
     package override func accessibilityChildren() -> [Any]?
@@ -176,6 +235,12 @@ package final class MacReaderView: NSView
 
     private func refreshAccessibility()
     {
+        guard window != nil
+        else
+        {
+            removeAccessibility()
+            return
+        }
         accessibilityNodes = MacAccessibilityTree.elements(
             document: model.snapshot.presentedDocument,
             view: self,
@@ -184,20 +249,9 @@ package final class MacReaderView: NSView
         setAccessibilityChildren(accessibilityNodes)
     }
 
-    private func synchronizeFromScrollView()
+    private func removeAccessibility()
     {
-        guard let clip = enclosingScrollView?.contentView,
-              clip.bounds.width > 64,
-              clip.bounds.height > 0
-        else
-        {
-            refreshAccessibility()
-            return
-        }
-        _ = synchronize(
-            viewportWidth: clip.bounds.width,
-            viewportHeight: clip.bounds.height,
-            visibleOriginY: clip.bounds.minY
-        )
+        accessibilityNodes = []
+        setAccessibilityChildren(accessibilityNodes)
     }
 }

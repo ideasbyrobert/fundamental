@@ -42,22 +42,27 @@ struct MacReaderWindowTests
             height: 300
         )
         let window = try #require(controller.window)
+        defer { window.close() }
         controller.showWindow(nil)
         let clip = controller.scrollView.contentView
         clip.scroll(to: NSPoint(
             x: 0,
             y: controller.readerView.model.documentHeight
         ))
-        controller.synchronize()
+        controller.scrollView.reflectScrolledClipView(clip)
+        let layoutExecutions = controller.readerView.model
+            .layoutExecutionCount
         window.setContentSize(NSSize(width: 1_200, height: 300))
-        controller.synchronize()
         let maximum = max(
             0,
             controller.readerView.model.documentHeight
                 - clip.bounds.height
         )
-        #expect(clip.bounds.minY <= maximum)
-        #expect(controller.readerView.model.visibleOriginY <= maximum)
-        window.close()
+        #expect(clip.bounds.minY.bitPattern == maximum.bitPattern)
+        #expect(controller.readerView.model.visibleOriginY.bitPattern
+            == maximum.bitPattern)
+        #expect(controller.readerView.model.layoutExecutionCount
+            == layoutExecutions + 1)
+        try MacAccessibilityGeometryTestSupport.expectSettled(controller)
     }
 }

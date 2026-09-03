@@ -77,6 +77,12 @@ package final class MacReaderWindowController:
         fatalError()
     }
 
+    package override func showWindow(_ sender: Any?)
+    {
+        super.showWindow(sender)
+        synchronize()
+    }
+
     package func windowDidResize(
         _ notification: Notification
     )
@@ -98,6 +104,13 @@ package final class MacReaderWindowController:
         synchronize()
     }
 
+    package func windowDidMove(
+        _ notification: Notification
+    )
+    {
+        readerView.refreshAccessibilityGeometry()
+    }
+
     @objc
     private func scrolled(_ notification: Notification)
     {
@@ -106,31 +119,6 @@ package final class MacReaderWindowController:
 
     package func synchronize()
     {
-        let clip = scrollView.contentView
-        let width = clip.bounds.width
-        let height = clip.bounds.height
-        let originY = clip.bounds.minY
-        guard width > 64,
-              height > 0,
-              readerView.synchronize(
-                  viewportWidth: width,
-                  viewportHeight: height,
-                  visibleOriginY: originY
-              )
-        else
-        {
-            return
-        }
-        let documentHeight = readerView.model.documentHeight
-        readerView.setFrameSize(NSSize(
-            width: width,
-            height: max(height, documentHeight)
-        ))
-        let admittedOriginY = readerView.model.visibleOriginY
-        if clip.bounds.minY != admittedOriginY
-        {
-            clip.scroll(to: NSPoint(x: 0, y: admittedOriginY))
-            scrollView.reflectScrolledClipView(clip)
-        }
+        _ = readerView.synchronizeFromScrollView()
     }
 }
