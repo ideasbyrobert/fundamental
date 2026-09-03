@@ -24,8 +24,8 @@ struct SummitPublicationTests
             intent: .document,
             lease: newerLease
         ))
-        #expect(executor.admits(older.snapshot))
-        #expect(executor.admits(newer.snapshot))
+        #expect(executor.admit(older.snapshot) != nil)
+        #expect(executor.admit(newer.snapshot) != nil)
         #expect(preparation.publish(newer))
         let published = preparation.currentSnapshot
         #expect(!preparation.publish(older))

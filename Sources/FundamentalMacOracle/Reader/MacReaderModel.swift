@@ -7,6 +7,7 @@ package final class MacReaderModel
     private let executor: MacRasterExecutor
     private let preparation: SummitPresentationPreparation
     private var currentSurface: SummitPresentationSurface
+    private var currentPublication: MacReaderPublication
 
     package init?(
         viewportWidth: Double,
@@ -17,6 +18,7 @@ package final class MacReaderModel
     )
     {
         let executor = MacRasterExecutor()
+        var admittedExecutions: [MacAdmittedRasterExecution] = []
         guard let environment = MacReaderEnvironment(
             screen: screen,
             appearance: appearance,
@@ -29,7 +31,23 @@ package final class MacReaderModel
               ),
               let preparation = SummitPresentationPreparation(
                   surface: surface,
-                  admitting: executor.admits
+                  admitting:
+                  {
+                      snapshot in
+                      guard let execution = executor.admit(snapshot)
+                      else
+                      {
+                          return false
+                      }
+                      admittedExecutions.append(execution)
+                      return true
+                  }
+              ),
+              admittedExecutions.count == 1,
+              let execution = admittedExecutions.first,
+              let publication = MacReaderPublication(
+                  snapshot: preparation.currentSnapshot,
+                  execution: execution
               )
         else
         {
@@ -38,11 +56,17 @@ package final class MacReaderModel
         currentSurface = surface
         self.executor = executor
         self.preparation = preparation
+        currentPublication = publication
     }
 
     package var snapshot: PresentationSnapshot
     {
-        preparation.currentSnapshot
+        currentPublication.snapshot
+    }
+
+    var rasterExecution: MacAdmittedRasterExecution
+    {
+        currentPublication.execution
     }
 
     package var layoutExecutionCount: Int
@@ -211,13 +235,32 @@ package final class MacReaderModel
                   intent: intent,
                   lease: lease
               ),
-              executor.admits(attempt.snapshot),
+              publish(attempt)
+        else
+        {
+            return false
+        }
+        return true
+    }
+
+    @discardableResult
+    func publish(_ attempt: SummitPresentationAttempt) -> Bool
+    {
+        guard let execution = executor.admit(
+            attempt.snapshot,
+            reusing: currentPublication.execution.documentExecution
+        ),
+              let publication = MacReaderPublication(
+                  snapshot: attempt.snapshot,
+                  execution: execution
+              ),
               preparation.publish(attempt)
         else
         {
             return false
         }
-        currentSurface = surface
+        currentPublication = publication
+        currentSurface = attempt.surface
         return true
     }
 

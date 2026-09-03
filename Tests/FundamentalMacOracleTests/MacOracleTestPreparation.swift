@@ -31,7 +31,10 @@ enum MacOracleTestPreparation
         let executor = MacRasterExecutor()
         guard let preparation = SummitPresentationPreparation(
             surface: surface,
-            admitting: executor.admits
+            admitting:
+            {
+                executor.admit($0) != nil
+            }
         )
         else
         {

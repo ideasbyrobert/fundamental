@@ -57,28 +57,6 @@ final class MacBitmapSurface
         storage.deallocate()
     }
 
-    func draw(
-        _ snapshot: PresentationSnapshot
-    ) -> Bool
-    {
-        let logicalHeight = Double(height) / backingScale
-        context.saveGState()
-        context.scaleBy(x: backingScale, y: backingScale)
-        context.translateBy(
-            x: -logicalMinimumX,
-            y: logicalMinimumY + logicalHeight
-        )
-        context.scaleBy(x: 1, y: -1)
-        let result = MacRasterExecutor().draw(
-            snapshot,
-            in: context,
-            horizontalInset: 0
-        )
-        context.restoreGState()
-        context.flush()
-        return result
-    }
-
     func pixel(x: Int, y: Int) -> UInt32
     {
         let offset = ((y * width) + x) * bytesPerPixel

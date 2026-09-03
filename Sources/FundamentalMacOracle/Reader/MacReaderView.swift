@@ -52,8 +52,8 @@ package final class MacReaderView: NSView
         {
             return
         }
-        _ = executor.draw(
-            model.snapshot,
+        executor.draw(
+            model.rasterExecution,
             in: context,
             horizontalInset: horizontalInset
         )

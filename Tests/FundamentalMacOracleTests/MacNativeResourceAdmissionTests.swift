@@ -31,6 +31,6 @@ struct MacNativeResourceAdmissionTests
     func presentationResourcesAreAdmitted() throws
     {
         let snapshot = try MacOracleTestSurface.snapshot()
-        #expect(MacRasterExecutor().admits(snapshot))
+        #expect(MacRasterExecutor().admit(snapshot) != nil)
     }
 }

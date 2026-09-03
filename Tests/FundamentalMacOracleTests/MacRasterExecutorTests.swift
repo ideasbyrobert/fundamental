@@ -75,7 +75,7 @@ struct MacRasterExecutorTests
                 with: altered
             )
         )
-        #expect(!MacRasterExecutor().admits(poisoned))
+        #expect(MacRasterExecutor().admit(poisoned) == nil)
         let surface = try #require(MacBitmapSurface(poisoned))
         #expect(!surface.draw(poisoned))
     }
