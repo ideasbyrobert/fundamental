@@ -1,5 +1,5 @@
-struct LayoutFragmentQueryDiagnostics: Equatable, Sendable
+package struct LayoutFragmentQueryDiagnostics: Equatable, Sendable
 {
-    let query: LayoutFragmentQuery
-    let examinedFragmentCount: Int
+    package let query: LayoutFragmentQuery
+    package let examinedFragmentCount: Int
 }
