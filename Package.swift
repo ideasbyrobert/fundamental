@@ -14,6 +14,10 @@ let package = Package(
             name: "FundamentalProjection",
             dependencies: ["FundamentalDocument"]
         ),
+        .target(
+            name: "FundamentalLayout",
+            dependencies: ["FundamentalProjection"]
+        ),
         .executableTarget(name: "lint"),
         .testTarget(
             name: "FundamentalDocumentTests",
@@ -23,6 +27,14 @@ let package = Package(
             name: "FundamentalProjectionTests",
             dependencies: [
                 "FundamentalDocument",
+                "FundamentalProjection"
+            ]
+        ),
+        .testTarget(
+            name: "FundamentalLayoutTests",
+            dependencies: [
+                "FundamentalDocument",
+                "FundamentalLayout",
                 "FundamentalProjection"
             ]
         ),
