@@ -1,7 +1,7 @@
-struct SemanticTableRepair: Equatable, Sendable
+package struct SemanticTableRepair: Equatable, Sendable
 {
-    let target: SemanticTableEvidenceTarget
-    let kind: SemanticTableRepairKind
+    package let target: SemanticTableEvidenceTarget
+    package let kind: SemanticTableRepairKind
 
     init?(
         target: SemanticTableEvidenceTarget,

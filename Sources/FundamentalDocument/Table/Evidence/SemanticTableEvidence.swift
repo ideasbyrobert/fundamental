@@ -1,4 +1,4 @@
-struct SemanticTableEvidence: Equatable, Sendable
+package struct SemanticTableEvidence: Equatable, Sendable
 {
     let firstFact: SemanticTableEvidenceFact
     let remainingFacts: [SemanticTableEvidenceFact]
@@ -20,7 +20,7 @@ struct SemanticTableEvidence: Equatable, Sendable
         self.remainingFacts = Array(orderedFacts.dropFirst())
     }
 
-    var facts: [SemanticTableEvidenceFact]
+    package var facts: [SemanticTableEvidenceFact]
     {
         [firstFact] + remainingFacts
     }

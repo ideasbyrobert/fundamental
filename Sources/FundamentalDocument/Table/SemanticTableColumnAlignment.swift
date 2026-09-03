@@ -1,4 +1,4 @@
-enum SemanticTableColumnAlignment: String, Codable, Sendable
+package enum SemanticTableColumnAlignment: String, Codable, Sendable
 {
     case leading
     case center

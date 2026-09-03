@@ -1,8 +1,8 @@
-struct SpanningSemanticTableCell: Equatable, Sendable
+package struct SpanningSemanticTableCell: Equatable, Sendable
 {
-    let runs: [SemanticRun]
-    let alignment: SemanticTableColumnAlignment
-    let extent: SemanticTableCellExtent
+    package let runs: [SemanticRun]
+    package let alignment: SemanticTableColumnAlignment
+    package let extent: SemanticTableCellExtent
 
     init(
         runs: [SemanticRun],

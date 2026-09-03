@@ -1,5 +1,5 @@
-struct SectionSemanticHeading: Equatable, Sendable
+package struct SectionSemanticHeading: Equatable, Sendable
 {
     let runs: [SemanticRun]
-    let level: SemanticHeadingLevel
+    package let level: SemanticHeadingLevel
 }

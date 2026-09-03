@@ -1,8 +1,8 @@
-struct DocumentRevision: Comparable, Sendable
+package struct DocumentRevision: Comparable, Sendable
 {
     static let zero = DocumentRevision(0)
 
-    let value: UInt64
+    package let value: UInt64
 
     init(_ value: UInt64)
     {
@@ -20,7 +20,7 @@ struct DocumentRevision: Comparable, Sendable
         value = revision.value + 1
     }
 
-    static func < (
+    package static func < (
         lhs: DocumentRevision,
         rhs: DocumentRevision
     ) -> Bool

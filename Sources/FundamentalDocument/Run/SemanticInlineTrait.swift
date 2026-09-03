@@ -1,4 +1,4 @@
-enum SemanticInlineTrait:
+package enum SemanticInlineTrait:
     String,
     Codable,
     Hashable,

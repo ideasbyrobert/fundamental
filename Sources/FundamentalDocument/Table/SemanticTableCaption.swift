@@ -1,9 +1,9 @@
-struct SemanticTableCaption: Equatable, Sendable
+package struct SemanticTableCaption: Equatable, Sendable
 {
     let firstRun: SemanticRun
     let remainingRuns: [SemanticRun]
 
-    var runs: [SemanticRun]
+    package var runs: [SemanticRun]
     {
         [firstRun] + remainingRuns
     }

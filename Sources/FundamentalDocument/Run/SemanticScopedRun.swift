@@ -1,8 +1,8 @@
-struct SemanticScopedRun: Equatable, Sendable
+package struct SemanticScopedRun: Equatable, Sendable
 {
-    let text: String
+    package let text: String
     let traits: Set<SemanticInlineTrait>
-    let scopes: SemanticRunScopes
+    package let scopes: SemanticRunScopes
 
     init(
         text: String,

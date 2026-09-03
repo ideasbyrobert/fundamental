@@ -1,6 +1,6 @@
-struct SemanticLinkDestination: Equatable, Sendable
+package struct SemanticLinkDestination: Equatable, Sendable
 {
-    let value: String
+    package let value: String
 
     init?(_ value: String)
     {

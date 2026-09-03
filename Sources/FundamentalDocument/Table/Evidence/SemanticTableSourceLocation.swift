@@ -1,6 +1,6 @@
-struct SemanticTableSourceLocation: Equatable, Sendable
+package struct SemanticTableSourceLocation: Equatable, Sendable
 {
-    let value: String
+    package let value: String
 
     init?(_ value: String)
     {

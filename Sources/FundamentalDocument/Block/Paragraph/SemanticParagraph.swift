@@ -1,4 +1,4 @@
-struct SemanticParagraph: Equatable, Sendable
+package struct SemanticParagraph: Equatable, Sendable
 {
-    let runs: [SemanticRun]
+    package let runs: [SemanticRun]
 }

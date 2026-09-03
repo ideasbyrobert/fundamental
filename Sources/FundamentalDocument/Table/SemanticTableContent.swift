@@ -1,6 +1,6 @@
-struct SemanticTableContent: Equatable, Sendable
+package struct SemanticTableContent: Equatable, Sendable
 {
-    let headerRows: [HeaderSemanticTableRow]
-    let bodyRows: [BodySemanticTableRow]
-    let columnAlignments: [SemanticTableColumnAlignment]
+    package let headerRows: [HeaderSemanticTableRow]
+    package let bodyRows: [BodySemanticTableRow]
+    package let columnAlignments: [SemanticTableColumnAlignment]
 }

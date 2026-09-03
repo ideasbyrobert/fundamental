@@ -1,7 +1,7 @@
-struct RegularSemanticTableCell: Equatable, Sendable
+package struct RegularSemanticTableCell: Equatable, Sendable
 {
-    let runs: [SemanticRun]
-    let alignment: SemanticTableColumnAlignment
+    package let runs: [SemanticRun]
+    package let alignment: SemanticTableColumnAlignment
 
     init(
         runs: [SemanticRun],

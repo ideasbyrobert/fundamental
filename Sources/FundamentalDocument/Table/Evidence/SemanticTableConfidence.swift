@@ -1,6 +1,6 @@
-struct SemanticTableConfidence: Equatable, Sendable
+package struct SemanticTableConfidence: Equatable, Sendable
 {
-    let value: Double
+    package let value: Double
 
     init?(_ value: Double)
     {

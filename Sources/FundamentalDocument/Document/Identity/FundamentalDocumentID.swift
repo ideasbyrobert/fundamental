@@ -1,8 +1,8 @@
 import Foundation
 
-struct FundamentalDocumentID: Equatable, Hashable, Sendable
+package struct FundamentalDocumentID: Equatable, Hashable, Sendable
 {
-    let value: UUID
+    package let value: UUID
 
     init(_ value: UUID)
     {

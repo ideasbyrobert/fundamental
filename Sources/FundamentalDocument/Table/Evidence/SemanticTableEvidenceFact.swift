@@ -1,4 +1,4 @@
-enum SemanticTableEvidenceFact: Equatable, Sendable
+package enum SemanticTableEvidenceFact: Equatable, Sendable
 {
     case sourceLocation(
         target: SemanticTableEvidenceTarget,

@@ -1,8 +1,8 @@
-struct SnapshotGeneration: Comparable, Sendable
+package struct SnapshotGeneration: Comparable, Sendable
 {
     static let zero = SnapshotGeneration(0)
 
-    let value: UInt64
+    package let value: UInt64
 
     init(_ value: UInt64)
     {
@@ -20,7 +20,7 @@ struct SnapshotGeneration: Comparable, Sendable
         value = generation.value + 1
     }
 
-    static func < (
+    package static func < (
         lhs: SnapshotGeneration,
         rhs: SnapshotGeneration
     ) -> Bool

@@ -1,5 +1,5 @@
-struct CaptionedSemanticTable: Equatable, Sendable
+package struct CaptionedSemanticTable: Equatable, Sendable
 {
-    let content: SemanticTableContent
-    let caption: SemanticTableCaption
+    package let content: SemanticTableContent
+    package let caption: SemanticTableCaption
 }

@@ -1,7 +1,7 @@
-struct SourcedSemanticTable: Equatable, Sendable
+package struct SourcedSemanticTable: Equatable, Sendable
 {
-    let table: SemanticTable
-    let evidence: SemanticTableEvidence
+    package let table: SemanticTable
+    package let evidence: SemanticTableEvidence
 
     init?(
         table: SemanticTable,

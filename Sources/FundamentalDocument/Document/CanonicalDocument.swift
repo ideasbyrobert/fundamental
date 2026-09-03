@@ -1,8 +1,8 @@
-struct CanonicalDocument: Equatable, Sendable
+package struct CanonicalDocument: Equatable, Sendable
 {
-    let documentID: FundamentalDocumentID
-    let revision: DocumentRevision
-    let content: CanonicalDocumentContent
+    package let documentID: FundamentalDocumentID
+    package let revision: DocumentRevision
+    package let content: CanonicalDocumentContent
 
     init(
         documentID: FundamentalDocumentID,

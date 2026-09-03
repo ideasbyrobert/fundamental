@@ -1,7 +1,7 @@
-struct SemanticTableCellExtent: Equatable, Sendable
+package struct SemanticTableCellExtent: Equatable, Sendable
 {
-    let rowCount: Int
-    let columnCount: Int
+    package let rowCount: Int
+    package let columnCount: Int
 
     init?(
         rowCount: Int,

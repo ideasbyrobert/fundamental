@@ -1,4 +1,4 @@
-enum SemanticTableConfidenceTarget: Equatable, Sendable
+package enum SemanticTableConfidenceTarget: Equatable, Sendable
 {
     case table
     case cell(

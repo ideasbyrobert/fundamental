@@ -1,6 +1,6 @@
-struct SemanticCodeLanguageIdentifier: Equatable, Sendable
+package struct SemanticCodeLanguageIdentifier: Equatable, Sendable
 {
-    let value: String
+    package let value: String
 
     init?(_ value: String)
     {

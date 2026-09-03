@@ -1,7 +1,7 @@
-struct DocumentSnapshot: Equatable, Sendable
+package struct DocumentSnapshot: Equatable, Sendable
 {
-    let generation: SnapshotGeneration
-    let document: CanonicalDocument
+    package let generation: SnapshotGeneration
+    package let document: CanonicalDocument
 
     init(
         generation: SnapshotGeneration,

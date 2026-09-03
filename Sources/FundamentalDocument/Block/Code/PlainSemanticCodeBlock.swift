@@ -1,4 +1,4 @@
-struct PlainSemanticCodeBlock: Equatable, Sendable
+package struct PlainSemanticCodeBlock: Equatable, Sendable
 {
-    let runs: [SemanticRun]
+    package let runs: [SemanticRun]
 }

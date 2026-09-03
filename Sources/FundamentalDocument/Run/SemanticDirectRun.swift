@@ -1,6 +1,6 @@
-struct SemanticDirectRun: Equatable, Sendable
+package struct SemanticDirectRun: Equatable, Sendable
 {
-    let text: String
+    package let text: String
     let traits: Set<SemanticInlineTrait>
 
     init(

@@ -1,4 +1,4 @@
-enum SemanticRunScopes: Equatable, Sendable
+package enum SemanticRunScopes: Equatable, Sendable
 {
     case link(SemanticLinkDestination)
     case language(SemanticLanguageIdentifier)

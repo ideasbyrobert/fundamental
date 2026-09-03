@@ -1,4 +1,4 @@
-struct HeaderSemanticTableRow: Equatable, Sendable
+package struct HeaderSemanticTableRow: Equatable, Sendable
 {
-    let cells: [SemanticTableCell]
+    package let cells: [SemanticTableCell]
 }

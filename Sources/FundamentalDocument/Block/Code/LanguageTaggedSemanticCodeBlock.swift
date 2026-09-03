@@ -1,5 +1,5 @@
-struct LanguageTaggedSemanticCodeBlock: Equatable, Sendable
+package struct LanguageTaggedSemanticCodeBlock: Equatable, Sendable
 {
-    let runs: [SemanticRun]
-    let language: SemanticCodeLanguageIdentifier
+    package let runs: [SemanticRun]
+    package let language: SemanticCodeLanguageIdentifier
 }

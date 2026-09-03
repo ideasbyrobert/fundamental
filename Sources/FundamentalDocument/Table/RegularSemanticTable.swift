@@ -1,4 +1,4 @@
-struct RegularSemanticTable: Equatable, Sendable
+package struct RegularSemanticTable: Equatable, Sendable
 {
-    let content: SemanticTableContent
+    package let content: SemanticTableContent
 }

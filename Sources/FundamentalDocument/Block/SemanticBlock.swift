@@ -1,4 +1,4 @@
-enum SemanticBlock: Equatable, Sendable
+package enum SemanticBlock: Equatable, Sendable
 {
     case paragraph(SemanticParagraph)
     case heading(SemanticHeading)

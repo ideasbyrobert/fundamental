@@ -1,4 +1,4 @@
-struct CanonicalDocumentContent: Equatable, Sendable
+package struct CanonicalDocumentContent: Equatable, Sendable
 {
     let firstBlock: IdentifiedSemanticBlock
     let remainingBlocks: [IdentifiedSemanticBlock]
@@ -22,7 +22,7 @@ struct CanonicalDocumentContent: Equatable, Sendable
         self.remainingBlocks = remainingBlocks
     }
 
-    var blocks: [IdentifiedSemanticBlock]
+    package var blocks: [IdentifiedSemanticBlock]
     {
         [firstBlock] + remainingBlocks
     }

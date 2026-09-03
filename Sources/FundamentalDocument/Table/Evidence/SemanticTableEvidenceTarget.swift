@@ -1,4 +1,4 @@
-enum SemanticTableEvidenceTarget: Equatable, Sendable
+package enum SemanticTableEvidenceTarget: Equatable, Sendable
 {
     case table
     case row(SemanticTableRowIndex)

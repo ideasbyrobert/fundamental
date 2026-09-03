@@ -1,4 +1,4 @@
-enum SemanticTableCell: Equatable, Sendable
+package enum SemanticTableCell: Equatable, Sendable
 {
     case regular(RegularSemanticTableCell)
     case spanning(SpanningSemanticTableCell)

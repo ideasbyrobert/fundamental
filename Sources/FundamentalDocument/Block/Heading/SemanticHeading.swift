@@ -1,9 +1,9 @@
-enum SemanticHeading: Equatable, Sendable
+package enum SemanticHeading: Equatable, Sendable
 {
     case title(TitleSemanticHeading)
     case section(SectionSemanticHeading)
 
-    var runs: [SemanticRun]
+    package var runs: [SemanticRun]
     {
         switch self
         {

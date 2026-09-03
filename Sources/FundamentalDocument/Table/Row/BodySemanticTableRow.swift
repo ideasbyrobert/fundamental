@@ -1,4 +1,4 @@
-struct BodySemanticTableRow: Equatable, Sendable
+package struct BodySemanticTableRow: Equatable, Sendable
 {
-    let cells: [SemanticTableCell]
+    package let cells: [SemanticTableCell]
 }

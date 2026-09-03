@@ -1,4 +1,4 @@
-enum SemanticCodeBlock: Equatable, Sendable
+package enum SemanticCodeBlock: Equatable, Sendable
 {
     case plain(PlainSemanticCodeBlock)
     case languageTagged(LanguageTaggedSemanticCodeBlock)

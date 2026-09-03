@@ -1,6 +1,6 @@
-struct SemanticTableCellIndex: Equatable, Sendable
+package struct SemanticTableCellIndex: Equatable, Sendable
 {
-    let value: Int
+    package let value: Int
 
     init?(_ value: Int)
     {

@@ -1,4 +1,4 @@
-enum SemanticTable: Equatable, Sendable
+package enum SemanticTable: Equatable, Sendable
 {
     case regular(RegularSemanticTable)
     case captioned(CaptionedSemanticTable)

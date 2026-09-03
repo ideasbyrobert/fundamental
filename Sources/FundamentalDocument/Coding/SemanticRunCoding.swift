@@ -1,6 +1,6 @@
 extension SemanticRun
 {
-    init(from decoder: Decoder) throws
+    package init(from decoder: Decoder) throws
     {
         let container = try decoder.container(
             keyedBy: SemanticRunCodingKey.self
@@ -59,7 +59,7 @@ extension SemanticRun
         }
     }
 
-    func encode(to encoder: Encoder) throws
+    package func encode(to encoder: Encoder) throws
     {
         var container = encoder.container(
             keyedBy: SemanticRunCodingKey.self

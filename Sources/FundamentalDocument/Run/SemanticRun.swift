@@ -1,4 +1,4 @@
-enum SemanticRun: Codable, Equatable, Sendable
+package enum SemanticRun: Codable, Equatable, Sendable
 {
     case direct(SemanticDirectRun)
     case scoped(SemanticScopedRun)
@@ -16,7 +16,7 @@ enum SemanticRun: Codable, Equatable, Sendable
         )
     }
 
-    var text: String
+    package var text: String
     {
         switch self
         {
@@ -27,7 +27,7 @@ enum SemanticRun: Codable, Equatable, Sendable
         }
     }
 
-    var traits: Set<SemanticInlineTrait>
+    package var traits: Set<SemanticInlineTrait>
     {
         switch self
         {

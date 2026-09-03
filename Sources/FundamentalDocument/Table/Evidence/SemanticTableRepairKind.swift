@@ -1,4 +1,4 @@
-enum SemanticTableRepairKind:
+package enum SemanticTableRepairKind:
     String,
     CaseIterable,
     Equatable,

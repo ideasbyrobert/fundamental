@@ -1,4 +1,4 @@
-enum SemanticTableRecord: Equatable, Sendable
+package enum SemanticTableRecord: Equatable, Sendable
 {
     case semantic(SemanticTable)
     case sourced(SourcedSemanticTable)

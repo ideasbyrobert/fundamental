@@ -1,4 +1,4 @@
-struct TitleSemanticHeading: Equatable, Sendable
+package struct TitleSemanticHeading: Equatable, Sendable
 {
     let runs: [SemanticRun]
 }

@@ -1,7 +1,7 @@
-struct IdentifiedSemanticBlock: Equatable, Sendable
+package struct IdentifiedSemanticBlock: Equatable, Sendable
 {
-    let blockID: FundamentalBlockID
-    let block: SemanticBlock
+    package let blockID: FundamentalBlockID
+    package let block: SemanticBlock
 
     init(
         blockID: FundamentalBlockID,
