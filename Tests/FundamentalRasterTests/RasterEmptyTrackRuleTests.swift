@@ -10,7 +10,7 @@ struct RasterEmptyTrackRuleTests
     func zeroRows() throws
     {
         let layout = try RasterFixture.layout([
-            RasterFixture.zeroRowTable()
+            try RasterFixture.zeroRowTable()
         ], width: 360)
         let raster = try RasterFixture.snapshot(
             RasterFixture.viewport(layout)
@@ -34,7 +34,7 @@ struct RasterEmptyTrackRuleTests
     func emptyRows() throws
     {
         let layout = try RasterFixture.layout([
-            RasterFixture.emptyRowTable()
+            try RasterFixture.emptyRowTable()
         ], width: 360)
         let raster = try RasterFixture.snapshot(
             RasterFixture.viewport(layout)
@@ -57,7 +57,7 @@ struct RasterEmptyTrackRuleTests
     func zeroPadding() throws
     {
         let layout = try RasterFixture.layout(
-            [RasterFixture.emptyRowTable()],
+            [try RasterFixture.emptyRowTable()],
             width: 360,
             rowSpacing: 0,
             cellPadding: 0

@@ -72,7 +72,7 @@ struct EditableSemanticBlockTests
             )
         )
         let records: [SemanticTableRecord] = [
-            SemanticBlockTests.emptyTableRecord(),
+            try SemanticBlockTests.emptyTableRecord(),
             .semantic(sourced.table),
             .sourced(sourced)
         ]

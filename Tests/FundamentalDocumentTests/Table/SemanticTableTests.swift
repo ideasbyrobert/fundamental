@@ -7,13 +7,13 @@ struct SemanticTableTests
 {
     static func content(
         alignment: SemanticTableColumnAlignment = .leading
-    ) -> SemanticTableContent
+    ) throws -> SemanticTableContent
     {
-        SemanticTableContent(
+        try #require(SemanticTableContent(
             headerRows: [HeaderSemanticTableRow(cells: [])],
             bodyRows: [BodySemanticTableRow(cells: [])],
             columnAlignments: [alignment]
-        )
+        ))
     }
 
     static func caption(
@@ -27,9 +27,9 @@ struct SemanticTableTests
     }
 
     @Test("regular and captioned forms preserve exact leaves")
-    func regularAndCaptionedFormsPreserveExactLeaves()
+    func regularAndCaptionedFormsPreserveExactLeaves() throws
     {
-        let content = Self.content()
+        let content = try Self.content()
         let caption = Self.caption()
         let regular = RegularSemanticTable(content: content)
         let captioned = CaptionedSemanticTable(
@@ -44,10 +44,10 @@ struct SemanticTableTests
     }
 
     @Test("content projection exposes only canonical facts")
-    func contentProjectionExposesOnlyCanonicalFacts()
+    func contentProjectionExposesOnlyCanonicalFacts() throws
     {
-        let regularContent = Self.content(alignment: .leading)
-        let captionedContent = Self.content(alignment: .trailing)
+        let regularContent = try Self.content(alignment: .leading)
+        let captionedContent = try Self.content(alignment: .trailing)
         let regular = SemanticTable.regular(
             RegularSemanticTable(content: regularContent)
         )

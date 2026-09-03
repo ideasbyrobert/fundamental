@@ -20,6 +20,17 @@ extension PresentationTransferTests
         let source = raster.interactionMap.regions
         let result = document.residents.all
         #expect(source.count == result.count)
+        let rows = result.filter
+        {
+            switch $0.content
+            {
+            case .headerRow, .bodyRow:
+                true
+            default:
+                false
+            }
+        }
+        #expect(rows.count == 2)
         for pair in zip(source, result)
         {
             expectRegion(pair.0, equals: pair.1)

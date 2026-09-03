@@ -6,7 +6,7 @@ import Testing
 struct SemanticBlockTests
 {
     @Test("all four forms preserve their exact occupied leaves")
-    func formsPreserveExactOccupiedLeaves()
+    func formsPreserveExactOccupiedLeaves() throws
     {
         let run = SemanticRun(text: "Text")
         let paragraph = SemanticParagraph(runs: [run])
@@ -16,7 +16,7 @@ struct SemanticBlockTests
         let code = SemanticCodeBlock.plain(
             PlainSemanticCodeBlock(runs: [run])
         )
-        let table = Self.emptyTableRecord()
+        let table = try Self.emptyTableRecord()
         let blocks: [SemanticBlock] = [
             .paragraph(paragraph),
             .heading(heading),
@@ -41,7 +41,7 @@ struct SemanticBlockTests
     }
 
     @Test("all four forms derive their exact semantic kinds")
-    func formsDeriveExactSemanticKinds()
+    func formsDeriveExactSemanticKinds() throws
     {
         let run = SemanticRun(text: "")
         let blocks: [(SemanticBlock, SemanticBlockKind)] = [
@@ -58,7 +58,7 @@ struct SemanticBlockTests
                 .code
             ),
             (
-                .table(Self.emptyTableRecord()),
+                .table(try Self.emptyTableRecord()),
                 .table
             )
         ]

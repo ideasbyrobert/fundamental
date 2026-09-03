@@ -30,11 +30,11 @@ struct SemanticTableRecordRoundTripTests
             alignment: .center,
             extent: extent
         ))
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [HeaderSemanticTableRow(cells: [head])],
             bodyRows: [BodySemanticTableRow(cells: [body])],
             columnAlignments: [.leading, .center]
-        )
+        ))
         let caption = SemanticTableCaption(
             firstRun: SemanticRun(text: "Caption", traits: [.emphasis]),
             remainingRuns: [.scoped(SemanticScopedRun(
@@ -76,8 +76,8 @@ struct SemanticTableRecordRoundTripTests
     func everySemanticTableFormSurvivesReopen() throws
     {
         let records = [
-            SemanticTableRecordEncodingTests.minimalRecord(),
-            .semantic(SemanticTableRecordTests.captionedTable()),
+            try SemanticTableRecordEncodingTests.minimalRecord(),
+            .semantic(try SemanticTableRecordTests.captionedTable()),
             try Self.fullRecord(),
             try SemanticTableRecordEncodingTests.sourcedRegularRecord(),
             try SemanticTableRecordEncodingTests.variedRecord()

@@ -63,7 +63,7 @@ extension SemanticTableRecordEncodingTests
             (root + "\n").utf8
         )
         let actual = try SemanticTableRecordCodec.encode(
-            Self.minimalRecord()
+            try Self.minimalRecord()
         )
 
         #expect(actual == expected)

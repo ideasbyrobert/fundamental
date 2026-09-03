@@ -75,11 +75,15 @@ enum SemanticTableAdmissionAdapter
             evidence.append(contentsOf: admission.evidence)
         }
 
-        let content = SemanticTableContent(
+        guard let content = SemanticTableContent(
             headerRows: headerRows,
             bodyRows: bodyRows,
             columnAlignments: legacy.columnAlignments
         )
+        else
+        {
+            return nil
+        }
         return SemanticTableAdmission(
             table: table(
                 content: content,

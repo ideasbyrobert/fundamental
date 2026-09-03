@@ -120,11 +120,16 @@ extension SemanticTableRecordCodec
             alignments.append(alignment)
         }
 
-        return SemanticTableContent(
+        guard let content = SemanticTableContent(
             headerRows: headerRows,
             bodyRows: bodyRows,
             columnAlignments: alignments
         )
+        else
+        {
+            throw invalid(path, "A row span exceeds the table")
+        }
+        return content
     }
 
     static func decodeRow(

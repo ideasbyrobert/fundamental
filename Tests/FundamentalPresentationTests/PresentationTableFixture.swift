@@ -27,11 +27,11 @@ extension PresentationFixture
                 alignment: .trailing
             ))
         ])
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [header],
             bodyRows: [body],
             columnAlignments: [.leading, .center]
-        )
+        ))
         let caption = SemanticTableCaption(
             firstRun: run("Caption"),
             remainingRuns: []

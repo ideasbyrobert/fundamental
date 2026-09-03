@@ -5,15 +5,15 @@ import Testing
 extension SemanticTableTests
 {
     @Test("only the captioned form owns a caption")
-    func onlyCaptionedFormOwnsCaption()
+    func onlyCaptionedFormOwnsCaption() throws
     {
         let regular = SemanticTable.regular(
-            RegularSemanticTable(content: Self.content())
+            RegularSemanticTable(content: try Self.content())
         )
         let caption = Self.caption()
         let captioned = SemanticTable.captioned(
             CaptionedSemanticTable(
-                content: Self.content(),
+                content: try Self.content(),
                 caption: caption
             )
         )

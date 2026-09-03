@@ -28,11 +28,11 @@ extension RasterFixture
                 alignment: .trailing
             ))
         ])
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [header],
             bodyRows: [body],
             columnAlignments: [.leading, .center]
-        )
+        ))
         let caption = SemanticTableCaption(
             firstRun: run("Caption"),
             remainingRuns: []
@@ -43,25 +43,25 @@ extension RasterFixture
         ))))
     }
 
-    static func zeroRowTable() -> SemanticBlock
+    static func zeroRowTable() throws -> SemanticBlock
     {
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [],
             bodyRows: [],
             columnAlignments: [.leading, .trailing]
-        )
+        ))
         return .table(.semantic(.regular(RegularSemanticTable(
             content: content
         ))))
     }
 
-    static func captionedZeroRowTable() -> SemanticBlock
+    static func captionedZeroRowTable() throws -> SemanticBlock
     {
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [],
             bodyRows: [],
             columnAlignments: [.leading, .trailing]
-        )
+        ))
         let caption = SemanticTableCaption(
             firstRun: run("Only caption"),
             remainingRuns: []

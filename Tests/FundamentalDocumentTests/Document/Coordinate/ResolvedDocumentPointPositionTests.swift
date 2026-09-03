@@ -70,7 +70,7 @@ extension ResolvedDocumentPointTests
     func missingAndTableBlocksAreRefused() throws
     {
         let table = SemanticBlock.table(
-            SemanticBlockTests.emptyTableRecord()
+            try SemanticBlockTests.emptyTableRecord()
         )
         let document = try Self.document(blocks: [(2, table)])
 

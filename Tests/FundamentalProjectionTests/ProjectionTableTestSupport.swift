@@ -13,27 +13,30 @@ extension ProjectionFixture
             rowCount: 2,
             columnCount: 1
         ))
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [HeaderSemanticTableRow(cells: [
                 .regular(RegularSemanticTableCell(
                     runs: [direct("Head")],
                     alignment: .center
                 ))
             ])],
-            bodyRows: [BodySemanticTableRow(cells: [
-                .spanning(SpanningSemanticTableCell(
-                    runs: [try scoped("B😀")],
-                    alignment: .trailing,
-                    extent: extent
-                ))
-            ])],
+            bodyRows: [
+                BodySemanticTableRow(cells: [
+                    .spanning(SpanningSemanticTableCell(
+                        runs: [try scoped("B😀")],
+                        alignment: .trailing,
+                        extent: extent
+                    ))
+                ]),
+                BodySemanticTableRow(cells: [])
+            ],
             columnAlignments: [
                 .leading,
                 .center,
                 .trailing,
                 .unspecified
             ]
-        )
+        ))
         let table: SemanticTable
         if captioned
         {

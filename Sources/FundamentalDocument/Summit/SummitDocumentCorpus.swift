@@ -43,10 +43,15 @@ package struct SummitDocumentCorpus: Sendable
         span: SemanticTableCellExtent
     ) -> CanonicalDocumentContent?
     {
+        guard let tableBlocks = tableBlocks(span: span)
+        else
+        {
+            return nil
+        }
         let blocks = headingBlocks()
             + proseBlocks()
             + codeBlocks(language: language)
-            + tableBlocks(span: span)
+            + tableBlocks
         guard let first = blocks.first
         else
         {
@@ -119,7 +124,7 @@ package struct SummitDocumentCorpus: Sendable
 
     private static func tableBlocks(
         span: SemanticTableCellExtent
-    ) -> [IdentifiedSemanticBlock]
+    ) -> [IdentifiedSemanticBlock]?
     {
         let header = HeaderSemanticTableRow(cells: [
             regularCell("Stage"),
@@ -137,11 +142,15 @@ package struct SummitDocumentCorpus: Sendable
                 alignment: .leading
             ))
         ])
-        let content = SemanticTableContent(
+        guard let content = SemanticTableContent(
             headerRows: [header],
             bodyRows: [body],
             columnAlignments: [.leading, .center, .trailing]
         )
+        else
+        {
+            return nil
+        }
         let regular = SemanticTable.regular(
             RegularSemanticTable(content: content)
         )

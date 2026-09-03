@@ -48,7 +48,7 @@ struct CanonicalDocumentContentTests
             .paragraph(SemanticParagraph(runs: [run])),
             .heading(.title(TitleSemanticHeading(runs: [run]))),
             .code(.plain(PlainSemanticCodeBlock(runs: [run]))),
-            .table(SemanticBlockTests.emptyTableRecord())
+            .table(try SemanticBlockTests.emptyTableRecord())
         ]
         let blocks = semanticBlocks.enumerated().map
         {

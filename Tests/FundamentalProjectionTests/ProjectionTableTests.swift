@@ -26,8 +26,11 @@ extension ProjectionProseTests
                     return
                 }
                 let content = projected.table.content
+                #expect(content.headerRows.count == 1)
+                #expect(content.bodyRows.count == 2)
                 #expect(content.headerRows[0].index == 0)
                 #expect(content.bodyRows[0].index == 1)
+                #expect(content.bodyRows[1].index == 2)
                 #expect(content.columnAlignments == [
                     .leading,
                     .center,

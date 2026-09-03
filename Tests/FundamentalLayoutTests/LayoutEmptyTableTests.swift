@@ -10,11 +10,11 @@ struct LayoutEmptyTableTests
     @Test("an empty regular table retains structural residency")
     func structuralRegion() throws
     {
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [],
             bodyRows: [],
             columnAlignments: []
-        )
+        ))
         let block = SemanticBlock.table(.semantic(
             .regular(RegularSemanticTable(content: content))
         ))
@@ -49,14 +49,14 @@ struct LayoutEmptyTableTests
     @Test("empty semantic rows retain positive zero-padding tracks")
     func emptyRows() throws
     {
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [],
             bodyRows: [
                 BodySemanticTableRow(cells: []),
                 BodySemanticTableRow(cells: [])
             ],
             columnAlignments: [.leading, .trailing]
-        )
+        ))
         let block = SemanticBlock.table(.semantic(
             .regular(RegularSemanticTable(content: content))
         ))

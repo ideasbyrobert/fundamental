@@ -7,7 +7,7 @@ extension SourcedSemanticTableTests
     @Test("table and last normalized targets are admitted")
     func tableAndLastNormalizedTargetsAreAdmitted() throws
     {
-        let table = Self.table(
+        let table = try Self.table(
             headerRows: [[Self.regularCell("Header")]],
             bodyRows: [[
                 Self.regularCell("First"),
@@ -31,7 +31,7 @@ extension SourcedSemanticTableTests
     @Test("out-of-bounds row targets are refused")
     func outOfBoundsRowTargetsAreRefused() throws
     {
-        let table = Self.table(bodyRows: [[Self.regularCell()]])
+        let table = try Self.table(bodyRows: [[Self.regularCell()]])
         for value in [1, Int.max]
         {
             let row = try SemanticTableEvidenceTests.row(value)
@@ -54,14 +54,14 @@ extension SourcedSemanticTableTests
         let cell0 = try SemanticTableEvidenceTests.cell(0)
         let cell1 = try SemanticTableEvidenceTests.cell(1)
         let cases = [
-            (Self.table(bodyRows: [[]]), row0, cell0),
+            (try Self.table(bodyRows: [[]]), row0, cell0),
             (
-                Self.table(bodyRows: [[Self.regularCell()]]),
+                try Self.table(bodyRows: [[Self.regularCell()]]),
                 row0,
                 cell1
             ),
             (
-                Self.table(bodyRows: [[Self.regularCell()]]),
+                try Self.table(bodyRows: [[Self.regularCell()]]),
                 row1,
                 cell0
             )

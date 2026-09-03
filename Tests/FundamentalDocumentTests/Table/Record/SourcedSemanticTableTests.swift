@@ -32,9 +32,9 @@ struct SourcedSemanticTableTests
     static func table(
         headerRows: [[SemanticTableCell]] = [],
         bodyRows: [[SemanticTableCell]] = []
-    ) -> SemanticTable
+    ) throws -> SemanticTable
     {
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: headerRows.map
             {
                 HeaderSemanticTableRow(cells: $0)
@@ -44,7 +44,7 @@ struct SourcedSemanticTableTests
                 BodySemanticTableRow(cells: $0)
             },
             columnAlignments: []
-        )
+        ))
         return .regular(RegularSemanticTable(content: content))
     }
 
@@ -63,7 +63,7 @@ struct SourcedSemanticTableTests
     @Test("construction preserves required table and evidence")
     func constructionPreservesRequiredTableAndEvidence() throws
     {
-        let table = Self.table()
+        let table = try Self.table()
         let fact = try SemanticTableEvidenceTests.confidence(
             target: .table
         )
@@ -83,15 +83,16 @@ struct SourcedSemanticTableTests
             target: .table
         )
         let original = try Self.sourced(
-            table: Self.table(),
+            table: try Self.table(),
             facts: [fact]
         )
         let changed = try Self.sourced(
-            table: Self.table(bodyRows: [[Self.regularCell()]]),
+            table: try Self.table(bodyRows: [[Self.regularCell()]]),
             facts: [fact]
         )
 
+        let expected = try Self.table()
         #expect(original != changed)
-        #expect(original.table == Self.table())
+        #expect(original.table == expected)
     }
 }

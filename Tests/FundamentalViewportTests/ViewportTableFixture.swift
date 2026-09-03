@@ -21,11 +21,11 @@ extension ViewportFixture
                 alignment: .leading
             ))
         ])
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [header],
             bodyRows: [body],
             columnAlignments: [.leading]
-        )
+        ))
         let table = SemanticTable.regular(RegularSemanticTable(
             content: content
         ))

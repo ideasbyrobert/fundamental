@@ -4,16 +4,16 @@ import Testing
 
 extension SemanticBlockTests
 {
-    static func emptyTableRecord() -> SemanticTableRecord
+    static func emptyTableRecord() throws -> SemanticTableRecord
     {
         .semantic(
             .regular(
                 RegularSemanticTable(
-                    content: SemanticTableContent(
+                    content: try #require(SemanticTableContent(
                         headerRows: [],
                         bodyRows: [],
                         columnAlignments: []
-                    )
+                    ))
                 )
             )
         )
@@ -24,11 +24,11 @@ extension SemanticBlockTests
     {
         let table = SemanticTable.regular(
             RegularSemanticTable(
-                content: SemanticTableContent(
+                content: try #require(SemanticTableContent(
                     headerRows: [],
                     bodyRows: [],
                     columnAlignments: []
-                )
+                ))
             )
         )
         let confidence = try #require(

@@ -18,9 +18,9 @@ extension SourcedSemanticTableTests
     @Test("row-span repair requires one occupied row")
     func rowSpanRepairRequiresOneOccupiedRow() throws
     {
-        let table = Self.table(bodyRows: [[
+        let table = try Self.table(bodyRows: [[
             try Self.spanningCell(rowCount: 2, columnCount: 1)
-        ]])
+        ], []])
         let fact = try Self.spanRepair(
             .nonpositiveRowSpanNormalizedToOne
         )
@@ -33,7 +33,7 @@ extension SourcedSemanticTableTests
     @Test("column-span repair requires one occupied column")
     func columnSpanRepairRequiresOneOccupiedColumn() throws
     {
-        let table = Self.table(bodyRows: [[
+        let table = try Self.table(bodyRows: [[
             try Self.spanningCell(rowCount: 1, columnCount: 2)
         ]])
         let fact = try Self.spanRepair(
@@ -68,7 +68,7 @@ extension SourcedSemanticTableTests
         for (cell, facts) in cases
         {
             #expect(try Self.sourced(
-                table: Self.table(bodyRows: [[cell]]),
+                table: try Self.table(bodyRows: [[cell], []]),
                 facts: facts
             ).evidence.facts == facts)
         }
@@ -89,7 +89,7 @@ extension SourcedSemanticTableTests
         for cell in cells
         {
             #expect(try Self.sourced(
-                table: Self.table(bodyRows: [[cell]]),
+                table: try Self.table(bodyRows: [[cell], []]),
                 facts: [fact]
             ).evidence.facts == [fact])
         }

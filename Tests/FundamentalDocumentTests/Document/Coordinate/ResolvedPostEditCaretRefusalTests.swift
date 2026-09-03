@@ -27,7 +27,7 @@ extension ResolvedPostEditCaretTests
         }
 
         let tableDocument = try Self.document(blocks: [
-            (2, .table(SemanticBlockTests.emptyTableRecord()))
+            (2, .table(try SemanticBlockTests.emptyTableRecord()))
         ])
         let tableCandidate = try Self.point(offset: 0)
         for affinity in Self.affinities

@@ -6,7 +6,7 @@ import Testing
 struct SemanticTableContentTests
 {
     @Test("initialization preserves immutable ordered facts")
-    func initializationPreservesImmutableOrderedFacts()
+    func initializationPreservesImmutableOrderedFacts() throws
     {
         let headerRows = [
             HeaderSemanticTableRow(cells: [])
@@ -22,11 +22,11 @@ struct SemanticTableContentTests
             .unspecified,
             .leading
         ]
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: headerRows,
             bodyRows: bodyRows,
             columnAlignments: alignments
-        )
+        ))
 
         #expect(content.headerRows == headerRows)
         #expect(content.bodyRows == bodyRows)
@@ -34,18 +34,18 @@ struct SemanticTableContentTests
     }
 
     @Test("reconstruction leaves the original unchanged")
-    func reconstructionLeavesOriginalUnchanged()
+    func reconstructionLeavesOriginalUnchanged() throws
     {
-        let original = SemanticTableContent(
+        let original = try #require(SemanticTableContent(
             headerRows: [],
             bodyRows: [],
             columnAlignments: []
-        )
-        let changed = SemanticTableContent(
+        ))
+        let changed = try #require(SemanticTableContent(
             headerRows: [HeaderSemanticTableRow(cells: [])],
             bodyRows: [BodySemanticTableRow(cells: [])],
             columnAlignments: [.center]
-        )
+        ))
 
         #expect(original != changed)
         #expect(original.headerRows.isEmpty)

@@ -119,7 +119,15 @@ extension NativeTextKit2Layout
         placements: [NativeGridPlacement]
     ) throws -> (rows: Int, columns: Int)
     {
-        var rows = content.headerRows.count + content.bodyRows.count
+        let rowCount = content.headerRows.count.addingReportingOverflow(
+            content.bodyRows.count
+        )
+        guard !rowCount.overflow
+        else
+        {
+            throw LayoutFailure.unrepresentableGridExtent
+        }
+        let rows = rowCount.partialValue
         var columns = content.columnAlignments.count
         for placement in placements
         {
@@ -130,12 +138,12 @@ extension NativeTextKit2Layout
                 placement.columnSpan
             )
             guard !rowEnd.overflow,
-                  !columnEnd.overflow
+                  !columnEnd.overflow,
+                  rowEnd.partialValue <= rows
             else
             {
                 throw LayoutFailure.unrepresentableGridExtent
             }
-            rows = max(rows, rowEnd.partialValue)
             columns = max(columns, columnEnd.partialValue)
         }
         return (rows, columns)

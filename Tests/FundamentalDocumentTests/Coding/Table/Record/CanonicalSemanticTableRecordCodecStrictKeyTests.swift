@@ -12,15 +12,6 @@ extension CanonicalSemanticTableRecordCodecTests
         #"{"bodyRows":[\#(evidenceRow)],"columnAlignments":[],"headerRows":[]}"#
     static let evidenceTable =
         #"{"content":\#(evidenceContent),"kind":"regular"}"#
-    static let tallEvidenceCell =
-        #"{"alignment":"leading","extent":{"columns":1,"rows":2},"#
-        + #""kind":"spanning","runs":[]}"#
-    static let tallEvidenceRow = #"{"cells":[\#(tallEvidenceCell)]}"#
-    static let tallEvidenceContent =
-        #"{"bodyRows":[\#(tallEvidenceRow)],"columnAlignments":[],"#
-        + #""headerRows":[]}"#
-    static let tallEvidenceTable =
-        #"{"content":\#(tallEvidenceContent),"kind":"regular"}"#
     static func sourcedRoot(
         _ evidence: String,
         table: String = evidenceTable

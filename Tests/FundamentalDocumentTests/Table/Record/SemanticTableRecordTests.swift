@@ -5,9 +5,9 @@ import Testing
 @Suite("A semantic table record")
 struct SemanticTableRecordTests
 {
-    static func captionedTable() -> SemanticTable
+    static func captionedTable() throws -> SemanticTable
     {
-        let table = SourcedSemanticTableTests.table()
+        let table = try SourcedSemanticTableTests.table()
         let caption = SemanticTableCaption(
             firstRun: SemanticRun(text: "Caption"),
             remainingRuns: []
@@ -19,11 +19,11 @@ struct SemanticTableRecordTests
     }
 
     @Test("semantic case owns bare regular and captioned tables")
-    func semanticCaseOwnsBareRegularAndCaptionedTables()
+    func semanticCaseOwnsBareRegularAndCaptionedTables() throws
     {
         let tables = [
-            SourcedSemanticTableTests.table(),
-            Self.captionedTable()
+            try SourcedSemanticTableTests.table(),
+            try Self.captionedTable()
         ]
 
         for table in tables
@@ -46,8 +46,8 @@ struct SemanticTableRecordTests
             target: .table
         )
         let tables = [
-            SourcedSemanticTableTests.table(),
-            Self.captionedTable()
+            try SourcedSemanticTableTests.table(),
+            try Self.captionedTable()
         ]
 
         for table in tables
@@ -70,12 +70,12 @@ struct SemanticTableRecordTests
     @Test("reconstruction leaves original record unchanged")
     func reconstructionLeavesOriginalRecordUnchanged() throws
     {
-        let originalTable = SourcedSemanticTableTests.table()
+        let originalTable = try SourcedSemanticTableTests.table()
         let original = SemanticTableRecord.semantic(originalTable)
         let fact = try SemanticTableEvidenceTests.confidence(
             target: .table
         )
-        let changedTable = Self.captionedTable()
+        let changedTable = try Self.captionedTable()
         let changed = SemanticTableRecord.sourced(
             try SourcedSemanticTableTests.sourced(
                 table: changedTable,

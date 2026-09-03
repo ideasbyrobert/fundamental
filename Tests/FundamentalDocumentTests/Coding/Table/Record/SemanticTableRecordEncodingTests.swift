@@ -7,9 +7,9 @@ import Testing
 struct SemanticTableRecordEncodingTests
 {
     typealias Canonical = CanonicalSemanticTableRecordCodecTests
-    static func minimalRecord() -> SemanticTableRecord
+    static func minimalRecord() throws -> SemanticTableRecord
     {
-        .semantic(SourcedSemanticTableTests.table())
+        .semantic(try SourcedSemanticTableTests.table())
     }
     static func fullSourcedTable(_ table: SemanticTable)
         throws -> SourcedSemanticTable
@@ -70,7 +70,7 @@ struct SemanticTableRecordEncodingTests
     func semanticAndSourcedRootsEncodeExactOwnedMembers() throws
     {
         let semantic = try Self.text(SemanticTableRecordCodec.encode(
-            Self.minimalRecord()
+            try Self.minimalRecord()
         ))
         let sourced = try Self.text(SemanticTableRecordCodec.encode(
             SemanticTableRecordRoundTripTests.fullRecord()

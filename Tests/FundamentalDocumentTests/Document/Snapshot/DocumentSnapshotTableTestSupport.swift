@@ -8,8 +8,8 @@ extension DocumentSnapshotTests
         _ form: DocumentSnapshotTableForm
     ) throws -> SemanticTableRecord
     {
-        let regular = SourcedSemanticTableTests.table()
-        let captioned = SemanticTableRecordTests.captionedTable()
+        let regular = try SourcedSemanticTableTests.table()
+        let captioned = try SemanticTableRecordTests.captionedTable()
         let table: SemanticTable
         switch form
         {

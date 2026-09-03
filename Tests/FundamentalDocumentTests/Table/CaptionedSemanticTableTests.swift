@@ -6,13 +6,13 @@ import Testing
 struct CaptionedSemanticTableTests
 {
     @Test("initialization preserves immutable content and caption")
-    func initializationPreservesImmutableContentAndCaption()
+    func initializationPreservesImmutableContentAndCaption() throws
     {
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [],
             bodyRows: [BodySemanticTableRow(cells: [])],
             columnAlignments: [.center]
-        )
+        ))
         let caption = SemanticTableCaption(
             firstRun: SemanticRun(text: "Caption"),
             remainingRuns: []
@@ -27,13 +27,13 @@ struct CaptionedSemanticTableTests
     }
 
     @Test("reconstruction leaves the original unchanged")
-    func reconstructionLeavesOriginalUnchanged()
+    func reconstructionLeavesOriginalUnchanged() throws
     {
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [],
             bodyRows: [],
             columnAlignments: []
-        )
+        ))
         let original = CaptionedSemanticTable(
             content: content,
             caption: SemanticTableCaption(

@@ -71,7 +71,7 @@ extension ResolvedDocumentRangeTests
     func anyTableInSpanRefusesWholeRange() throws
     {
         let table = SemanticBlock.table(
-            SemanticBlockTests.emptyTableRecord()
+            try SemanticBlockTests.emptyTableRecord()
         )
         let document = try Self.document(blocks: [
             (2, Self.paragraph("P")),

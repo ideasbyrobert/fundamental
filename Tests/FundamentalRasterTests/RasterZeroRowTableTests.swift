@@ -10,8 +10,8 @@ struct RasterZeroRowTableTests
     func columnsOwnStructuralBands(captioned: Bool) throws
     {
         let block = captioned
-            ? RasterFixture.captionedZeroRowTable()
-            : RasterFixture.zeroRowTable()
+            ? try RasterFixture.captionedZeroRowTable()
+            : try RasterFixture.zeroRowTable()
         let layout = try RasterFixture.layout([block], width: 300)
         let fragments: [LayoutGridFragment] = layout.fragments.compactMap
         {

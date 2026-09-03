@@ -21,14 +21,14 @@ struct IdentifiedSemanticBlockTests
     }
 
     @Test("all admitted semantic forms survive unchanged")
-    func allAdmittedFormsSurviveUnchanged()
+    func allAdmittedFormsSurviveUnchanged() throws
     {
         let run = SemanticRun(text: "Text")
         let blocks: [SemanticBlock] = [
             .paragraph(SemanticParagraph(runs: [run])),
             .heading(.title(TitleSemanticHeading(runs: [run]))),
             .code(.plain(PlainSemanticCodeBlock(runs: [run]))),
-            .table(SemanticBlockTests.emptyTableRecord())
+            .table(try SemanticBlockTests.emptyTableRecord())
         ]
 
         for (index, block) in blocks.enumerated()

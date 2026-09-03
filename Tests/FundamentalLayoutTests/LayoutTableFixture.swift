@@ -16,7 +16,7 @@ extension LayoutFixture
             rowCount: 2,
             columnCount: 1
         ))
-        let content = SemanticTableContent(
+        let content = try #require(SemanticTableContent(
             headerRows: [HeaderSemanticTableRow(cells: [
                 .regular(RegularSemanticTableCell(
                     runs: [direct("Head")],
@@ -48,7 +48,7 @@ extension LayoutFixture
                 ])
             ],
             columnAlignments: [.leading, .center, .trailing]
-        )
+        ))
         let table: SemanticTable
         if captioned
         {

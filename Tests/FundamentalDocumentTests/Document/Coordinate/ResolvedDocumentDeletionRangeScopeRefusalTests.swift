@@ -38,7 +38,7 @@ extension ResolvedDocumentDeletionRangeTests
     func tableBlocksAreRefused() throws
     {
         let document = try ResolvedDocumentRangeTests.document(blocks: [
-            (2, .table(SemanticBlockTests.emptyTableRecord()))
+            (2, .table(try SemanticBlockTests.emptyTableRecord()))
         ])
         let range = try Self.range(start: 0, end: 1)
 

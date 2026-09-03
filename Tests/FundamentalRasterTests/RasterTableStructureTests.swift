@@ -20,6 +20,17 @@ struct RasterTableStructureTests
         #expect(regions.contains { $0.role == .headerRow(0) })
         #expect(regions.contains { $0.role == .bodyRow(1) })
         #expect(regions.contains { $0.role == .tableColumn(0) })
+        let rows = regions.filter
+        {
+            switch $0.role
+            {
+            case .headerRow, .bodyRow:
+                true
+            default:
+                false
+            }
+        }
+        #expect(rows.count == 2)
         let cells: [RasterTableCellGeometry] = regions.compactMap
         {
             guard case let .cell(value) = $0.content else { return nil }
