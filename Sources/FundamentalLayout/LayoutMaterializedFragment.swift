@@ -1,7 +1,7 @@
-struct LayoutMaterializedFragment: Equatable, Sendable
+package struct LayoutMaterializedFragment: Equatable, Sendable
 {
-    let extent: LayoutPlacedFragmentExtent
-    let fragment: LayoutFragment
+    package let extent: LayoutPlacedFragmentExtent
+    package let fragment: LayoutFragment
 
     init?(
         _ admission: LayoutMaterializationAdmissionToken,

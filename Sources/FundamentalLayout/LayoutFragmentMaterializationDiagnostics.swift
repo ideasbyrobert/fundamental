@@ -1,7 +1,7 @@
-struct LayoutFragmentMaterializationDiagnostics: Equatable, Sendable
+package struct LayoutFragmentMaterializationDiagnostics: Equatable, Sendable
 {
-    let materialization: LayoutFragmentMaterialization
-    let usage: LayoutMaterializationUsage
+    package let materialization: LayoutFragmentMaterialization
+    package let usage: LayoutMaterializationUsage
 
     init(
         _ admission: LayoutMaterializationAdmissionToken,

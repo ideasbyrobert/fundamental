@@ -1,13 +1,13 @@
 import FundamentalProjection
 
 @MainActor
-package struct NativeTextKit2Layout
+struct NativeTextKit2Layout
 {
-    package init()
+    init()
     {
     }
 
-    package func layout(
+    func layout(
         _ projection: ProjectionSnapshot,
         request: LayoutRequest
     ) throws -> LayoutSnapshot

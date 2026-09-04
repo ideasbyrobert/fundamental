@@ -1,16 +1,16 @@
 import FundamentalProjection
 
-struct LayoutPlacedFragmentExtent: Equatable, Sendable
+package struct LayoutPlacedFragmentExtent: Equatable, Sendable
 {
     let localExtent: LayoutFragmentExtent
-    let frame: LayoutRectangle
+    package let frame: LayoutRectangle
 
-    var source: ProjectedBlockSource
+    package var source: ProjectedBlockSource
     {
         localExtent.source
     }
 
-    var anchor: LayoutFragmentAnchor
+    package var anchor: LayoutFragmentAnchor
     {
         localExtent.anchor
     }
@@ -18,6 +18,11 @@ struct LayoutPlacedFragmentExtent: Equatable, Sendable
     var content: LayoutFragmentExtentContent
     {
         localExtent.content
+    }
+
+    package var canAnchor: Bool
+    {
+        content != .tableRule
     }
 
     init?(

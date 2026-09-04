@@ -1,5 +1,5 @@
-struct LayoutDocumentExtentQueryDiagnostics: Equatable, Sendable
+package struct LayoutDocumentExtentQueryDiagnostics: Equatable, Sendable
 {
-    let query: LayoutDocumentExtentQuery
-    let examinedExtentCount: Int
+    package let query: LayoutDocumentExtentQuery
+    package let examinedExtentCount: Int
 }

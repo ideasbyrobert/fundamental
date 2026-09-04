@@ -1,4 +1,4 @@
-struct LayoutFragmentExtentSelection: Equatable, Sendable
+package struct LayoutFragmentExtentSelection: Equatable, Sendable
 {
     let lineage: LayoutLineage
     let extents: [LayoutPlacedFragmentExtent]

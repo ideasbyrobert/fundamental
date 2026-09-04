@@ -1,6 +1,6 @@
 import FundamentalProjection
 
-struct LayoutIndexedProjection: Equatable, Sendable
+package struct LayoutIndexedProjection: Equatable, Sendable
 {
     let projection: ProjectionSnapshot
     let index: LayoutDocumentExtentIndex

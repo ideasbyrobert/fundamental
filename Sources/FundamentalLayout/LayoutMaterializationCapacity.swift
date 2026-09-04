@@ -1,4 +1,4 @@
-struct LayoutMaterializationCapacity: Equatable, Sendable
+package struct LayoutMaterializationCapacity: Equatable, Sendable
 {
     let reconstructedBlocks: Int
     let reconstructedFragments: Int
@@ -10,7 +10,7 @@ struct LayoutMaterializationCapacity: Equatable, Sendable
     let fontVariations: Int
     let residentUTF16Units: Int
 
-    init?(
+    package init?(
         reconstructedBlocks: Int,
         reconstructedFragments: Int,
         materializedFragments: Int,

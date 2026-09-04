@@ -3,37 +3,56 @@ import FundamentalProjection
 @MainActor
 package final class SummitLayoutPreparation
 {
-    private let projection: ProjectionSnapshot
+    private let capacity: LayoutExtentIndexCapacity
     private var cachedMeasure: Double
-    private var cachedSnapshot: LayoutSnapshot
+    private var cachedProjection: LayoutIndexedProjection
     private var generation: UInt64
     package private(set) var executionCount: Int
 
-    package init?()
+    package convenience init?()
     {
         guard let corpus = SummitProjectionCorpus(),
-              let request = Self.request(
-                  measure: 720,
+              let capacity = Self.summitCapacity()
+        else
+        {
+            return nil
+        }
+        self.init(
+            projection: corpus.snapshot,
+            initialMeasure: 720,
+            capacity: capacity
+        )
+    }
+
+    init?(
+        projection: ProjectionSnapshot,
+        initialMeasure: Double,
+        capacity: LayoutExtentIndexCapacity
+    )
+    {
+        guard let request = Self.request(
+                  measure: initialMeasure,
                   generation: 1
               ),
-              let snapshot = try? NativeTextKit2Layout().layout(
-                  corpus.snapshot,
-                  request: request
+              let indexed = try? NativeTextKit2Layout().indexedProjection(
+                  projection,
+                  request: request,
+                  capacity: capacity
               )
         else
         {
             return nil
         }
-        projection = corpus.snapshot
-        cachedMeasure = 720
-        cachedSnapshot = snapshot
+        self.capacity = capacity
+        cachedMeasure = initialMeasure
+        cachedProjection = indexed
         generation = 1
         executionCount = 1
     }
 
-    package func layout(
+    package func indexedProjection(
         readableMeasure: Double
-    ) -> LayoutSnapshot?
+    ) -> LayoutIndexedProjection?
     {
         guard readableMeasure.isFinite,
               readableMeasure > 0
@@ -43,7 +62,7 @@ package final class SummitLayoutPreparation
         }
         if readableMeasure == cachedMeasure
         {
-            return cachedSnapshot
+            return cachedProjection
         }
         let (next, overflow) = generation.addingReportingOverflow(1)
         guard !overflow,
@@ -51,19 +70,20 @@ package final class SummitLayoutPreparation
                   measure: readableMeasure,
                   generation: next
               ),
-              let snapshot = try? NativeTextKit2Layout().layout(
-                  projection,
-                  request: request
+              let indexed = try? NativeTextKit2Layout().indexedProjection(
+                  cachedProjection.projection,
+                  request: request,
+                  capacity: capacity
               )
         else
         {
             return nil
         }
         cachedMeasure = readableMeasure
-        cachedSnapshot = snapshot
+        cachedProjection = indexed
         generation = next
         executionCount += 1
-        return snapshot
+        return indexed
     }
 
     private static func request(
@@ -78,6 +98,17 @@ package final class SummitLayoutPreparation
             rowSpacing: 6,
             columnSpacing: 10,
             cellPadding: 8
+        )
+    }
+
+    private static func summitCapacity() -> LayoutExtentIndexCapacity?
+    {
+        LayoutExtentIndexCapacity(
+            maximumBlockCount: 100_000,
+            maximumExtentCount: 1_000_000,
+            maximumResolvedFontCount: 4_096,
+            maximumTableRowCount: 100_000,
+            maximumTableCellCount: 100_000
         )
     }
 }

@@ -1,5 +1,5 @@
-struct LayoutDocumentExtentQuery: Equatable, Sendable
+package struct LayoutDocumentExtentQuery: Equatable, Sendable
 {
-    let extents: [LayoutPlacedFragmentExtent]
-    let hasMore: Bool
+    package let extents: [LayoutPlacedFragmentExtent]
+    package let hasMore: Bool
 }

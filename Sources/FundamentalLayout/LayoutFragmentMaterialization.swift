@@ -1,8 +1,8 @@
-struct LayoutFragmentMaterialization: Equatable, Sendable
+package struct LayoutFragmentMaterialization: Equatable, Sendable
 {
-    let lineage: LayoutLineage
-    let documentSize: LayoutSize
-    let fragments: [LayoutMaterializedFragment]
+    package let lineage: LayoutLineage
+    package let documentSize: LayoutSize
+    package let fragments: [LayoutMaterializedFragment]
 
     init?(
         _ admission: LayoutMaterializationAdmissionToken,

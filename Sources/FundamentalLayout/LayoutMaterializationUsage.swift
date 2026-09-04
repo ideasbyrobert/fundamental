@@ -1,4 +1,4 @@
-struct LayoutMaterializationUsage: Equatable, Sendable
+package struct LayoutMaterializationUsage: Equatable, Sendable
 {
     let reconstructedBlocks: Int
     let reconstructedFragments: Int
