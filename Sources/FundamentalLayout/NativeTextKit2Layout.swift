@@ -22,46 +22,14 @@ package struct NativeTextKit2Layout
             {
                 nextY += parameters.blockSpacing
             }
-            switch block
-            {
-            case let .prose(source, prose):
-                let lines = try proseLines(
-                    prose,
-                    source: source,
-                    width: parameters.width,
-                    originY: nextY
-                )
-                fragments += try proseFragments(
-                    lines: lines,
-                    source: source,
-                    role: prose.role,
-                    width: parameters.width
-                )
-                nextY = lines.map(\.frame.maxY).max() ?? nextY
-            case let .code(source, code):
-                let lines = try codeLines(
-                    code,
-                    source: source,
-                    width: parameters.width,
-                    originY: nextY
-                )
-                fragments += try codeFragments(
-                    lines: lines,
-                    source: source,
-                    width: parameters.width
-                )
-                nextY = lines.map(\.frame.maxY).max() ?? nextY
-            case let .table(source, record):
-                let laidGrid = try grid(
-                    record.table,
-                    source: source,
-                    originY: nextY,
-                    parameters: parameters
-                )
-                grids.append(laidGrid)
-                fragments += try gridFragments(laidGrid)
-                nextY = laidGrid.frame.maxY
-            }
+            let laidBlock = try blockLayout(
+                block,
+                originY: nextY,
+                parameters: parameters
+            )
+            fragments += laidBlock.fragments
+            grids += laidBlock.grids
+            nextY = laidBlock.maximumY
         }
         let maximumX = fragments.map(\.frame.maxX).max()
             ?? parameters.width
@@ -158,6 +126,19 @@ package struct NativeTextKit2Layout
         grids: [LayoutGrid]
     ) -> [LayoutFontIdentity]
     {
+        var fonts = resolvedContentFonts(in: fragments)
+        var seen = Set(fonts)
+        for grid in grids where seen.insert(grid.structuralFont).inserted
+        {
+            fonts.append(grid.structuralFont)
+        }
+        return fonts
+    }
+
+    func resolvedContentFonts(
+        in fragments: [LayoutFragment]
+    ) -> [LayoutFontIdentity]
+    {
         var fonts: [LayoutFontIdentity] = []
         var seen: Set<LayoutFontIdentity> = []
         for fragment in fragments
@@ -189,10 +170,6 @@ package struct NativeTextKit2Layout
                     )
                 }
             }
-        }
-        for grid in grids where seen.insert(grid.structuralFont).inserted
-        {
-            fonts.append(grid.structuralFont)
         }
         return fonts
     }

@@ -9,4 +9,5 @@ package enum LayoutFailure: Error, Equatable, Sendable
         coreTextWidth: Double
     )
     case unrepresentableGridExtent
+    case unrepresentableBlockMeasurement
 }
