@@ -10,7 +10,7 @@ extension LayoutBlockMeasurementTests
     {
         #expect(readmit(
             value,
-            source: value.source,
+            block: value.block,
             kind: .code,
             firstExtent: value.firstExtent,
             remainingExtents: value.remainingExtents,
@@ -18,7 +18,7 @@ extension LayoutBlockMeasurementTests
         ) == nil)
         #expect(readmit(
             value,
-            source: value.source,
+            block: value.block,
             kind: value.kind,
             firstExtent: value.firstExtent,
             remainingExtents: value.remainingExtents,
@@ -26,7 +26,7 @@ extension LayoutBlockMeasurementTests
         ) == nil)
         #expect(readmit(
             value,
-            source: value.source,
+            block: value.block,
             kind: value.kind,
             firstExtent: value.firstExtent,
             remainingExtents: value.remainingExtents,

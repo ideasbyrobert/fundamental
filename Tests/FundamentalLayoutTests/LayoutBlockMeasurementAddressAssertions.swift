@@ -7,14 +7,17 @@ extension LayoutBlockMeasurementTests
 {
     func expectAddressRefusal(
         _ value: LayoutBlockMeasurement,
-        block: SemanticBlock
+        block semanticBlock: SemanticBlock
     ) throws
     {
-        let projection = try LayoutFixture.projection([block, block])
+        let projection = try LayoutFixture.projection([
+            semanticBlock,
+            semanticBlock
+        ])
         let foreign = projection.blocks[1].source
         #expect(readmit(
             value,
-            source: foreign,
+            block: projection.blocks[1],
             kind: value.kind,
             firstExtent: value.firstExtent,
             remainingExtents: value.remainingExtents,
@@ -31,7 +34,7 @@ extension LayoutBlockMeasurementTests
         )
         #expect(readmit(
             value,
-            source: value.source,
+            block: value.block,
             kind: value.kind,
             firstExtent: foreignExtent,
             remainingExtents: value.remainingExtents,
@@ -48,7 +51,7 @@ extension LayoutBlockMeasurementTests
         )
         #expect(readmit(
             value,
-            source: value.source,
+            block: value.block,
             kind: value.kind,
             firstExtent: skipped,
             remainingExtents: value.remainingExtents,
@@ -66,7 +69,7 @@ extension LayoutBlockMeasurementTests
         )
         #expect(readmit(
             value,
-            source: value.source,
+            block: value.block,
             kind: value.kind,
             firstExtent: value.firstExtent,
             remainingExtents: [duplicate]

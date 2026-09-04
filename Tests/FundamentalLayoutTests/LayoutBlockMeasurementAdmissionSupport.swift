@@ -5,7 +5,7 @@ extension LayoutBlockMeasurementTests
 {
     func readmit(
         _ value: LayoutBlockMeasurement,
-        source: ProjectedBlockSource,
+        block: ProjectedBlock,
         kind: LayoutBlockMeasurementKind,
         firstExtent: LayoutFragmentExtent,
         remainingExtents: [LayoutFragmentExtent],
@@ -13,7 +13,7 @@ extension LayoutBlockMeasurementTests
     ) -> LayoutBlockMeasurement?
     {
         LayoutBlockMeasurement(
-            source: source,
+            block: block,
             parameters: value.parameters,
             kind: kind,
             firstExtent: firstExtent,

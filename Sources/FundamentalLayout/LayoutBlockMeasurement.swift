@@ -2,12 +2,17 @@ import FundamentalProjection
 
 struct LayoutBlockMeasurement: Equatable, Sendable
 {
-    let source: ProjectedBlockSource
+    let block: ProjectedBlock
     let parameters: LayoutParameters
     let kind: LayoutBlockMeasurementKind
     let firstExtent: LayoutFragmentExtent
     let remainingExtents: [LayoutFragmentExtent]
     let contentFonts: [LayoutFontIdentity]
+
+    var source: ProjectedBlockSource
+    {
+        block.source
+    }
 
     var extents: [LayoutFragmentExtent]
     {
@@ -33,7 +38,7 @@ struct LayoutBlockMeasurement: Equatable, Sendable
     }
 
     init?(
-        source: ProjectedBlockSource,
+        block: ProjectedBlock,
         parameters: LayoutParameters,
         kind: LayoutBlockMeasurementKind,
         firstExtent: LayoutFragmentExtent,
@@ -41,6 +46,7 @@ struct LayoutBlockMeasurement: Equatable, Sendable
         contentFonts: [LayoutFontIdentity]
     )
     {
+        let source = block.source
         let extents = [firstExtent] + remainingExtents
         guard extents.allSatisfy(
             { $0.source == source }
@@ -57,6 +63,11 @@ struct LayoutBlockMeasurement: Equatable, Sendable
               firstExtent.frame.minX == 0,
               firstExtent.frame.minY == 0,
               Self.matches(
+                  block: block,
+                  kind: kind,
+                  extents: extents
+              ),
+              Self.matches(
                   kind: kind,
                   extents: extents,
                   contentFonts: contentFonts,
@@ -66,12 +77,81 @@ struct LayoutBlockMeasurement: Equatable, Sendable
         {
             return nil
         }
-        self.source = source
+        self.block = block
         self.parameters = parameters
         self.kind = kind
         self.firstExtent = firstExtent
         self.remainingExtents = remainingExtents
         self.contentFonts = contentFonts
+    }
+
+    private static func matches(
+        block: ProjectedBlock,
+        kind: LayoutBlockMeasurementKind,
+        extents: [LayoutFragmentExtent]
+    ) -> Bool
+    {
+        switch (block, kind)
+        {
+        case let (.prose(_, prose), .prose(role)):
+            return prose.role == role
+        case (.code, .code):
+            return true
+        case let (.table(_, record), .table(table)):
+            return matches(
+                table: record.table,
+                measurement: table,
+                extents: extents
+            )
+        case (.prose, .code), (.prose, .table),
+             (.code, .prose), (.code, .table),
+             (.table, .prose), (.table, .code):
+            return false
+        }
+    }
+
+    private static func matches(
+        table: ProjectedTable,
+        measurement: LayoutTableMeasurement,
+        extents: [LayoutFragmentExtent]
+    ) -> Bool
+    {
+        let content = table.content
+        let rows = content.headerRows + content.bodyRows
+        let rowCount = content.headerRows.count.addingReportingOverflow(
+            content.bodyRows.count
+        )
+        guard !rowCount.overflow
+        else
+        {
+            return false
+        }
+        var cellCount = 0
+        for row in rows
+        {
+            let next = cellCount.addingReportingOverflow(row.cells.count)
+            guard !next.overflow
+            else
+            {
+                return false
+            }
+            cellCount = next.partialValue
+        }
+        let expectsCaption: Bool
+        switch table
+        {
+        case .regular:
+            expectsCaption = false
+        case .captioned:
+            expectsCaption = true
+        }
+        let hasCaption = extents.contains
+        {
+            $0.content == .tableCaptionLine
+        }
+        return expectsCaption == hasCaption
+            && rowCount.partialValue == measurement.rowCount
+            && cellCount == measurement.cellCount
     }
 
     private static func matches(

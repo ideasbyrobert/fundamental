@@ -21,7 +21,7 @@ extension LayoutBlockMeasurementTests
         )
         #expect(readmit(
             value,
-            source: value.source,
+            block: value.block,
             kind: value.kind,
             firstExtent: translated,
             remainingExtents: value.remainingExtents,
@@ -40,7 +40,7 @@ extension LayoutBlockMeasurementTests
         )
         #expect(readmit(
             value,
-            source: value.source,
+            block: value.block,
             kind: value.kind,
             firstExtent: value.firstExtent,
             remainingExtents: [negative]

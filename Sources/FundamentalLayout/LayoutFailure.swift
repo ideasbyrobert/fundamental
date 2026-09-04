@@ -10,4 +10,5 @@ package enum LayoutFailure: Error, Equatable, Sendable
     )
     case unrepresentableGridExtent
     case unrepresentableBlockMeasurement
+    case unrepresentableDocumentExtentIndex
 }

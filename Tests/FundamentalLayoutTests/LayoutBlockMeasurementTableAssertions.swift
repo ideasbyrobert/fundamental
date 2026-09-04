@@ -20,7 +20,7 @@ extension LayoutBlockMeasurementTests
         ))
         #expect(readmit(
             value,
-            source: value.source,
+            block: value.block,
             kind: .table(wrong),
             firstExtent: value.firstExtent,
             remainingExtents: value.remainingExtents,
@@ -52,7 +52,7 @@ extension LayoutBlockMeasurementTests
         )
         #expect(readmit(
             value,
-            source: value.source,
+            block: value.block,
             kind: value.kind,
             firstExtent: value.firstExtent,
             remainingExtents: [outside]

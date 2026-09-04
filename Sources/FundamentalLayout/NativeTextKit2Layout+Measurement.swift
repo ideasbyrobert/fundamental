@@ -16,7 +16,7 @@ extension NativeTextKit2Layout
         let contentFonts = resolvedContentFonts(in: layout.fragments)
         guard let firstExtent = extents.first,
               let measurement = LayoutBlockMeasurement(
-                  source: block.source,
+                  block: block,
                   parameters: parameters,
                   kind: layout.kind,
                   firstExtent: firstExtent,

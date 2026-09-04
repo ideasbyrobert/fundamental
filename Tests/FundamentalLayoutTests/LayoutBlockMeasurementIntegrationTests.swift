@@ -28,6 +28,7 @@ extension LayoutBlockMeasurementTests
         )
         let snapshot = try layout.layout(projection, request: request)
         let table = try #require(tableFacts(tableValue))
+        #expect(proseValue.block == projection.blocks[1])
         #expect(proseValue.source == projection.blocks[1].source)
         #expect(proseValue.extents.map(\.source)
             == Array(repeating: proseValue.source,
