@@ -36,6 +36,7 @@ final class WritingNativeBridge: NSObject, NSTextViewDelegate
         projection = next
         view.string = next.text
         view.setSelectedRange(next.selection)
+        view.scrollRangeToVisible(next.selection)
         return true
     }
 

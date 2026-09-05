@@ -42,11 +42,6 @@ final class WritingWindowController: NSWindowController, NSWindowDelegate
         view.frame = NSRect(origin: .zero, size: scroll.contentSize)
         view.minSize = NSSize(width: 0, height: scroll.contentSize.height)
         view.delegate = bridge
-        guard bridge.project(in: view)
-        else
-        {
-            return nil
-        }
         scroll.documentView = view
         let window = NSWindow(
             contentRect: rectangle,
@@ -58,6 +53,11 @@ final class WritingWindowController: NSWindowController, NSWindowDelegate
         window.title = "Fundamental Writing Witness — Unsaved"
         window.minSize = NSSize(width: 360, height: 280)
         window.contentView = scroll
+        guard bridge.project(in: view)
+        else
+        {
+            return nil
+        }
         documentWindow = window
         textView = view
         scrollView = scroll

@@ -12,11 +12,23 @@ struct WritingTestWindow
 
     init(_ text: String = "") throws
     {
+        try self.init(session: DocumentSession(
+            state: WritingTestDocument(text).state
+        ))
+    }
+
+    init(
+        session: DocumentSession,
+        size: NSSize = NSSize(width: 820, height: 600),
+        decision: @escaping @MainActor () -> WritingCloseDecision = { .cancel }
+    ) throws
+    {
         _ = NSApplication.shared
-        session = DocumentSession(state: try WritingTestDocument(text).state)
+        self.session = session
         let candidate = WritingWindowController(
             session: session,
-            confirmDiscard: { .cancel }
+            size: size,
+            confirmDiscard: decision
         )
         controller = try #require(candidate)
         controller.documentWindow.animationBehavior = .none
