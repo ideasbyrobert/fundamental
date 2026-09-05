@@ -1,6 +1,6 @@
 package struct DocumentRevision: Comparable, Sendable
 {
-    static let zero = DocumentRevision(0)
+    package static let zero = DocumentRevision(0)
 
     package let value: UInt64
 

@@ -3,7 +3,7 @@ package struct EditableDocumentSnapshot: Equatable, Sendable
     package let snapshot: DocumentSnapshot
     package let selection: DocumentSelection
 
-    init?(
+    package init?(
         snapshot: DocumentSnapshot,
         selection: DocumentSelection
     )

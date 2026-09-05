@@ -1,11 +1,16 @@
 @MainActor
-final class DocumentSession
+package final class DocumentSession
 {
     private var current: DocumentSessionStorage
 
+    package convenience init(state: DocumentSessionState)
+    {
+        self.init(state: state, historyLimits: DocumentHistoryLimits())
+    }
+
     init(
         state: DocumentSessionState,
-        historyLimits: DocumentHistoryLimits = DocumentHistoryLimits()
+        historyLimits: DocumentHistoryLimits
     )
     {
         current = DocumentSessionStorage(
@@ -14,7 +19,7 @@ final class DocumentSession
         )
     }
 
-    var state: DocumentSessionState
+    package var state: DocumentSessionState
     {
         current.state
     }
@@ -24,12 +29,12 @@ final class DocumentSession
         current.history
     }
 
-    var canUndo: Bool
+    package var canUndo: Bool
     {
         !current.history.undo.isEmpty
     }
 
-    var canRedo: Bool
+    package var canRedo: Bool
     {
         !current.history.redo.isEmpty
     }
@@ -40,7 +45,7 @@ final class DocumentSession
     }
 
     @discardableResult
-    func submit(
+    package func submit(
         _ command: DocumentSessionCommand
     ) -> DocumentSessionTransition
     {
@@ -68,7 +73,7 @@ final class DocumentSession
     }
 
     @discardableResult
-    func submit(
+    package func submit(
         _ command: DocumentHistoryCommand
     ) -> DocumentSessionTransition
     {

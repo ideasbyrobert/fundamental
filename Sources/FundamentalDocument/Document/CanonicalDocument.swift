@@ -4,7 +4,7 @@ package struct CanonicalDocument: Equatable, Sendable
     package let revision: DocumentRevision
     package let content: CanonicalDocumentContent
 
-    init(
+    package init(
         documentID: FundamentalDocumentID,
         revision: DocumentRevision,
         content: CanonicalDocumentContent

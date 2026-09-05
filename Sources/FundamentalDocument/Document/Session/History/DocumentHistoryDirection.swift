@@ -1,4 +1,4 @@
-enum DocumentHistoryDirection: Equatable, Sendable
+package enum DocumentHistoryDirection: Equatable, Sendable
 {
     case undo
     case redo

@@ -7,6 +7,10 @@ let package = Package(
     platforms: [.macOS(.v26)],
     products: [
         .executable(
+            name: "FundamentalWritingWitness",
+            targets: ["FundamentalWritingWitness"]
+        ),
+        .executable(
             name: "FundamentalApplication",
             targets: ["FundamentalApplication"]
         ),
@@ -14,7 +18,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "FundamentalDocument"),
-        .target(
+        .executableTarget(
             name: "FundamentalWritingWitness",
             dependencies: ["FundamentalDocument"]
         ),

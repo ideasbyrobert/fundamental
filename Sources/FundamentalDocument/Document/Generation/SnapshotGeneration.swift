@@ -1,6 +1,6 @@
 package struct SnapshotGeneration: Comparable, Sendable
 {
-    static let zero = SnapshotGeneration(0)
+    package static let zero = SnapshotGeneration(0)
 
     package let value: UInt64
 

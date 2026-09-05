@@ -1,4 +1,4 @@
-enum DocumentSessionTransition: Equatable, Sendable
+package enum DocumentSessionTransition: Equatable, Sendable
 {
     case applied(DocumentSessionState)
     case unchanged

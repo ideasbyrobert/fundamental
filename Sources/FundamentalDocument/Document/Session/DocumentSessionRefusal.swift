@@ -1,4 +1,4 @@
-enum DocumentSessionRefusal: Equatable, Sendable
+package enum DocumentSessionRefusal: Equatable, Sendable
 {
     case staleObservation
     case readOnly

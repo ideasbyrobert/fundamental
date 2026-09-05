@@ -3,7 +3,7 @@ package struct IdentifiedSemanticBlock: Equatable, Sendable
     package let blockID: FundamentalBlockID
     package let block: SemanticBlock
 
-    init(
+    package init(
         blockID: FundamentalBlockID,
         block: SemanticBlock
     )

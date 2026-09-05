@@ -3,7 +3,7 @@ package struct CanonicalDocumentContent: Equatable, Sendable
     let firstBlock: IdentifiedSemanticBlock
     let remainingBlocks: [IdentifiedSemanticBlock]
 
-    init?(
+    package init?(
         firstBlock: IdentifiedSemanticBlock,
         remainingBlocks: [IdentifiedSemanticBlock]
     )
