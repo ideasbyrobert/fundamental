@@ -118,13 +118,16 @@ package final class MacReaderModel
             viewportWidth: viewportWidth,
             visibleOriginY: max(0, visibleOriginY),
             visibleHeight: viewportHeight
-        ),
-              publish(surface: surface, intent: .document)
+        )
         else
         {
             return false
         }
-        return true
+        if surface == currentSurface
+        {
+            return true
+        }
+        return publish(surface: surface, intent: .document)
     }
 
     @discardableResult

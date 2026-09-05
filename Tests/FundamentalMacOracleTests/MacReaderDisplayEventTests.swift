@@ -5,8 +5,8 @@ import Testing
 
 extension MacReaderWindowTests
 {
-    @Test("screen and backing delegate entries publish current facts")
-    func displayDelegateEntriesPublishCurrentFacts() throws
+    @Test("unchanged screen and backing entries retain current facts")
+    func displayDelegateEntriesRetainCurrentFacts() throws
     {
         let controller = try MacOracleTestSurface.window()
         let window = try #require(controller.window)
@@ -30,9 +30,8 @@ extension MacReaderWindowTests
         try MacReaderEnvironmentTestSupport.expectCurrent(controller)
         try MacAccessibilityGeometryTestSupport.expectSettled(controller)
         let afterBacking = controller.readerView.model.snapshot
-        #expect(afterScreen.lineage.generation > before.lineage.generation)
-        #expect(afterBacking.lineage.generation
-            > afterScreen.lineage.generation)
+        #expect(afterScreen == before)
+        #expect(afterBacking == before)
         #expect(controller.readerView.model.layoutExecutionCount
             == layoutExecutions)
     }
