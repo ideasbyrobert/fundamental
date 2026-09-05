@@ -4,4 +4,6 @@ enum DocumentSessionRefusal: Equatable, Sendable
     case readOnly
     case invalidCommand
     case generationExhausted
+    case historyUnavailable
+    case historyCapacity
 }

@@ -8,7 +8,8 @@ extension DocumentSessionTransitionTests
     func refusalVocabulary()
     {
         let reasons: [DocumentSessionRefusal] = [
-            .staleObservation, .readOnly, .invalidCommand, .generationExhausted
+            .staleObservation, .readOnly, .invalidCommand, .generationExhausted,
+            .historyUnavailable, .historyCapacity
         ]
         let names = reasons.map
         {
@@ -23,9 +24,16 @@ extension DocumentSessionTransitionTests
                 "invalid"
             case .generationExhausted:
                 "exhausted"
+            case .historyUnavailable:
+                "no transaction"
+            case .historyCapacity:
+                "capacity"
             }
         }
-        #expect(names == ["stale", "readable", "invalid", "exhausted"])
+        #expect(names == [
+            "stale", "readable", "invalid", "exhausted", "no transaction",
+            "capacity"
+        ])
         for left in reasons.indices
         {
             for right in reasons.indices
