@@ -1,9 +1,9 @@
-struct SemanticInsertion: Equatable, Sendable
+package struct SemanticInsertion: Equatable, Sendable
 {
     let text: String
     let attributes: SemanticRunAttributes
 
-    init?(
+    package init?(
         text: String,
         attributes: SemanticRunAttributes
     )

@@ -1,4 +1,4 @@
-enum SemanticRunAttributes: Equatable, Sendable
+package enum SemanticRunAttributes: Equatable, Sendable
 {
     case direct(traits: Set<SemanticInlineTrait>)
     case scoped(

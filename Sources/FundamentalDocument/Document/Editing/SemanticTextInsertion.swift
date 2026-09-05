@@ -1,9 +1,9 @@
-struct SemanticTextInsertion: Equatable, Sendable
+package struct SemanticTextInsertion: Equatable, Sendable
 {
     let point: DocumentPoint
     let insertion: SemanticInsertion
 
-    init(
+    package init(
         point: DocumentPoint,
         insertion: SemanticInsertion
     )

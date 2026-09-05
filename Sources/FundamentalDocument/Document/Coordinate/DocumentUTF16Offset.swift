@@ -1,8 +1,8 @@
-struct DocumentUTF16Offset: Comparable, Sendable
+package struct DocumentUTF16Offset: Comparable, Sendable
 {
-    let value: Int
+    package let value: Int
 
-    init?(_ value: Int)
+    package init?(_ value: Int)
     {
         guard value >= 0
         else
@@ -13,7 +13,7 @@ struct DocumentUTF16Offset: Comparable, Sendable
         self.value = value
     }
 
-    static func < (
+    package static func < (
         lhs: DocumentUTF16Offset,
         rhs: DocumentUTF16Offset
     ) -> Bool

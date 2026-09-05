@@ -1,9 +1,9 @@
-struct SemanticTextReplacement: Equatable, Sendable
+package struct SemanticTextReplacement: Equatable, Sendable
 {
     let range: DocumentRange
     let insertion: SemanticInsertion
 
-    init?(
+    package init?(
         range: DocumentRange,
         insertion: SemanticInsertion
     )

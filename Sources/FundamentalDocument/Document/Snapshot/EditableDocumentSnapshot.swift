@@ -1,7 +1,7 @@
-struct EditableDocumentSnapshot: Equatable, Sendable
+package struct EditableDocumentSnapshot: Equatable, Sendable
 {
-    let snapshot: DocumentSnapshot
-    let selection: DocumentSelection
+    package let snapshot: DocumentSnapshot
+    package let selection: DocumentSelection
 
     init?(
         snapshot: DocumentSnapshot,

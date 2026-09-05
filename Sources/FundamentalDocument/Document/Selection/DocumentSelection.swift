@@ -1,8 +1,8 @@
-struct DocumentSelection: Equatable, Sendable
+package struct DocumentSelection: Equatable, Sendable
 {
-    let range: DocumentRange
+    package let range: DocumentRange
 
-    init(range: DocumentRange)
+    package init(range: DocumentRange)
     {
         self.range = range
     }

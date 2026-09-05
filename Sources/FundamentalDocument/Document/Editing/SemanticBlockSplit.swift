@@ -1,4 +1,4 @@
-struct SemanticBlockSplit: Equatable, Sendable
+package struct SemanticBlockSplit: Equatable, Sendable
 {
     let point: DocumentPoint
     let continuationBlockID: FundamentalBlockID

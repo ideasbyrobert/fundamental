@@ -1,4 +1,4 @@
-enum DocumentSessionState: Equatable, Sendable
+package enum DocumentSessionState: Equatable, Sendable
 {
     case readable(DocumentSnapshot)
     case editable(EditableDocumentSnapshot)

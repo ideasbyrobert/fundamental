@@ -1,4 +1,4 @@
-enum SemanticTextEdit: Equatable, Sendable
+package enum SemanticTextEdit: Equatable, Sendable
 {
     case insertion(SemanticTextInsertion)
     case deletion(SemanticTextDeletion)

@@ -15,6 +15,10 @@ let package = Package(
     targets: [
         .target(name: "FundamentalDocument"),
         .target(
+            name: "FundamentalWritingWitness",
+            dependencies: ["FundamentalDocument"]
+        ),
+        .target(
             name: "FundamentalProjection",
             dependencies: ["FundamentalDocument"]
         ),
@@ -46,6 +50,13 @@ let package = Package(
         .testTarget(
             name: "FundamentalDocumentTests",
             dependencies: ["FundamentalDocument"]
+        ),
+        .testTarget(
+            name: "FundamentalWritingWitnessTests",
+            dependencies: [
+                "FundamentalDocument",
+                "FundamentalWritingWitness"
+            ]
         ),
         .testTarget(
             name: "FundamentalProjectionTests",

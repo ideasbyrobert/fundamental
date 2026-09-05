@@ -1,11 +1,11 @@
-struct DocumentPoint: Equatable, Sendable
+package struct DocumentPoint: Equatable, Sendable
 {
     let documentID: FundamentalDocumentID
     let revision: DocumentRevision
     let blockID: FundamentalBlockID
-    let utf16Offset: DocumentUTF16Offset
+    package let utf16Offset: DocumentUTF16Offset
 
-    init(
+    package init(
         documentID: FundamentalDocumentID,
         revision: DocumentRevision,
         blockID: FundamentalBlockID,

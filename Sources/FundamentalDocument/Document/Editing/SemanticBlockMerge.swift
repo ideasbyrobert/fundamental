@@ -1,4 +1,4 @@
-struct SemanticBlockMerge: Equatable, Sendable
+package struct SemanticBlockMerge: Equatable, Sendable
 {
     let documentID: FundamentalDocumentID
     let revision: DocumentRevision

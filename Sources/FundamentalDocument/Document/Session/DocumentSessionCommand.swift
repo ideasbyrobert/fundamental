@@ -1,4 +1,4 @@
-enum DocumentSessionCommand: Equatable, Sendable
+package enum DocumentSessionCommand: Equatable, Sendable
 {
     case edit(DocumentObservation, CanonicalDocumentEdit)
     case select(DocumentObservation, DocumentSelection)

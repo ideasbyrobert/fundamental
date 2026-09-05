@@ -1,9 +1,9 @@
-struct DocumentRange: Equatable, Sendable
+package struct DocumentRange: Equatable, Sendable
 {
-    let start: DocumentPoint
-    let end: DocumentPoint
+    package let start: DocumentPoint
+    package let end: DocumentPoint
 
-    init?(
+    package init?(
         start: DocumentPoint,
         end: DocumentPoint
     )
