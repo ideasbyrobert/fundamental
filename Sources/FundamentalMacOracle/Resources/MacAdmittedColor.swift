@@ -16,14 +16,7 @@ package struct MacAdmittedColor
         {
             CGFloat($0)
         }
-        guard let profile = colorSpace.graphics.copyICCData() as Data?,
-              let name = colorSpace.native.localizedName,
-              let admitted = PresentationColorSpaceIdentity(
-            name: name,
-            profile: Array(profile),
-            componentCount: colorSpace.graphics.numberOfComponents
-        ),
-              admitted == color.colorSpace,
+        guard colorSpace.identity == color.colorSpace,
               let graphics = CGColor(
                   colorSpace: colorSpace.graphics,
                   components: nativeComponents

@@ -5,6 +5,7 @@ import FundamentalPresentation
 @MainActor
 package struct MacAdmittedColorSpace
 {
+    let identity: PresentationColorSpaceIdentity
     package let graphics: CGColorSpace
     package let native: NSColorSpace
 
@@ -21,6 +22,7 @@ package struct MacAdmittedColorSpace
         {
             return nil
         }
+        self.identity = identity
         self.graphics = graphics
         self.native = native
     }
