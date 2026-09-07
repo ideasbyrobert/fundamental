@@ -20,8 +20,7 @@ struct WritingParagraphMap: Equatable, Sendable
         var count = 0
         for block in blocks
         {
-            guard case let .paragraph(paragraph) = block.block,
-                  let text = Self.spelling(paragraph, startingAt: count)
+            guard let text = Self.spelling(block.block, startingAt: count)
             else
             {
                 return nil

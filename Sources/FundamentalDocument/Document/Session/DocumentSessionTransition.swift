@@ -4,7 +4,7 @@ package enum DocumentSessionTransition: Equatable, Sendable
     case unchanged
     case refused(DocumentSessionRefusal)
 
-    init(
+    package init(
         _ command: DocumentSessionCommand,
         in state: DocumentSessionState
     )

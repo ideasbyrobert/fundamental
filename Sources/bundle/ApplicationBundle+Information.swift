@@ -21,7 +21,7 @@ extension ApplicationBundle
                 "UTTypeConformsTo": ["public.json"],
                 "UTTypeDescription": "Fundamental document",
                 "UTTypeTagSpecification": [
-                    "public.filename-extension": ["fundamental"],
+                    "public.filename-extension": ["fun", "fundamental"],
                     "public.mime-type": [
                         "application/vnd.fundamental.document+json"
                     ]

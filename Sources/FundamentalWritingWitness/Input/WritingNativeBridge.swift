@@ -25,8 +25,9 @@ final class WritingNativeBridge: NSObject, NSTextViewDelegate
     @discardableResult
     func project(in view: NSTextView) -> Bool
     {
-        guard view.textLayoutManager != nil,
-              let next = WritingProjection(session.state)
+        guard view.textLayoutManager != nil, view.textStorage != nil,
+              let next = WritingProjection(session.state),
+              let presentation = WritingTextPresentation(next)
         else
         {
             return false
@@ -46,7 +47,7 @@ final class WritingNativeBridge: NSObject, NSTextViewDelegate
             view.unmarkText()
             view.inputContext?.discardMarkedText()
         }
-        view.string = next.text
+        presentation.replace(in: view)
         view.setSelectedRange(next.selection)
         view.scrollRangeToVisible(next.selection)
         composing = false

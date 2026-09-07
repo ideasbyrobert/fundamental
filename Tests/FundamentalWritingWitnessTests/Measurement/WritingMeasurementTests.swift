@@ -1,7 +1,7 @@
 import AppKit
-import FundamentalDocument
 import Testing
 
+@testable import FundamentalDocument
 @testable import FundamentalWritingWitness
 
 @MainActor
@@ -20,7 +20,10 @@ struct WritingMeasurementTests
         let count = try #require(Int(
             environment["FUNDAMENTAL_WRITING_PARAGRAPHS"] ?? "64"
         ))
-        let corpus = try WritingMeasurementCorpus(paragraphs: count)
+        let corpus = try WritingMeasurementCorpus(
+            paragraphs: count,
+            semantic: environment["FUNDAMENTAL_WRITING_SEMANTIC"] == "1"
+        )
         let seed = try #require(WritingDocumentSeed(document: corpus.document))
         let window = try WritingTestWindow(session: DocumentSession(
             state: seed.state, initiallySaved: true
@@ -30,6 +33,7 @@ struct WritingMeasurementTests
             window.close()
         }
         let projection = try #require(WritingProjection(window.session.state))
+        let styles = window.styles
         let index = location.block(in: count)
         let offset = projection.map.spans[index].range.location
         window.select(offset, 1)
@@ -62,6 +66,7 @@ struct WritingMeasurementTests
                 #expect(current.text.utf16.elementsEqual(window.view.string
                     .utf16))
                 #expect(window.session.document.revision.value == iteration + 1)
+                #expect(window.styles == styles)
                 #expect((current.text as NSString).substring(with: NSRange(
                     location: offset, length: 1
                 )) == text)

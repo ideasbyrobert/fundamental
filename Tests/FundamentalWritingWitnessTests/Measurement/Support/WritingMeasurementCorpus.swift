@@ -1,14 +1,16 @@
 import Foundation
-import FundamentalDocument
 import Testing
+
+@testable import FundamentalDocument
 
 struct WritingMeasurementCorpus
 {
     let document: CanonicalDocument
     let utf16Count: Int
     let paragraphCount: Int
+    let semantic: Bool
 
-    init(paragraphs count: Int) throws
+    init(paragraphs count: Int, semantic: Bool = false) throws
     {
         try #require((1 ... 16_384).contains(count))
         let sentence = "A manuscript paragraph keeps ordinary words, " +
@@ -21,9 +23,15 @@ struct WritingMeasurementCorpus
             let insertion = try #require(SemanticInsertion(
                 text: "A \(marker) " + text, attributes: .direct(traits: [])
             ))
+            let styles: [CanonicalBlockStyle] = [
+                .heading, .body, .bulleted, .bulleted, .subheading,
+                .body, .numbered, .numbered, .numbered, .body
+            ]
+            let style = semantic ? (index == 0 ? .title :
+                styles[index % styles.count]) : .body
             return IdentifiedSemanticBlock(
                 blockID: FundamentalBlockID(UUID()),
-                block: .paragraph(SemanticParagraph(runs: [insertion.run]))
+                block: style.semanticBlock(runs: [insertion.run])
             )
         }
         let first = try #require(blocks.first)
@@ -35,5 +43,6 @@ struct WritingMeasurementCorpus
         )
         utf16Count = (text.utf16.count + 8) * count + count - 1
         paragraphCount = count
+        self.semantic = semantic
     }
 }

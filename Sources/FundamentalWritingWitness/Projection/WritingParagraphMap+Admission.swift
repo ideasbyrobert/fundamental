@@ -3,7 +3,7 @@ import FundamentalDocument
 extension WritingParagraphMap
 {
     static func spelling(
-        _ paragraph: SemanticParagraph, startingAt initial: Int
+        _ block: SemanticBlock, startingAt initial: Int
     ) -> String?
     {
         guard initial <= WritingSurfacePolicy.maximumUTF16Units
@@ -11,8 +11,20 @@ extension WritingParagraphMap
         {
             return nil
         }
+        let runs: [SemanticRun]
+        switch block
+        {
+        case let .paragraph(paragraph):
+            runs = paragraph.runs
+        case let .heading(heading):
+            runs = heading.runs
+        case let .listItem(item):
+            runs = item.runs
+        case .code, .table:
+            return nil
+        }
         var count = initial
-        for run in paragraph.runs
+        for run in runs
         {
             guard case .direct = run, run.traits.isEmpty,
                   WritingSurfacePolicy.admits(run.text)
@@ -30,6 +42,6 @@ extension WritingParagraphMap
             }
             count = next
         }
-        return paragraph.runs.map(\.text).joined()
+        return runs.map(\.text).joined()
     }
 }

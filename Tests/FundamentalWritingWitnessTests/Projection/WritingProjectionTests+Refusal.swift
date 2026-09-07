@@ -15,7 +15,6 @@ extension WritingProposalTests
             RegularSemanticTable(content: content)
         )))
         let forms: [[SemanticBlock]] = [
-            [.heading(.title(TitleSemanticHeading(runs: [])))],
             [.code(.plain(PlainSemanticCodeBlock(runs: [])))],
             [table]
         ]

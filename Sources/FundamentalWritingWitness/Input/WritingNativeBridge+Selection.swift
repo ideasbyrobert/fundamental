@@ -47,6 +47,8 @@ extension WritingNativeBridge
             if let next = WritingProjection(session.state)
             {
                 projection = next
+                updateTyping(in: view)
+                didChange?()
             }
         case .refused:
             project(in: view)

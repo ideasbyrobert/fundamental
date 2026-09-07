@@ -17,5 +17,11 @@ extension WritingWindowController
             width: size.width,
             height: max(size.height, textView.frame.height)
         ))
+        if let layout = textView.textLayoutManager,
+           let content = layout.textContentManager
+        {
+            layout.ensureLayout(for: content.documentRange)
+        }
+        textView.scrollRangeToVisible(textView.selectedRange())
     }
 }

@@ -18,7 +18,7 @@ struct WritingFilePanels
         let panel = NSSavePanel()
         panel.allowedContentTypes = [documentType]
         panel.canCreateDirectories = true
-        panel.nameFieldStringValue = name ?? "Untitled.fundamental"
+        panel.nameFieldStringValue = suggestedName(name)
         guard await panel.beginSheetModal(for: window) == .OK,
               let url = panel.url
         else
@@ -49,5 +49,20 @@ struct WritingFilePanels
             return nil
         }
         return DocumentFileLocation(url)
+    }
+
+    static func suggestedName(_ name: String?) -> String
+    {
+        guard let name, !name.isEmpty
+        else
+        {
+            return "Untitled.fun"
+        }
+        let path = name as NSString
+        let recognized = ["fun", "fundamental"]
+            .contains(path.pathExtension.lowercased())
+        let base = recognized
+            ? path.deletingPathExtension : name
+        return base + ".fun"
     }
 }

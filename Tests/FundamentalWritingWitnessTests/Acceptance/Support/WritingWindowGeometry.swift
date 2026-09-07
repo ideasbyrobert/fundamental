@@ -38,7 +38,22 @@ struct WritingWindowGeometry
         let rectangle = window.view.firstRect(
             forCharacterRange: window.view.selectedRange(), actualRange: nil
         )
-        #expect(rectangle.height > 0)
+        let layout = try #require(window.view.textLayoutManager)
+        let content = try #require(layout.textContentManager)
+        let point = try #require(content.location(
+            content.documentRange.location,
+            offsetBy: window.view.selectedRange().location
+        ))
+        let fragment = layout.textLayoutFragment(for: point)
+        let frame = fragment?.layoutFragmentFrame
+        let viewport = layout.textViewportLayoutController.viewportBounds
+        #expect(rectangle.height > 0, """
+            selection \(window.view.selectedRange()), frame \(rectangle)
+            visible \(visible), viewport \(window.view.visibleRect)
+            fragment \(String(describing: frame))
+            extent \(layout.usageBoundsForTextContainer)
+            native viewport \(viewport)
+            """)
         #expect(rectangle.minY >= visible.minY - 1)
         #expect(rectangle.maxY <= visible.maxY + 1)
     }

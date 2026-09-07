@@ -15,7 +15,9 @@ extension WritingNativeTests
             window.close()
         }
         let before = window.storage
-        window.controller.documentWindow.performClose(nil)
+        #expect(!window.controller.windowShouldClose(
+            window.controller.documentWindow
+        ))
         #expect(window.controller.documentWindow.isVisible)
         #expect(window.storage == before)
         let delegate = WritingApplicationDelegate(controller: window.controller)
@@ -63,7 +65,14 @@ extension WritingNativeTests
             controller.documentWindow.close()
         }
         controller.showWindow(nil)
-        controller.documentWindow.performClose(nil)
+        let shouldClose = controller.windowShouldClose(
+            controller.documentWindow
+        )
+        #expect(shouldClose)
+        if shouldClose
+        {
+            controller.documentWindow.close()
+        }
         #expect(!controller.documentWindow.isVisible)
         let delegate = WritingApplicationDelegate(controller: controller)
         #expect(delegate.applicationShouldTerminate(NSApp) == .terminateNow)

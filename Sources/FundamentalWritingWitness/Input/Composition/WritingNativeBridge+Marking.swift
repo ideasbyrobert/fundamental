@@ -30,6 +30,7 @@ extension WritingNativeBridge
         composition = next
         composing = true
         perform()
+        WritingTextPresentation(next.presentation)?.restyle(in: view)
         composing = false
         guard matches(next, in: view),
               view.selectedRange() == next.selection,

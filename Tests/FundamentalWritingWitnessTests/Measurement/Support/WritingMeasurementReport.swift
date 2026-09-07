@@ -25,6 +25,7 @@ struct WritingMeasurementReport
             "backend": "TextKit 2 native key through requested window drawing",
             "os": ProcessInfo.processInfo.operatingSystemVersionString,
             "paragraphs": corpus.paragraphCount,
+            "corpus": corpus.semantic ? "mixed semantic" : "body paragraphs",
             "utf16Units": corpus.utf16Count,
             "location": location.rawValue,
             "sampleCount": samples.count,

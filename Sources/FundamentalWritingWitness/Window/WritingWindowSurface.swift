@@ -33,6 +33,12 @@ struct WritingWindowSurface
         view.minSize = NSSize(width: 0, height: scroll.contentSize.height)
         view.delegate = bridge
         scroll.documentView = view
+        let overlay = WritingListOverlay(frame: view.frame)
+        overlay.textView = view
+        overlay.setAccessibilityElement(false)
+        view.listOverlay = overlay
+        scroll.contentView.addSubview(overlay, positioned: .above,
+                                       relativeTo: view)
         let window = NSWindow(
             contentRect: rectangle,
             styleMask: [.titled, .closable, .miniaturizable, .resizable],

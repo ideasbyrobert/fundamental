@@ -18,9 +18,7 @@ struct WritingNativeSourceTests
         #expect(source.contains("observation: projection.observation"))
         #expect(!source.contains("session.observation"))
         #expect(!source.contains("registerUndo"))
-        #expect(!source.contains("textStorage"))
         #expect(source.contains("session.submit(proposal.command)"))
-        #expect(source.contains("view.string = next.text"))
         #expect(source.contains("view.setSelectedRange(next.selection)"))
     }
 

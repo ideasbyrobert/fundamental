@@ -10,6 +10,7 @@ final class WritingWindowController:
     let scrollView: NSScrollView
     let bridge: WritingNativeBridge
     let fileOwner: WritingFileOwner
+    let formatting = WritingFormattingToolbar()
     let confirmDiscard: @MainActor () -> WritingCloseDecision
     var discardApproved = false
     var choosingLocation = false
@@ -50,6 +51,7 @@ final class WritingWindowController:
         self.fileOwner = owner
         self.confirmDiscard = confirmDiscard
         super.init(window: surface.window)
+        formatting.install(in: surface.window, for: surface.view)
         surface.window.delegate = self
         bridge.didChange = { [weak self] in self?.updateDocumentState() }
         owner.didChange = { [weak self] in self?.updateDocumentState() }
