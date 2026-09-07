@@ -23,6 +23,7 @@ struct WritingTestWindow
         decision: @escaping @MainActor () -> WritingCloseDecision = { .cancel }
     ) throws
     {
+        try #require(Thread.isMainThread)
         _ = NSApplication.shared
         self.session = session
         let candidate = WritingWindowController(

@@ -22,7 +22,8 @@ extension WritingWindowController
     @discardableResult
     func performSave(choosingLocation choose: Bool, closing: Bool) async -> Bool
     {
-        guard !fileOwner.isSaving, !choosingLocation
+        guard !fileOwner.isSaving, !choosingLocation,
+              bridge.finishComposition(in: textView)
         else
         {
             return false
@@ -49,6 +50,11 @@ extension WritingWindowController
                 }
                 location = selected
             }
+            guard bridge.finishComposition(in: textView)
+            else
+            {
+                return false
+            }
             try await fileOwner.save(to: location)
             if !fileOwner.retainedItems.isEmpty
             {
@@ -58,7 +64,8 @@ extension WritingWindowController
             }
             if closing
             {
-                guard !fileOwner.session.isDirty,
+                guard bridge.finishComposition(in: textView),
+                      !fileOwner.session.isDirty,
                       !fileOwner.session.hasPendingSave
                 else
                 {

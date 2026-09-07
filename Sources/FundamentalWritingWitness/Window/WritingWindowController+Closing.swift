@@ -19,7 +19,8 @@ extension WritingWindowController
         {
             return true
         }
-        guard !fileOwner.isSaving, !choosingLocation, closeTask == nil
+        guard !fileOwner.isSaving, !choosingLocation, closeTask == nil,
+              bridge.finishComposition(in: textView)
         else
         {
             return false

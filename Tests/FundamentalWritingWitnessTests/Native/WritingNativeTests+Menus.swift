@@ -77,6 +77,7 @@ extension WritingNativeTests
             $0.target == nil
         })
         #expect(edit.items[0].keyEquivalent == "z")
-        #expect(edit.items[1].keyEquivalentModifierMask == [.command, .shift])
+        #expect(edit.items[1].keyEquivalent == "Z")
+        #expect(edit.items[1].keyEquivalentModifierMask == [.command])
     }
 }

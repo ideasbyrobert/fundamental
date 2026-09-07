@@ -24,7 +24,8 @@ extension WritingNativeBridge
 
     func copy(to pasteboard: NSPasteboard, from view: NSTextView) -> Bool
     {
-        guard project(in: view), projection.selection.length > 0
+        guard finishComposition(in: view), project(in: view),
+              projection.selection.length > 0
         else
         {
             return false

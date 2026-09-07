@@ -30,6 +30,8 @@ extension WritingAcceptanceScenario
             replacementRange: NSRange(location: NSNotFound, length: 0)
         )
         #expect(window.storage == before)
+        #expect(window.view.hasMarkedText())
+        window.view.cancelOperation(nil)
         #expect(!window.view.hasMarkedText())
         try expect("Aé12 👋", 4, revision: 8, generation: 10,
                    undo: 4, redo: 1)

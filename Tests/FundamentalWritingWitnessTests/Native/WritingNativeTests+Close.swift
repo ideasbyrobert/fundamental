@@ -16,7 +16,6 @@ extension WritingNativeTests
         }
         let before = window.storage
         window.controller.documentWindow.performClose(nil)
-        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.5))
         #expect(window.controller.documentWindow.isVisible)
         #expect(window.storage == before)
         let delegate = WritingApplicationDelegate(controller: window.controller)

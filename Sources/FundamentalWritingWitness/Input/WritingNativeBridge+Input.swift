@@ -8,7 +8,16 @@ extension WritingNativeBridge
         replacementStrings: [String]?
     ) -> Bool
     {
+        if composing
+        {
+            return true
+        }
         guard !projecting, textView.textLayoutManager != nil
+        else
+        {
+            return false
+        }
+        guard finishComposition(in: textView)
         else
         {
             return false
@@ -31,7 +40,8 @@ extension WritingNativeBridge
 
     func textDidChange(_ notification: Notification)
     {
-        guard !projecting, let view = notification.object as? NSTextView
+        guard !projecting, !composing,
+              let view = notification.object as? NSTextView
         else
         {
             return

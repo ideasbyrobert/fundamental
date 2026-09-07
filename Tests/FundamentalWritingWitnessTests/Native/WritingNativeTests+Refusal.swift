@@ -50,8 +50,8 @@ extension WritingNativeTests
         try window.expect(text, selection: NSRange(location: 0, length: 0))
     }
 
-    @Test
-    func provisionalMarkedTextDoesNotEnterEitherAuthority() throws
+    @Test("marked text stays provisional until one canonical acceptance")
+    func provisionalMarkedTextEntersOnlyTheNativeProjection() throws
     {
         let window = try WritingTestWindow("AB")
         defer
@@ -63,9 +63,10 @@ extension WritingNativeTests
             "か", selectedRange: NSRange(location: 1, length: 0),
             replacementRange: NSRange(location: NSNotFound, length: 0)
         )
-        #expect(!window.view.hasMarkedText())
+        #expect(window.view.hasMarkedText())
         #expect(window.storage == before)
-        try window.expect("AB", selection: NSRange(location: 0, length: 0))
+        #expect(window.view.string == "かAB")
+        #expect(window.view.selectedRange() == NSRange(location: 1, length: 0))
         window.view.insertText("か", replacementRange: NSRange(
             location: NSNotFound, length: 0
         ))

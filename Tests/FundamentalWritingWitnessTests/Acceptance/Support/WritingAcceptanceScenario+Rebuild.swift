@@ -19,7 +19,6 @@ extension WritingAcceptanceScenario
             location: 3, length: 0
         ))
         replacement.controller.documentWindow.performClose(nil)
-        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.5))
         #expect(replacement.controller.documentWindow.isVisible)
         #expect(replacement.storage == before)
         let discarded = try WritingTestWindow(

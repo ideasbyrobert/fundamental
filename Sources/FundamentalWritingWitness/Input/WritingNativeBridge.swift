@@ -7,6 +7,8 @@ final class WritingNativeBridge: NSObject, NSTextViewDelegate
     let session: DocumentSession
     var projection: WritingProjection
     var projecting = false
+    var composing = false
+    var composition: WritingComposition?
     var didChange: (@MainActor () -> Void)?
 
     init?(session: DocumentSession)
@@ -36,9 +38,18 @@ final class WritingNativeBridge: NSObject, NSTextViewDelegate
             didChange?()
         }
         projection = next
+        let marked = composition != nil || view.hasMarkedText()
+        composition = nil
+        composing = true
+        if marked
+        {
+            view.unmarkText()
+            view.inputContext?.discardMarkedText()
+        }
         view.string = next.text
         view.setSelectedRange(next.selection)
         view.scrollRangeToVisible(next.selection)
+        composing = false
         return true
     }
 }

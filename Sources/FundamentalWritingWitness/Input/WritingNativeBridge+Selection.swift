@@ -8,12 +8,12 @@ extension WritingNativeBridge
         toCharacterRanges newRanges: [NSValue]
     ) -> [NSValue]
     {
-        guard !projecting
+        guard !projecting, !composing
         else
         {
             return newRanges
         }
-        guard newRanges.count == 1,
+        guard finishComposition(in: textView), newRanges.count == 1,
               projection.range(newRanges[0].rangeValue) != nil
         else
         {
@@ -24,7 +24,8 @@ extension WritingNativeBridge
 
     func textViewDidChangeSelection(_ notification: Notification)
     {
-        guard !projecting, let view = notification.object as? NSTextView
+        guard !projecting, !composing,
+              let view = notification.object as? NSTextView
         else
         {
             return

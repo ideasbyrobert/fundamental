@@ -10,6 +10,7 @@ extension WritingTestWindow
         decision: @escaping @MainActor () -> WritingCloseDecision = { .cancel }
     ) throws
     {
+        try #require(Thread.isMainThread)
         _ = NSApplication.shared
         session = owner.session
         controller = try #require(WritingWindowController(

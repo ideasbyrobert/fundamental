@@ -24,9 +24,9 @@ extension WritingApplicationMenu
         let saveAs = NSMenuItem(
             title: "Save As…",
             action: #selector(WritingWindowController.saveDocumentAs(_:)),
-            keyEquivalent: "s"
+            keyEquivalent: "S"
         )
-        saveAs.keyEquivalentModifierMask = [.command, .shift]
+        saveAs.keyEquivalentModifierMask = [.command]
         menu.addItem(saveAs)
         menu.addItem(.separator())
         menu.addItem(NSMenuItem(

@@ -35,9 +35,9 @@ struct WritingApplicationMenu
         let redo = NSMenuItem(
             title: "Redo",
             action: #selector(WritingTextView.redoCanonicalEdit(_:)),
-            keyEquivalent: "z"
+            keyEquivalent: "Z"
         )
-        redo.keyEquivalentModifierMask = [.command, .shift]
+        redo.keyEquivalentModifierMask = [.command]
         menu.addItem(redo)
         menu.addItem(.separator())
         menu.addItem(NSMenuItem(title: "Copy",
