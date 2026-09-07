@@ -5,4 +5,8 @@ package enum DocumentFileFailure: Error, Equatable
     case notRegularFile
     case changedDuringRead
     case coordinationUnavailable
+    case destinationExists
+    case conflictingRevision
+    case differentDocument
+    case unconfirmedWrite(DocumentFileRecovery)
 }
