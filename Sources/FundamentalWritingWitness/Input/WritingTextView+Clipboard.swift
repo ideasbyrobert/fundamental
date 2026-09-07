@@ -2,6 +2,17 @@ import AppKit
 
 extension WritingTextView
 {
+    override func cut(_ sender: Any?)
+    {
+        guard let bridge = delegate as? WritingNativeBridge,
+              bridge.copy(to: sender as? NSPasteboard ?? .general, from: self)
+        else
+        {
+            return
+        }
+        delete(nil)
+    }
+
     override func readSelection(
         from pasteboard: NSPasteboard,
         type: NSPasteboard.PasteboardType

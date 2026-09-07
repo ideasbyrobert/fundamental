@@ -16,15 +16,14 @@ let package = Package(
     name: "Fundamental",
     platforms: [.macOS(.v26)],
     products: [
-        .executable(
-            name: "FundamentalWritingWitness",
-            targets: ["FundamentalWritingWitness"]
-        ),
+        .executable(name: "Fundamental",
+                    targets: ["FundamentalWritingWitness"]),
         .executable(
             name: "FundamentalApplication",
             targets: ["FundamentalApplication"]
         ),
-        .executable(name: "lint", targets: ["lint"])
+        .executable(name: "lint", targets: ["lint"]),
+        .executable(name: "bundle", targets: ["bundle"])
     ],
     targets: [
         .target(name: "FundamentalDocument"),
@@ -59,6 +58,7 @@ let package = Package(
             dependencies: ["FundamentalMacOracle"]
         ),
         .executableTarget(name: "lint"),
+        .executableTarget(name: "bundle"),
         .testTarget(name: "FundamentalDocumentTests", dependencies: [document]),
         .testTarget(
             name: "FundamentalStorageTests",

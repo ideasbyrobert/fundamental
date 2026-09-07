@@ -40,6 +40,9 @@ struct WritingApplicationMenu
         redo.keyEquivalentModifierMask = [.command]
         menu.addItem(redo)
         menu.addItem(.separator())
+        menu.addItem(NSMenuItem(title: "Cut",
+                                action: #selector(NSText.cut(_:)),
+                                keyEquivalent: "x"))
         menu.addItem(NSMenuItem(title: "Copy",
                                 action: #selector(NSText.copy(_:)),
                                 keyEquivalent: "c"))

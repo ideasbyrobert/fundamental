@@ -70,7 +70,7 @@ extension WritingNativeTests
             $0.target == nil
         })
         #expect(edit.items.map(\.title) == [
-            "Undo", "Redo", "", "Copy", "Paste", "Select All"
+            "Undo", "Redo", "", "Cut", "Copy", "Paste", "Select All"
         ])
         #expect(edit.items.filter { !$0.isSeparatorItem }.allSatisfy
         {
