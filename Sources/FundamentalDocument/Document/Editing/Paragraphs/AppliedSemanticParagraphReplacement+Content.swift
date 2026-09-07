@@ -14,11 +14,12 @@ extension AppliedSemanticParagraphReplacement
             index, paragraph in
             let prefix = index == 0 ? range.prefix : []
             let suffix = index == last ? range.suffix : []
+            let runs = prefix + paragraph.runs + suffix
+            let block = index == 0 ? range.leadingBlock.replacingRuns(runs) :
+                range.leadingBlock.continuing(runs: runs)
             return IdentifiedSemanticBlock(
                 blockID: identities[index],
-                block: .paragraph(SemanticParagraph(
-                    runs: prefix + paragraph.runs + suffix
-                ))
+                block: block
             )
         }
         var blocks = source.content.blocks

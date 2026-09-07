@@ -3,7 +3,7 @@ import Testing
 
 @testable import FundamentalDocument
 
-@Suite("The five canonical block styles")
+@Suite("Canonical writing block styles")
 struct CanonicalBlockStyleTests
 {
     @Test("the admitted vocabulary is exact and ordered")
@@ -14,14 +14,18 @@ struct CanonicalBlockStyleTests
             .heading,
             .subheading,
             .body,
-            .monostyled
+            .monostyled,
+            .bulleted,
+            .numbered
         ])
         #expect(CanonicalBlockStyle.allCases.map(\.rawValue) == [
             "title",
             "heading",
             "subheading",
             "body",
-            "monostyled"
+            "monostyled",
+            "bulleted",
+            "numbered"
         ])
     }
 

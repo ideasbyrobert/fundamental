@@ -10,9 +10,13 @@ extension DocumentSessionTransitionTests
         let fixture = try SessionTestDocument()
         let edit = try SessionTestEdit.insertion.edit(in: fixture)
         let selection = try fixture.selection(3, 1)
+        let change = SemanticBlockStyleChange(
+            range: selection.range, style: .bulleted
+        )
         let commands: [DocumentSessionCommand] = [
             .edit(fixture.observation, edit),
-            .select(fixture.observation, selection)
+            .select(fixture.observation, selection),
+            .style(fixture.observation, change)
         ]
         for command in commands
         {
@@ -25,6 +29,9 @@ extension DocumentSessionTransitionTests
             case let .select(observation, value):
                 #expect(observation == fixture.observation)
                 #expect(value == selection)
+            case let .style(observation, value):
+                #expect(observation == fixture.observation)
+                #expect(value == change)
             }
         }
         #expect(commands[0] != commands[1])

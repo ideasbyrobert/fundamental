@@ -18,7 +18,7 @@ extension DocumentRecordCodec
             reader.required("version", in: object, path: []),
             path: ["version"]
         )
-        guard version == DocumentRecordEnvelope.version
+        guard version == DocumentRecordEnvelope.version || version == 2
         else
         {
             throw DocumentRecordFailure.unsupportedVersion(version)
@@ -39,6 +39,11 @@ extension DocumentRecordCodec
         let content = try decodeBlocks(
             reader.required("blocks", in: object, path: [])
         )
+        if version == 1 && content.blocks.contains(where:
+            { if case .listItem = $0.block { true } else { false } })
+        {
+            throw reader.invalid(["blocks"], "Lists require document version 2")
+        }
         return CanonicalDocument(
             documentID: FundamentalDocumentID(identity),
             revision: DocumentRevision(revision),

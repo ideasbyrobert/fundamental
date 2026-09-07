@@ -11,6 +11,8 @@ extension SemanticBlockRecordCodec
             return ["kind", "runs"]
         case "section":
             return ["kind", "runs", "level"]
+        case "listItem":
+            return ["kind", "runs", "listKind"]
         case "languageCode":
             return ["kind", "runs", "language"]
         case "table":

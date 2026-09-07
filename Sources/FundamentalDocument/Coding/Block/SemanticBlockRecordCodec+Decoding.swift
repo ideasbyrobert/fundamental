@@ -35,6 +35,8 @@ extension SemanticBlockRecordCodec
         {
         case "paragraph":
             return .paragraph(SemanticParagraph(runs: runs))
+        case "listItem":
+            return try decodeList(object, runs: runs, path: path)
         case "title":
             return .heading(.title(TitleSemanticHeading(runs: runs)))
         case "section":

@@ -52,7 +52,9 @@ extension CanonicalBlockStyleMappingTests
                     .plain(
                         PlainSemanticCodeBlock(runs: runs)
                     )
-                )
+                ),
+                .listItem(SemanticListItem(kind: .bulleted, runs: runs)),
+                .listItem(SemanticListItem(kind: .numbered, runs: runs))
             ]
             let actual = CanonicalBlockStyle.allCases.map
             {

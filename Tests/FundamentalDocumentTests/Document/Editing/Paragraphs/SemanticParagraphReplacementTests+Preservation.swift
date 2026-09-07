@@ -55,7 +55,7 @@ extension SemanticParagraphReplacementTests
         #expect(result.caret.point.utf16Offset.value == 2)
     }
 
-    @Test("paragraph replacement refuses to consume a heading")
+    @Test("prose replacement refuses to consume a code block")
     func nonParagraphRefusal() throws
     {
         let fixture = try SessionTestDocument(texts: ["A", "B"])
@@ -66,7 +66,7 @@ extension SemanticParagraphReplacementTests
                 firstBlock: original.content.blocks[0],
                 remainingBlocks: [IdentifiedSemanticBlock(
                     blockID: original.content.blocks[1].blockID,
-                    block: .heading(.title(TitleSemanticHeading(runs: [
+                    block: .code(.plain(PlainSemanticCodeBlock(runs: [
                         SemanticRun(text: "B")
                     ])))
                 )]

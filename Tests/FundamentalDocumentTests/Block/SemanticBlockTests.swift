@@ -5,7 +5,7 @@ import Testing
 @Suite("A semantic block")
 struct SemanticBlockTests
 {
-    @Test("all four forms preserve their exact occupied leaves")
+    @Test("all five forms preserve their exact occupied leaves")
     func formsPreserveExactOccupiedLeaves() throws
     {
         let run = SemanticRun(text: "Text")
@@ -17,13 +17,14 @@ struct SemanticBlockTests
             PlainSemanticCodeBlock(runs: [run])
         )
         let table = try Self.emptyTableRecord()
+        let item = SemanticListItem(kind: .numbered, runs: [run])
         let blocks: [SemanticBlock] = [
             .paragraph(paragraph),
             .heading(heading),
             .code(code),
-            .table(table)
+            .table(table),
+            .listItem(item)
         ]
-
         for block in blocks
         {
             switch block
@@ -36,15 +37,21 @@ struct SemanticBlockTests
                 #expect(actual == code)
             case let .table(actual):
                 #expect(actual == table)
+            case let .listItem(actual):
+                #expect(actual == item)
             }
         }
     }
 
-    @Test("all four forms derive their exact semantic kinds")
+    @Test("all five forms derive their exact semantic kinds")
     func formsDeriveExactSemanticKinds() throws
     {
         let run = SemanticRun(text: "")
         let blocks: [(SemanticBlock, SemanticBlockKind)] = [
+            (
+                .listItem(SemanticListItem(kind: .bulleted, runs: [run])),
+                .listItem
+            ),
             (
                 .paragraph(SemanticParagraph(runs: [run])),
                 .paragraph
@@ -62,7 +69,6 @@ struct SemanticBlockTests
                 .table
             )
         ]
-
         for (block, kind) in blocks
         {
             #expect(block.kind == kind)

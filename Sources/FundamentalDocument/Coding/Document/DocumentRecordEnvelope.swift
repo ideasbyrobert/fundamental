@@ -15,7 +15,9 @@ struct DocumentRecordEnvelope: Encodable
         var root = encoder.container(keyedBy: DocumentRecordCodingKey.self)
         try root.encode(Self.format, forKey: DocumentRecordCodingKey("format"))
         try root.encode(
-            Self.version,
+            document.content.blocks.contains(where:
+                { if case .listItem = $0.block { true } else { false } }) ?
+                2 : Self.version,
             forKey: DocumentRecordCodingKey("version")
         )
         try root.encode(

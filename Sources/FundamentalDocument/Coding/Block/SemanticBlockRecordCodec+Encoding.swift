@@ -10,6 +10,12 @@ extension SemanticBlockRecordCodec
         {
         case let .paragraph(paragraph):
             try encodeText("paragraph", paragraph.runs, to: &container)
+        case let .listItem(item):
+            try encodeText("listItem", item.runs, to: &container)
+            try container.encode(
+                item.kind.rawValue,
+                forKey: DocumentRecordCodingKey("listKind")
+            )
         case let .heading(heading):
             switch heading
             {

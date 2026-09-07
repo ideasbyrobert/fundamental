@@ -2,6 +2,7 @@ enum EditableSemanticBlock: Equatable, Sendable
 {
     case paragraph(SemanticParagraph)
     case heading(SemanticHeading)
+    case listItem(SemanticListItem)
     case code(SemanticCodeBlock)
 
     init?(_ block: SemanticBlock)
@@ -12,6 +13,8 @@ enum EditableSemanticBlock: Equatable, Sendable
             self = .paragraph(paragraph)
         case let .heading(heading):
             self = .heading(heading)
+        case let .listItem(item):
+            self = .listItem(item)
         case let .code(code):
             self = .code(code)
         case .table:
@@ -27,6 +30,8 @@ enum EditableSemanticBlock: Equatable, Sendable
             paragraph.runs
         case let .heading(heading):
             heading.runs
+        case let .listItem(item):
+            item.runs
         case let .code(code):
             code.runs
         }
@@ -40,6 +45,8 @@ enum EditableSemanticBlock: Equatable, Sendable
             .paragraph(paragraph)
         case let .heading(heading):
             .heading(heading)
+        case let .listItem(item):
+            .listItem(item)
         case let .code(code):
             .code(code)
         }

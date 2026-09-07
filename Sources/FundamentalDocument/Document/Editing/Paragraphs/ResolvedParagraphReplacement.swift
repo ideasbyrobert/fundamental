@@ -4,6 +4,7 @@ struct ResolvedParagraphReplacement: Equatable, Sendable
     let upper: ResolvedDocumentPoint
     let prefix: [SemanticRun]
     let suffix: [SemanticRun]
+    let leadingBlock: EditableSemanticBlock
 
     init?(
         _ replacement: SemanticParagraphReplacement,
@@ -21,14 +22,15 @@ struct ResolvedParagraphReplacement: Equatable, Sendable
         let upper = range.upperBound
         for block in blocks[lower.blockIndex ... upper.blockIndex]
         {
-            guard case .paragraph = block.block
+            guard let editable = EditableSemanticBlock(block.block),
+                  editable.isProse
             else
             {
                 return nil
             }
         }
-        guard case let .paragraph(first) = blocks[lower.blockIndex].block,
-              case let .paragraph(last) = blocks[upper.blockIndex].block,
+        guard let first = EditableSemanticBlock(blocks[lower.blockIndex].block),
+              let last = EditableSemanticBlock(blocks[upper.blockIndex].block),
               let leading = SemanticRunPartition(
                   runs: first.runs, lowerBound: lower.point.utf16Offset,
                   upperBound: lower.point.utf16Offset
@@ -45,5 +47,6 @@ struct ResolvedParagraphReplacement: Equatable, Sendable
         self.upper = upper
         prefix = leading.prefix
         suffix = trailing.suffix
+        leadingBlock = first
     }
 }

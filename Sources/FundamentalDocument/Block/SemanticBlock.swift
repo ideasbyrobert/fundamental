@@ -2,6 +2,7 @@ package enum SemanticBlock: Equatable, Sendable
 {
     case paragraph(SemanticParagraph)
     case heading(SemanticHeading)
+    case listItem(SemanticListItem)
     case code(SemanticCodeBlock)
     case table(SemanticTableRecord)
 
@@ -13,6 +14,8 @@ package enum SemanticBlock: Equatable, Sendable
             .paragraph
         case .heading:
             .heading
+        case .listItem:
+            .listItem
         case .code:
             .code
         case .table:

@@ -20,7 +20,9 @@ struct CanonicalBlockStyleMappingTests
             (.heading, .heading, 2, .heading2),
             (.subheading, .heading, 3, .heading3),
             (.body, .paragraph, nil, .body),
-            (.monostyled, .code, nil, .code)
+            (.monostyled, .code, nil, .code),
+            (.bulleted, .listItem, nil, .bullet),
+            (.numbered, .listItem, nil, .numberedItem)
         ]
         let styles = CanonicalBlockStyle.allCases
         #expect(mappings.count == styles.count)

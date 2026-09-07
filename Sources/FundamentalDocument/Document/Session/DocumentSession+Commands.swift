@@ -16,7 +16,7 @@ extension DocumentSession
         {
         case .select:
             history = current.history
-        case .edit:
+        case .edit, .style:
             guard let recorded = recordedHistory(for: successor)
             else
             {
@@ -25,7 +25,7 @@ extension DocumentSession
             history = recorded
         }
         current = DocumentSessionStorage(state: successor, history: history)
-        if case .edit = command
+        if command.changesContent
         {
             persistence.contentRevision = successor.snapshot.document.revision
         }
