@@ -2,6 +2,16 @@
 
 import PackageDescription
 
+let document: Target.Dependency = "FundamentalDocument"
+let storage: Target.Dependency = "FundamentalStorage"
+let writing: Target.Dependency = "FundamentalWritingWitness"
+let projection: Target.Dependency = "FundamentalProjection"
+let layout: Target.Dependency = "FundamentalLayout"
+let viewport: Target.Dependency = "FundamentalViewport"
+let raster: Target.Dependency = "FundamentalRaster"
+let presentation: Target.Dependency = "FundamentalPresentation"
+let oracle: Target.Dependency = "FundamentalMacOracle"
+
 let package = Package(
     name: "Fundamental",
     platforms: [.macOS(.v26)],
@@ -18,14 +28,12 @@ let package = Package(
     ],
     targets: [
         .target(name: "FundamentalDocument"),
+        .target(name: "FundamentalStorage", dependencies: [document]),
         .executableTarget(
             name: "FundamentalWritingWitness",
-            dependencies: ["FundamentalDocument"]
+            dependencies: [document]
         ),
-        .target(
-            name: "FundamentalProjection",
-            dependencies: ["FundamentalDocument"]
-        ),
+        .target(name: "FundamentalProjection", dependencies: [document]),
         .target(
             name: "FundamentalLayout",
             dependencies: ["FundamentalProjection"]
@@ -51,68 +59,40 @@ let package = Package(
             dependencies: ["FundamentalMacOracle"]
         ),
         .executableTarget(name: "lint"),
+        .testTarget(name: "FundamentalDocumentTests", dependencies: [document]),
         .testTarget(
-            name: "FundamentalDocumentTests",
-            dependencies: ["FundamentalDocument"]
+            name: "FundamentalStorageTests",
+            dependencies: [document, storage]
         ),
         .testTarget(
             name: "FundamentalWritingWitnessTests",
-            dependencies: [
-                "FundamentalDocument",
-                "FundamentalWritingWitness"
-            ]
+            dependencies: [document, writing]
         ),
         .testTarget(
             name: "FundamentalProjectionTests",
-            dependencies: [
-                "FundamentalDocument",
-                "FundamentalProjection"
-            ]
+            dependencies: [document, projection]
         ),
         .testTarget(
             name: "FundamentalLayoutTests",
-            dependencies: [
-                "FundamentalDocument",
-                "FundamentalLayout",
-                "FundamentalProjection"
-            ]
+            dependencies: [document, layout, projection]
         ),
         .testTarget(
             name: "FundamentalViewportTests",
-            dependencies: [
-                "FundamentalDocument",
-                "FundamentalLayout",
-                "FundamentalProjection",
-                "FundamentalViewport"
-            ]
+            dependencies: [document, layout, projection, viewport]
         ),
         .testTarget(
             name: "FundamentalRasterTests",
-            dependencies: [
-                "FundamentalDocument",
-                "FundamentalLayout",
-                "FundamentalProjection",
-                "FundamentalRaster",
-                "FundamentalViewport"
-            ]
+            dependencies: [document, layout, projection, raster, viewport]
         ),
         .testTarget(
             name: "FundamentalPresentationTests",
             dependencies: [
-                "FundamentalDocument",
-                "FundamentalLayout",
-                "FundamentalPresentation",
-                "FundamentalProjection",
-                "FundamentalRaster",
-                "FundamentalViewport"
+                document, layout, presentation, projection, raster, viewport
             ]
         ),
         .testTarget(
             name: "FundamentalMacOracleTests",
-            dependencies: [
-                "FundamentalMacOracle",
-                "FundamentalPresentation"
-            ]
+            dependencies: [oracle, presentation]
         ),
         .testTarget(name: "lintTests", dependencies: ["lint"])
     ]
