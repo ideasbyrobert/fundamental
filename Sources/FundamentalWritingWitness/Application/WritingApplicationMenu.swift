@@ -6,22 +6,17 @@ struct WritingApplicationMenu
     static func install(in application: NSApplication)
     {
         let main = NSMenu()
-        let app = NSMenuItem(title: "Fundamental Writing Witness",
+        let app = NSMenuItem(title: "Fundamental",
                              action: nil, keyEquivalent: "")
-        app.submenu = NSMenu(title: "Fundamental Writing Witness")
+        app.submenu = NSMenu(title: "Fundamental")
         app.submenu?.addItem(NSMenuItem(
-            title: "Quit Fundamental Writing Witness",
+            title: "Quit Fundamental",
             action: #selector(NSApplication.terminate(_:)),
             keyEquivalent: "q"
         ))
         main.addItem(app)
         let file = NSMenuItem(title: "File", action: nil, keyEquivalent: "")
-        file.submenu = NSMenu(title: "File")
-        file.submenu?.addItem(NSMenuItem(
-            title: "Close",
-            action: #selector(NSWindow.performClose(_:)),
-            keyEquivalent: "w"
-        ))
+        file.submenu = fileMenu()
         main.addItem(file)
         let edit = NSMenuItem(title: "Edit", action: nil, keyEquivalent: "")
         edit.submenu = editMenu()

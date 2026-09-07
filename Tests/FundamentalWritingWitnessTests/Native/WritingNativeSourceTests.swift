@@ -6,9 +6,15 @@ struct WritingNativeSourceTests
     @Test
     func bridgeCommandsUseTheRenderedObservationAndNativeVeto() throws
     {
-        let source = try WritingTestRepository.source(
-            "Sources/FundamentalWritingWitness/Input/WritingNativeBridge.swift"
-        )
+        let base = "Sources/FundamentalWritingWitness/Input/"
+        let files = [
+            "WritingNativeBridge", "WritingNativeBridge+Input",
+            "WritingNativeBridge+Selection", "WritingNativeBridge+Actions"
+        ]
+        let source = try files.map
+        {
+            try WritingTestRepository.source(base + $0 + ".swift")
+        }.joined(separator: "\n")
         #expect(source.contains("observation: projection.observation"))
         #expect(!source.contains("session.observation"))
         #expect(!source.contains("registerUndo"))
@@ -23,7 +29,7 @@ struct WritingNativeSourceTests
     {
         let controller = try WritingTestRepository.source(
             "Sources/FundamentalWritingWitness/Window/" +
-            "WritingWindowController.swift"
+            "WritingWindowSurface.swift"
         )
         let configuration = try WritingTestRepository.source(
             "Sources/FundamentalWritingWitness/Projection/" +

@@ -62,7 +62,13 @@ extension WritingNativeTests
         let menu = try #require(NSApp.mainMenu)
         let file = try #require(menu.item(withTitle: "File")?.submenu)
         let edit = try #require(menu.item(withTitle: "Edit")?.submenu)
-        #expect(file.items.map(\.title) == ["Close"])
+        #expect(file.items.map(\.title) == [
+            "New", "Open…", "", "Save", "Save As…", "", "Close"
+        ])
+        #expect(file.items.filter { !$0.isSeparatorItem }.allSatisfy
+        {
+            $0.target == nil
+        })
         #expect(edit.items.map(\.title) == [
             "Undo", "Redo", "", "Copy", "Paste", "Select All"
         ])

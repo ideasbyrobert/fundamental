@@ -31,7 +31,7 @@ let package = Package(
         .target(name: "FundamentalStorage", dependencies: [document]),
         .executableTarget(
             name: "FundamentalWritingWitness",
-            dependencies: [document]
+            dependencies: [document, storage]
         ),
         .target(name: "FundamentalProjection", dependencies: [document]),
         .target(
@@ -66,7 +66,7 @@ let package = Package(
         ),
         .testTarget(
             name: "FundamentalWritingWitnessTests",
-            dependencies: [document, writing]
+            dependencies: [document, storage, writing]
         ),
         .testTarget(
             name: "FundamentalProjectionTests",

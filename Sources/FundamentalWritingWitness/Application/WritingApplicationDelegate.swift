@@ -3,17 +3,19 @@ import AppKit
 @MainActor
 final class WritingApplicationDelegate: NSObject, NSApplicationDelegate
 {
-    let controller: WritingWindowController
+    var controllers: [WritingWindowController] = []
+    var terminationPending = false
 
     init(controller: WritingWindowController)
     {
-        self.controller = controller
+        super.init()
+        retain(controller)
     }
 
     func applicationDidFinishLaunching(_ notification: Notification)
     {
-        controller.documentWindow.center()
-        controller.showWindow(nil)
+        controllers.first?.documentWindow.center()
+        controllers.first?.showWindow(nil)
         NSApplication.shared.activate()
     }
 
@@ -21,13 +23,16 @@ final class WritingApplicationDelegate: NSObject, NSApplicationDelegate
         _ sender: NSApplication
     ) -> Bool
     {
-        true
+        false
     }
 
-    func applicationShouldTerminate(
-        _ sender: NSApplication
-    ) -> NSApplication.TerminateReply
+    func retain(_ controller: WritingWindowController)
     {
-        controller.mayClose() ? .terminateNow : .terminateCancel
+        controllers.append(controller)
+        controller.didClose =
+        {
+            [weak self, weak controller] in
+            self?.controllers.removeAll { $0 === controller }
+        }
     }
 }

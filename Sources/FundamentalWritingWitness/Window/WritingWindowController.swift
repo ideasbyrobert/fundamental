@@ -2,126 +2,63 @@ import AppKit
 import FundamentalDocument
 
 @MainActor
-final class WritingWindowController: NSWindowController, NSWindowDelegate
+final class WritingWindowController:
+    NSWindowController, NSWindowDelegate, NSUserInterfaceValidations
 {
     let documentWindow: NSWindow
     let textView: WritingTextView
     let scrollView: NSScrollView
     let bridge: WritingNativeBridge
-    private let confirmDiscard: @MainActor () -> WritingCloseDecision
-    private var discardApproved = false
+    let fileOwner: WritingFileOwner
+    let confirmDiscard: @MainActor () -> WritingCloseDecision
+    var discardApproved = false
+    var choosingLocation = false
+    var closeTask: Task<Bool, Never>?
+    var didClose: (@MainActor () -> Void)?
 
-    init?(
+    convenience init?(
         session: DocumentSession,
         size: NSSize = NSSize(width: 820, height: 600),
         confirmDiscard: @escaping @MainActor () -> WritingCloseDecision =
             WritingClosePrompt.ask
     )
     {
-        guard size.width.isFinite, size.height.isFinite,
-              size.width >= 320, size.height >= 240,
-              let bridge = WritingNativeBridge(session: session)
-        else
-        {
-            return nil
-        }
-        let view = WritingTextView(usingTextLayoutManager: true)
-        guard WritingTextConfiguration.apply(to: view)
-        else
-        {
-            return nil
-        }
-        let rectangle = NSRect(origin: .zero, size: size)
-        let scroll = NSScrollView(frame: rectangle)
-        scroll.hasVerticalScroller = true
-        scroll.hasHorizontalScroller = false
-        scroll.autohidesScrollers = true
-        scroll.borderType = .noBorder
-        scroll.backgroundColor = .textBackgroundColor
-        scroll.autoresizingMask = [.width, .height]
-        view.frame = NSRect(origin: .zero, size: scroll.contentSize)
-        view.minSize = NSSize(width: 0, height: scroll.contentSize.height)
-        view.delegate = bridge
-        scroll.documentView = view
-        let window = NSWindow(
-            contentRect: rectangle,
-            styleMask: [.titled, .closable, .miniaturizable, .resizable],
-            backing: .buffered,
-            defer: false
+        self.init(
+            owner: WritingFileOwner(session: session),
+            size: size,
+            confirmDiscard: confirmDiscard
         )
-        window.isReleasedWhenClosed = false
-        window.title = "Fundamental Writing Witness — Unsaved"
-        window.minSize = NSSize(width: 360, height: 280)
-        window.contentView = scroll
-        guard bridge.project(in: view)
+    }
+
+    init?(
+        owner: WritingFileOwner,
+        size: NSSize = NSSize(width: 820, height: 600),
+        confirmDiscard: @escaping @MainActor () -> WritingCloseDecision =
+            WritingClosePrompt.ask
+    )
+    {
+        guard let bridge = WritingNativeBridge(session: owner.session),
+              let surface = WritingWindowSurface(size: size, bridge: bridge)
         else
         {
             return nil
         }
-        documentWindow = window
-        textView = view
-        scrollView = scroll
+        documentWindow = surface.window
+        textView = surface.view
+        scrollView = surface.scroll
         self.bridge = bridge
+        self.fileOwner = owner
         self.confirmDiscard = confirmDiscard
-        super.init(window: window)
-        window.delegate = self
+        super.init(window: surface.window)
+        surface.window.delegate = self
+        bridge.didChange = { [weak self] in self?.updateDocumentState() }
+        owner.didChange = { [weak self] in self?.updateDocumentState() }
+        updateDocumentState()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder)
     {
         return nil
-    }
-
-    override func showWindow(_ sender: Any?)
-    {
-        super.showWindow(sender)
-        documentWindow.makeKeyAndOrderFront(sender)
-        documentWindow.makeFirstResponder(textView)
-    }
-
-    func windowDidResize(_ notification: Notification)
-    {
-        let size = scrollView.contentSize
-        textView.minSize = NSSize(width: 0, height: size.height)
-        textView.setFrameSize(NSSize(
-            width: size.width,
-            height: max(size.height, textView.frame.height)
-        ))
-    }
-
-    func windowShouldClose(_ sender: NSWindow) -> Bool
-    {
-        sender === documentWindow && mayClose()
-    }
-
-    func windowWillClose(_ notification: Notification)
-    {
-        discardApproved = true
-    }
-
-    func mayClose() -> Bool
-    {
-        if discardApproved
-        {
-            return true
-        }
-        guard let current = WritingProjection(bridge.session.state)
-        else
-        {
-            return false
-        }
-        if current.text.isEmpty
-        {
-            return true
-        }
-        switch confirmDiscard()
-        {
-        case .discard:
-            discardApproved = true
-            return true
-        case .cancel:
-            return false
-        }
     }
 }

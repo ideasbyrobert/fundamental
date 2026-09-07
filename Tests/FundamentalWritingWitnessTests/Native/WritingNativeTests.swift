@@ -46,8 +46,9 @@ struct WritingNativeTests
         #expect(window.view.writingToolsBehavior == .none)
         #expect(window.view.accessibilityLabel() == "Fundamental document")
         #expect(window.controller.documentWindow.styleMask.contains(.titled))
-        #expect(window.controller.documentWindow.title ==
-            "Fundamental Writing Witness — Unsaved")
+        #expect(window.controller.documentWindow.title == "Untitled")
+        #expect(window.controller.documentWindow.isDocumentEdited)
+        #expect(window.controller.documentWindow.representedURL == nil)
         #expect(window.session.history.undo.isEmpty)
         #expect(window.session.state.snapshot.generation.value == 3)
     }
