@@ -42,6 +42,11 @@ extension DocumentSessionTransitionTests
                 in: document
             ))
             return (result.document, result.caret)
+        case let .paragraphs(replacement):
+            let result = try #require(AppliedSemanticParagraphReplacement(
+                replacement, in: document
+            ))
+            return (result.document, result.caret)
         }
     }
 

@@ -21,7 +21,8 @@ extension WritingAcceptanceScenario
     func refuseThenBranch() throws
     {
         let before = window.storage
-        window.view.insertNewline(nil)
+        window.view.insertText(String(repeating: "X", count: 65_537),
+                               replacementRange: window.view.selectedRange())
         window.view.setMarkedText(
             "か", selectedRange: NSRange(location: 1, length: 0),
             replacementRange: NSRange(location: NSNotFound, length: 0)

@@ -8,7 +8,6 @@ extension WritingProposalTests
     @Test
     func nonWitnessDocumentFormsRefuseWithoutFlattening() throws
     {
-        let paragraph = SemanticBlock.paragraph(SemanticParagraph(runs: []))
         let content = try #require(SemanticTableContent(
             headerRows: [], bodyRows: [], columnAlignments: []
         ))
@@ -16,7 +15,6 @@ extension WritingProposalTests
             RegularSemanticTable(content: content)
         )))
         let forms: [[SemanticBlock]] = [
-            [paragraph, paragraph],
             [.heading(.title(TitleSemanticHeading(runs: [])))],
             [.code(.plain(PlainSemanticCodeBlock(runs: [])))],
             [table]

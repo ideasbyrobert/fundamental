@@ -9,6 +9,7 @@ enum SessionTestEdit: CaseIterable
     case replacement
     case split
     case merge
+    case paragraphs
 
     func edit(in fixture: SessionTestDocument) throws -> CanonicalDocumentEdit
     {
@@ -47,6 +48,15 @@ enum SessionTestEdit: CaseIterable
                 revision: source.revision,
                 leadingBlockID: source.content.blocks[0].blockID,
                 trailingBlockID: source.content.blocks[1].blockID
+            )))
+        case .paragraphs:
+            return .paragraphs(try #require(SemanticParagraphReplacement(
+                range: range,
+                paragraphs: [SemanticParagraph(runs: [insertion.run]),
+                             SemanticParagraph(runs: [])],
+                continuationBlockIDs: [FundamentalBlockID(
+                    SessionTestDocument.identity(4)
+                )]
             )))
         }
     }

@@ -18,7 +18,7 @@ package struct SemanticInsertion: Equatable, Sendable
         self.attributes = attributes
     }
 
-    var run: SemanticRun
+    package var run: SemanticRun
     {
         SemanticRun(
             text: text,

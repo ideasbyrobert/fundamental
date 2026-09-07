@@ -13,7 +13,7 @@ extension WritingProposalTests
         let cases: [(Int, String, Bool)] = [
             (0, "X", false), (1, "X", true),
             (1, "😀", false), (2, "😀", true),
-            (2, "\r", false), (2, "\n", false), (2, "\r\n", false)
+            (2, "\r", true), (2, "\n", true), (2, "\r\n", true)
         ]
         for (removed, replacement, admitted) in cases
         {

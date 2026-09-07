@@ -4,48 +4,29 @@ import FundamentalDocument
 struct WritingProjection: Equatable, Sendable
 {
     let snapshot: EditableDocumentSnapshot
-    let text: String
+    let map: WritingParagraphMap
     let selection: NSRange
 
     init?(_ state: DocumentSessionState)
     {
-        guard case let .editable(editable) = state
+        guard case let .editable(editable) = state,
+              let map = WritingParagraphMap(
+                  blocks: editable.snapshot.document.content.blocks
+              ),
+              let start = map.offset(editable.selection.range.start),
+              let end = map.offset(editable.selection.range.end)
         else
         {
             return nil
         }
-        let blocks = editable.snapshot.document.content.blocks
-        guard blocks.count == 1,
-              case let .paragraph(paragraph) = blocks[0].block
-        else
-        {
-            return nil
-        }
-        var count = 0
-        for run in paragraph.runs
-        {
-            guard case .direct = run,
-                  run.traits.isEmpty,
-                  WritingSurfacePolicy.admits(run.text)
-            else
-            {
-                return nil
-            }
-            let (next, overflow) = count.addingReportingOverflow(
-                run.text.utf16.count
-            )
-            guard !overflow, next <= WritingSurfacePolicy.maximumUTF16Units
-            else
-            {
-                return nil
-            }
-            count = next
-        }
-        let start = editable.selection.range.start.utf16Offset.value
-        let end = editable.selection.range.end.utf16Offset.value
         snapshot = editable
-        text = paragraph.runs.map(\.text).joined()
+        self.map = map
         selection = NSRange(location: min(start, end), length: abs(end - start))
+    }
+
+    var text: String
+    {
+        map.text
     }
 
     var observation: DocumentObservation
@@ -58,29 +39,14 @@ struct WritingProjection: Equatable, Sendable
         let (end, overflow) = native.location.addingReportingOverflow(
             native.length
         )
+        let document = snapshot.snapshot.document
         guard native.location >= 0, native.length >= 0, !overflow,
-              end <= text.utf16.count,
-              let lower = DocumentUTF16Offset(native.location),
-              let upper = DocumentUTF16Offset(end)
+              let lower = map.point(native.location, in: document),
+              let upper = map.point(end, in: document)
         else
         {
             return nil
         }
-        let document = snapshot.snapshot.document
-        let blockID = document.content.blocks[0].blockID
-        return DocumentRange(
-            start: DocumentPoint(
-                documentID: document.documentID,
-                revision: document.revision,
-                blockID: blockID,
-                utf16Offset: lower
-            ),
-            end: DocumentPoint(
-                documentID: document.documentID,
-                revision: document.revision,
-                blockID: blockID,
-                utf16Offset: upper
-            )
-        )
+        return DocumentRange(start: lower, end: upper)
     }
 }

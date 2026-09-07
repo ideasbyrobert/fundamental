@@ -7,7 +7,7 @@ import Testing
 extension WritingNativeTests
 {
     @Test(arguments: ["\n", "\r", "\r\n", "A\nB"])
-    func nativeLineBreaksRefuseAtomically(_ text: String) throws
+    func nativeLineBreaksPublishOneParagraphTransaction(_ text: String) throws
     {
         let window = try WritingTestWindow("AB")
         defer
@@ -19,7 +19,15 @@ extension WritingNativeTests
         window.view.insertText(text, replacementRange: NSRange(
             location: NSNotFound, length: 0
         ))
-        #expect(window.storage == before)
+        let inserted = text.replacingOccurrences(of: "\r\n", with: "\n")
+            .replacingOccurrences(of: "\r", with: "\n")
+        #expect(window.session.history.undo.count == 1)
+        try window.expect("A" + inserted + "B", selection: NSRange(
+            location: 1 + inserted.utf16.count, length: 0
+        ))
+        window.view.undoCanonicalEdit(nil)
+        let previous = before.state.snapshot.document.content
+        #expect(window.session.document.content == previous)
         try window.expect("AB", selection: NSRange(location: 1, length: 0))
     }
 

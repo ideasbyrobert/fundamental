@@ -13,14 +13,17 @@ struct WritingTextProposal: Equatable, Sendable
     {
         guard ranges.count == 1,
               let replacements, replacements.count == 1,
-              let range = projection.range(ranges[0]),
-              WritingSurfacePolicy.admits(replacements[0])
+              replacements[0].utf16.count <=
+                  WritingSurfacePolicy.maximumUTF16Units * 2,
+              let range = projection.range(ranges[0])
         else
         {
             return nil
         }
         let replacement = replacements[0]
-        let retained = projection.text.utf16.count - ranges[0].length
+            .replacingOccurrences(of: "\r\n", with: "\n")
+            .replacingOccurrences(of: "\r", with: "\n")
+        let retained = projection.map.utf16Count - ranges[0].length
         let (count, overflow) = retained.addingReportingOverflow(
             replacement.utf16.count
         )
@@ -29,46 +32,21 @@ struct WritingTextProposal: Equatable, Sendable
         {
             return nil
         }
-        let edit: SemanticTextEdit
-        if replacement.isEmpty
+        let edit: CanonicalDocumentEdit?
+        if range.start.blockID != range.end.blockID ||
+            replacement.contains("\n")
         {
-            guard let deletion = SemanticTextDeletion(range: range)
-            else
-            {
-                return nil
-            }
-            edit = .deletion(deletion)
+            edit = Self.paragraphEdit(replacement, in: range)
         }
         else
         {
-            guard let insertion = SemanticInsertion(
-                text: replacement,
-                attributes: .direct(traits: [])
-            )
-            else
-            {
-                return nil
-            }
-            if ranges[0].length == 0
-            {
-                edit = .insertion(SemanticTextInsertion(
-                    point: range.start,
-                    insertion: insertion
-                ))
-            }
-            else
-            {
-                guard let replacement = SemanticTextReplacement(
-                    range: range,
-                    insertion: insertion
-                )
-                else
-                {
-                    return nil
-                }
-                edit = .replacement(replacement)
-            }
+            edit = Self.textEdit(replacement, in: range)
         }
-        command = .edit(projection.observation, .text(edit))
+        guard let edit
+        else
+        {
+            return nil
+        }
+        command = .edit(projection.observation, edit)
     }
 }

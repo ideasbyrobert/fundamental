@@ -35,7 +35,8 @@ extension WritingAcceptanceTests
         #expect(session.history.redo.count == 2)
         let floor = window.storage
         window.view.undoCanonicalEdit(nil)
-        window.view.insertNewline(nil)
+        window.view.insertText(String(repeating: "X", count: 65_537),
+                               replacementRange: window.view.selectedRange())
         #expect(window.storage == floor)
         window.view.redoCanonicalEdit(nil)
         window.view.redoCanonicalEdit(nil)

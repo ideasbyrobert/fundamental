@@ -40,6 +40,8 @@ extension CanonicalDocumentEditTests
             3
         case .merge:
             4
+        case .paragraphs:
+            5
         }
     }
 

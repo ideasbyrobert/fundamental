@@ -43,6 +43,16 @@ struct AppliedCanonicalDocumentEdit: Equatable, Sendable
             }
             document = result.document
             caret = result.caret
+        case let .paragraphs(replacement):
+            guard let result = AppliedSemanticParagraphReplacement(
+                replacement, in: source
+            )
+            else
+            {
+                return nil
+            }
+            document = result.document
+            caret = result.caret
         }
     }
 }
