@@ -1,27 +1,45 @@
 @MainActor
 package final class DocumentSession
 {
-    private var current: DocumentSessionStorage
+    var current: DocumentSessionStorage
+    var persistence: DocumentSessionPersistence
 
-    package convenience init(state: DocumentSessionState)
+    package convenience init(
+        state: DocumentSessionState,
+        initiallySaved: Bool = false
+    )
     {
-        self.init(state: state, historyLimits: DocumentHistoryLimits())
+        self.init(
+            state: state,
+            historyLimits: DocumentHistoryLimits(),
+            initiallySaved: initiallySaved
+        )
     }
 
     init(
         state: DocumentSessionState,
-        historyLimits: DocumentHistoryLimits
+        historyLimits: DocumentHistoryLimits,
+        initiallySaved: Bool = false
     )
     {
         current = DocumentSessionStorage(
             state: state,
             history: DocumentHistory(limits: historyLimits)
         )
+        persistence = DocumentSessionPersistence(
+            contentRevision: state.snapshot.document.revision,
+            initiallySaved: initiallySaved
+        )
     }
 
     package var state: DocumentSessionState
     {
         current.state
+    }
+
+    package var document: CanonicalDocument
+    {
+        current.state.snapshot.document
     }
 
     var history: DocumentHistory
@@ -42,107 +60,5 @@ package final class DocumentSession
     var observation: DocumentObservation
     {
         DocumentObservation(snapshot: current.state.snapshot)
-    }
-
-    @discardableResult
-    package func submit(
-        _ command: DocumentSessionCommand
-    ) -> DocumentSessionTransition
-    {
-        let result = DocumentSessionTransition(command, in: current.state)
-        guard case let .applied(successor) = result
-        else
-        {
-            return result
-        }
-        let history: DocumentHistory
-        switch command
-        {
-        case .select:
-            history = current.history
-        case .edit:
-            guard let recorded = recordedHistory(for: successor)
-            else
-            {
-                return .refused(.historyCapacity)
-            }
-            history = recorded
-        }
-        current = DocumentSessionStorage(state: successor, history: history)
-        return result
-    }
-
-    @discardableResult
-    package func submit(
-        _ command: DocumentHistoryCommand
-    ) -> DocumentSessionTransition
-    {
-        guard command.observation == observation
-        else
-        {
-            return .refused(.staleObservation)
-        }
-        guard case .editable = current.state
-        else
-        {
-            return .refused(.readOnly)
-        }
-        let checkpoint: DocumentHistoryCheckpoint
-        switch command.direction
-        {
-        case .undo:
-            guard let transaction = current.history.undo.last
-            else
-            {
-                return .refused(.historyUnavailable)
-            }
-            checkpoint = transaction.before
-        case .redo:
-            guard let transaction = current.history.redo.last
-            else
-            {
-                return .refused(.historyUnavailable)
-            }
-            checkpoint = transaction.after
-        }
-        guard current.state.snapshot.generation.value < UInt64.max
-        else
-        {
-            return .refused(.generationExhausted)
-        }
-        guard let restored = RestoredDocumentHistoryCheckpoint(
-            checkpoint,
-            in: current.state.snapshot
-        ),
-              let history = DocumentHistory(
-                  moving: command.direction,
-                  in: current.history
-              )
-        else
-        {
-            return .refused(.invalidCommand)
-        }
-        let successor = DocumentSessionState.editable(restored.snapshot)
-        current = DocumentSessionStorage(state: successor, history: history)
-        return .applied(successor)
-    }
-
-    private func recordedHistory(
-        for successor: DocumentSessionState
-    ) -> DocumentHistory?
-    {
-        guard case let .editable(before) = current.state,
-              case let .editable(after) = successor,
-              let first = DocumentHistoryCheckpoint(before),
-              let last = DocumentHistoryCheckpoint(after),
-              let transaction = DocumentHistoryTransaction(
-                  before: first,
-                  after: last
-              )
-        else
-        {
-            return nil
-        }
-        return DocumentHistory(recording: transaction, in: current.history)
     }
 }

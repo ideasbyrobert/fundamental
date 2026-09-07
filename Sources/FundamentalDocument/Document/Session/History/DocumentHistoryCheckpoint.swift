@@ -1,10 +1,20 @@
 struct DocumentHistoryCheckpoint: Equatable, Sendable
 {
     let snapshot: EditableDocumentSnapshot
+    let contentRevision: DocumentRevision
     let retainedUTF16Units: Int
 
-    init?(_ snapshot: EditableDocumentSnapshot)
+    init?(
+        _ snapshot: EditableDocumentSnapshot,
+        contentRevision: DocumentRevision? = nil
+    )
     {
+        let revision = contentRevision ?? snapshot.snapshot.document.revision
+        guard revision <= snapshot.snapshot.document.revision
+        else
+        {
+            return nil
+        }
         var count = 0
         for block in snapshot.snapshot.document.content.blocks
         {
@@ -27,6 +37,7 @@ struct DocumentHistoryCheckpoint: Equatable, Sendable
             }
         }
         self.snapshot = snapshot
+        self.contentRevision = revision
         retainedUTF16Units = count
     }
 }
