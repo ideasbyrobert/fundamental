@@ -52,9 +52,10 @@ extension WritingProposalTests
     @Test
     func projectionAdmitsExactCapacityAndRefusesLineBreaks() throws
     {
-        let exact = String(repeating: "😀", count: 32_768)
+        let capacity = WritingSurfacePolicy.maximumUTF16Units
+        let exact = String(repeating: "😀", count: capacity / 2)
         let projection = try WritingTestDocument(exact).projection()
-        #expect(projection.text.utf16.count == 65_536)
+        #expect(projection.text.utf16.count == capacity)
         for text in [exact + "A", "A\rB", "A\nB", "A\r\nB"]
         {
             let source = try WritingTestDocument(text)

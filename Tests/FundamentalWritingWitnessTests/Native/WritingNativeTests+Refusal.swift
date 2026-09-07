@@ -34,7 +34,8 @@ extension WritingNativeTests
     @Test
     func nativeReturnAndCapacityRefuseAtomically() throws
     {
-        let text = String(repeating: "A", count: 65_536)
+        let text = String(repeating: "A",
+                          count: WritingSurfacePolicy.maximumUTF16Units)
         let window = try WritingTestWindow(text)
         defer
         {

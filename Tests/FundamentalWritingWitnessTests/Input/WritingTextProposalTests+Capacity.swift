@@ -8,7 +8,8 @@ extension WritingProposalTests
     @Test
     func replacementCapacityUsesRemovedAndInsertedUTF16Units() throws
     {
-        let exact = String(repeating: "A", count: 65_536)
+        let exact = String(repeating: "A",
+                           count: WritingSurfacePolicy.maximumUTF16Units)
         let projection = try WritingTestDocument(exact).projection()
         let cases: [(Int, String, Bool)] = [
             (0, "X", false), (1, "X", true),

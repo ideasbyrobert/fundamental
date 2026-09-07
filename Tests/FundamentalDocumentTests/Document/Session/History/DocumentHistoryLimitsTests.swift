@@ -9,7 +9,7 @@ extension DocumentHistoryTests
     {
         let standard = DocumentHistoryLimits()
         #expect(standard.transactions == 64)
-        #expect(standard.retainedUTF16Units == 1_048_576)
+        #expect(standard.retainedUTF16Units == 134_217_728)
         let minimal = try #require(DocumentHistoryLimits(
             transactions: 1,
             retainedUTF16Units: 1

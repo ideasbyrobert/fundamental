@@ -9,7 +9,8 @@ struct WritingParagraphMap: Equatable, Sendable
 
     init?(blocks: [IdentifiedSemanticBlock])
     {
-        guard !blocks.isEmpty
+        guard !blocks.isEmpty,
+              blocks.count <= WritingSurfacePolicy.maximumParagraphs
         else
         {
             return nil

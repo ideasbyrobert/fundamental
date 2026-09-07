@@ -3,6 +3,19 @@ import FundamentalDocument
 
 extension WritingParagraphMap
 {
+    func separatorCount(in range: DocumentRange) -> Int?
+    {
+        guard let first = spans.firstIndex(where:
+            { $0.blockID == range.start.blockID }),
+              let last = spans.firstIndex(where:
+                  { $0.blockID == range.end.blockID })
+        else
+        {
+            return nil
+        }
+        return abs(last - first)
+    }
+
     func offset(_ point: DocumentPoint) -> Int?
     {
         guard let span = spans.first(where: { $0.blockID == point.blockID }),

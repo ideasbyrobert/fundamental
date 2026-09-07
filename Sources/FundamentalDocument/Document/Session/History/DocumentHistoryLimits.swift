@@ -6,7 +6,7 @@ struct DocumentHistoryLimits: Equatable, Sendable
     init()
     {
         transactions = 64
-        retainedUTF16Units = 1_048_576
+        retainedUTF16Units = 134_217_728
     }
 
     init?(transactions: Int, retainedUTF16Units: Int)

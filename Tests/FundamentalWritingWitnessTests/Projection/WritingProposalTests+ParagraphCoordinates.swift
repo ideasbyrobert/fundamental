@@ -45,7 +45,8 @@ extension WritingProposalTests
     @Test("paragraph separators count toward the complete projection bound")
     func paragraphCapacity() throws
     {
-        for count in [65_535, 65_536]
+        let capacity = WritingSurfacePolicy.maximumUTF16Units
+        for count in [capacity - 1, capacity]
         {
             let fixture = try WritingTestDocument(blocks: [
                 .paragraph(SemanticParagraph(runs: [SemanticRun(
@@ -54,7 +55,7 @@ extension WritingProposalTests
                 .paragraph(SemanticParagraph(runs: []))
             ])
             let projection = WritingProjection(fixture.state)
-            #expect((projection != nil) == (count == 65_535))
+            #expect((projection != nil) == (count == capacity - 1))
         }
     }
 }

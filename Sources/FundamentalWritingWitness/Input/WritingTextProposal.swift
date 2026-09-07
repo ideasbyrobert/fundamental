@@ -27,7 +27,18 @@ struct WritingTextProposal: Equatable, Sendable
         let (count, overflow) = retained.addingReportingOverflow(
             replacement.utf16.count
         )
-        guard !overflow, count <= WritingSurfacePolicy.maximumUTF16Units
+        guard !overflow, count <= WritingSurfacePolicy.maximumUTF16Units,
+              let removed = projection.map.separatorCount(in: range)
+        else
+        {
+            return nil
+        }
+        let inserted = replacement.utf16.reduce(0)
+        {
+            $0 + ($1 == 0x0A ? 1 : 0)
+        }
+        let paragraphs = projection.map.spans.count - removed + inserted
+        guard paragraphs <= WritingSurfacePolicy.maximumParagraphs
         else
         {
             return nil

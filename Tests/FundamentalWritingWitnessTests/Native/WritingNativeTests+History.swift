@@ -55,7 +55,9 @@ extension WritingNativeTests
         #expect(!window.view.validateUserInterfaceItem(undo))
         #expect(window.view.validateUserInterfaceItem(redo))
         let before = window.storage
-        window.view.insertText(String(repeating: "X", count: 65_537),
+        let oversized = String(repeating: "X",
+            count: WritingSurfacePolicy.maximumUTF16Units + 1)
+        window.view.insertText(oversized,
                                replacementRange: window.view.selectedRange())
         #expect(window.storage == before)
         #expect(window.view.validateUserInterfaceItem(redo))
