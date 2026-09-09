@@ -58,12 +58,12 @@ extension AppliedSemanticBlockStyleChangeTests
         #expect(result.content.blocks[1] == source.document.content.blocks[1])
     }
 
-    @Test("a code or table between list items refuses the entire removal")
+    @Test("a table between list items refuses the entire removal")
     func removeListsRefusesUnsupportedBlocks() throws
     {
         let unsupported = try BlockRecordTestValue.blocks().filter
         {
-            EditableSemanticBlock($0)?.isProse != true
+            EditableSemanticBlock($0) == nil
         }
         let item = CanonicalBlockStyle.bulleted.semanticBlock(
             runs: [SemanticRun(text: "A")]

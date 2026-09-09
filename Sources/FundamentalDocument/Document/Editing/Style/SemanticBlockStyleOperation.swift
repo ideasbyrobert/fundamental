@@ -5,7 +5,7 @@ enum SemanticBlockStyleOperation: Equatable, Sendable
 
     func applying(to block: SemanticBlock) -> SemanticBlock?
     {
-        guard let editable = EditableSemanticBlock(block), editable.isProse
+        guard let editable = EditableSemanticBlock(block)
         else
         {
             return nil
@@ -13,7 +13,7 @@ enum SemanticBlockStyleOperation: Equatable, Sendable
         switch self
         {
         case let .assign(style):
-            guard style != .monostyled
+            guard editable.isProse, style != .monostyled
             else
             {
                 return nil
