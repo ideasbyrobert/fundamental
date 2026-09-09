@@ -57,11 +57,11 @@ extension WritingUITests
             app.typeKey("z", modifierFlags: [.command, .shift])
             try journey.expectText("Before\n" + edited + "\nAfter")
         }
-        try journey.step("Keep cross-block refusal atomic and edit prose")
+        try journey.step("Replace across code blocks, undo and edit prose")
         {
-            app.typeKey("a", modifierFlags: [.command])
-            app.typeText("X")
-            try journey.expectText("Before\n" + edited + "\nAfter")
+            try journey.replaceWholeDocumentThenUndo(
+                "Before\n" + edited + "\nAfter", leadingID: code.blockIDs[0]
+            )
             app.typeKey(.downArrow, modifierFlags: [.command])
             XCTAssertTrue(journey.window.popUpButtons["FundamentalBlockStyle"]
                 .isEnabled)

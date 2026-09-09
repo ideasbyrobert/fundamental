@@ -12,8 +12,8 @@ extension WritingProposalTests
         #expect(WritingSurfacePolicy.readableMeasure == 720)
         #expect(WritingSurfacePolicy.admits(""))
         #expect(WritingSurfacePolicy.admits("English 123 😀 e\u{301}"))
-        #expect(!WritingSurfacePolicy.admits("\r"))
-        #expect(!WritingSurfacePolicy.admits("\n"))
-        #expect(!WritingSurfacePolicy.admits("\r\n"))
+        #expect(WritingSurfacePolicy.admits("\r"))
+        #expect(WritingSurfacePolicy.admits("\n"))
+        #expect(WritingSurfacePolicy.admits("\r\n"))
     }
 }

@@ -19,22 +19,16 @@ struct WritingTextContext
             return nil
         }
         let blocks = projection.snapshot.snapshot.document.content.blocks
-        let code = blocks[first ... last].contains
+        if case .code = blocks[first].block
         {
-            if case .code = $0.block
-            {
-                return true
-            }
-            return false
+            isCode = true
         }
-        guard !code || first == last
         else
         {
-            return nil
+            isCode = false
         }
         self.range = range
         separators = last - first
-        isCode = code
     }
 
     func replacement(_ source: String) -> String

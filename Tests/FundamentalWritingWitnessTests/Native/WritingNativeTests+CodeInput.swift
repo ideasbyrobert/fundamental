@@ -68,27 +68,4 @@ extension WritingNativeTests
             location: 7, length: text.utf16.count
         ))
     }
-
-    @Test(arguments: [false, true])
-    func codeBoundaryRefusalLeavesNativeTextAndHistoryIntact(tagged: Bool)
-        throws
-    {
-        let fixture = try WritingCodeFixture.document("A\nB", tagged: tagged)
-        let window = try WritingTestWindow(session: DocumentSession(
-            state: fixture.state
-        ))
-        defer
-        {
-            window.close()
-        }
-        for range in [NSRange(location: 6, length: 1),
-                      NSRange(location: 10, length: 1)]
-        {
-            window.select(range.location, range.length)
-            let before = window.storage
-            window.commit("X\nY")
-            #expect(window.storage == before)
-            try window.expect("Before\nA\nB\nAfter", selection: range)
-        }
-    }
 }

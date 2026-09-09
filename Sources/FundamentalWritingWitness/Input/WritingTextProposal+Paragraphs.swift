@@ -4,11 +4,13 @@ import FundamentalDocument
 extension WritingTextProposal
 {
     static func paragraphEdit(
-        _ replacement: String, in range: DocumentRange
+        _ replacement: String, in range: DocumentRange, sourceLines: Bool
     ) -> CanonicalDocumentEdit?
     {
         var paragraphs: [SemanticParagraph] = []
-        for text in replacement.components(separatedBy: "\n")
+        let parts = sourceLines ? [replacement] :
+            replacement.components(separatedBy: "\n")
+        for text in parts
         {
             if text.isEmpty
             {

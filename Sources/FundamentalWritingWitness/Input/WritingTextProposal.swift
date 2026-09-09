@@ -22,22 +22,8 @@ struct WritingTextProposal: Equatable, Sendable
         }
         let range = context.range
         let replacement = context.replacement(replacements[0])
-        let retained = projection.map.utf16Count - ranges[0].length
-        let (count, overflow) = retained.addingReportingOverflow(
-            replacement.utf16.count
-        )
-        let adjustment = context.seamAdjustment(
-            replacing: ranges[0], with: replacement, in: projection
-        )
-        let (projectedCount, seamOverflow) = count.addingReportingOverflow(
-            adjustment
-        )
-        guard !overflow, !seamOverflow,
-              projectedCount <= WritingSurfacePolicy.maximumUTF16Units
-        else
-        {
-            return nil
-        }
+        let structural = context.separators > 0 ||
+            (!context.isCode && replacement.contains("\n"))
         let inserted = context.isCode ? 0 : replacement.utf16.reduce(0)
         {
             $0 + ($1 == 0x0A ? 1 : 0)
@@ -50,13 +36,21 @@ struct WritingTextProposal: Equatable, Sendable
             return nil
         }
         let edit: CanonicalDocumentEdit?
-        if !context.isCode && (context.separators > 0 ||
-            replacement.contains("\n"))
+        if structural
         {
-            edit = Self.paragraphEdit(replacement, in: range)
+            edit = Self.paragraphEdit(replacement, in: range,
+                                      sourceLines: context.isCode)
         }
         else
         {
+            guard Self.admitsCount(
+                replacing: ranges[0], with: replacement,
+                context: context, in: projection
+            )
+            else
+            {
+                return nil
+            }
             edit = Self.textEdit(replacement, in: range)
         }
         guard let edit
@@ -64,6 +58,12 @@ struct WritingTextProposal: Equatable, Sendable
         {
             return nil
         }
-        command = .edit(projection.observation, edit)
+        let command = DocumentSessionCommand.edit(projection.observation, edit)
+        guard !structural || Self.admits(command, in: projection)
+        else
+        {
+            return nil
+        }
+        self.command = command
     }
 }

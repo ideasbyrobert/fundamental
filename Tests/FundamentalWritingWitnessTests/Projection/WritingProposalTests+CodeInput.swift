@@ -49,7 +49,7 @@ extension WritingProposalTests
     }
 
     @Test(arguments: [false, true])
-    func codeBoundaryReplacementRefusesBeforeNativeMutation(tagged: Bool)
+    func codeBoundaryReplacementPreservesProjectedSource(tagged: Bool)
         throws
     {
         let fixture = try WritingCodeFixture.document("A\nB", tagged: tagged)
@@ -61,8 +61,22 @@ extension WritingProposalTests
         {
             for replacement in ["", "X", "\n"]
             {
-                #expect(WritingTextProposal(ranges: [range],
-                    replacements: [replacement], in: projection) == nil)
+                let proposal = try #require(WritingTextProposal(
+                    ranges: [range], replacements: [replacement],
+                    in: projection
+                ))
+                guard case let .applied(state) = DocumentSessionTransition(
+                    proposal.command, in: fixture.state
+                )
+                else
+                {
+                    Issue.record("Expected a mixed replacement")
+                    continue
+                }
+                let expected = (projection.text as NSString)
+                    .replacingCharacters(in: range, with: replacement)
+                #expect(try #require(WritingProjection(state)).text.utf16
+                    .elementsEqual(expected.utf16))
             }
         }
         #expect(try fixture.projection() == projection)

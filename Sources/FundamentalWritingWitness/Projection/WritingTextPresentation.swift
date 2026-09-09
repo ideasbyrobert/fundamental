@@ -4,16 +4,16 @@ import AppKit
 struct WritingTextPresentation
 {
     let text: NSAttributedString
-    let ranges: [NSRange]
-    let attributes: [[NSAttributedString.Key: Any]]
-    let selectedIndex: Int
+    let typingAttributes: [NSAttributedString.Key: Any]
+    let terminalAttributes: [NSAttributedString.Key: Any]
+    let hasListMarkers: Bool
 
     init?(_ projection: WritingProjection)
     {
         let content = NSMutableAttributedString(string: projection.text)
         let blocks = projection.snapshot.snapshot.document.content.blocks
-        var attributes: [[NSAttributedString.Key: Any]] = []
-        var ranges: [NSRange] = []
+        var terminal: [NSAttributedString.Key: Any] = [:]
+        var hasMarkers = false
         var ordinal = 0
         for (index, block) in blocks.enumerated()
         {
@@ -24,33 +24,26 @@ struct WritingTextPresentation
             {
                 return nil
             }
-            let span = projection.map.spans[index]
-            let range = NSRange(
-                location: span.range.location,
-                length: span.range.length + span.separatorLength
+            terminal = WritingBlockAppearance.apply(
+                appearance, to: content, span: projection.map.spans[index]
             )
-            content.addAttributes(appearance, range: range)
-            attributes.append(appearance)
-            ranges.append(range)
+            hasMarkers = hasMarkers ||
+                appearance[WritingTypography.marker] != nil
         }
         text = content
-        self.attributes = attributes
-        self.ranges = ranges
-        selectedIndex = projection.map.spans.lastIndex
-        {
-            $0.range.location <= projection.selection.location
-        } ?? 0
+        terminalAttributes = terminal
+        hasListMarkers = hasMarkers
+        let caret = projection.selection.location
+        typingAttributes = caret < content.length
+            ? content.attributes(at: caret, effectiveRange: nil) : terminal
     }
 
     func replace(in view: NSTextView)
     {
         view.textStorage?.setAttributedString(text)
-        view.typingAttributes = attributes[selectedIndex]
-        (view as? WritingTextView)?.terminalAttributes = attributes.last ?? [:]
-        (view as? WritingTextView)?.hasListMarkers = attributes.contains
-        {
-            $0[WritingTypography.marker] != nil
-        }
+        view.typingAttributes = typingAttributes
+        (view as? WritingTextView)?.terminalAttributes = terminalAttributes
+        (view as? WritingTextView)?.hasListMarkers = hasListMarkers
         view.needsDisplay = true
     }
 
@@ -65,16 +58,14 @@ struct WritingTextPresentation
         storage.removeAttribute(WritingTypography.marker, range: NSRange(
             location: 0, length: storage.length
         ))
-        for (range, appearance) in zip(ranges, attributes)
+        text.enumerateAttributes(in: NSRange(location: 0, length: text.length))
         {
+            appearance, range, _ in
             storage.addAttributes(appearance, range: range)
         }
         storage.endEditing()
-        (view as? WritingTextView)?.terminalAttributes = attributes.last ?? [:]
-        (view as? WritingTextView)?.hasListMarkers = attributes.contains
-        {
-            $0[WritingTypography.marker] != nil
-        }
+        (view as? WritingTextView)?.terminalAttributes = terminalAttributes
+        (view as? WritingTextView)?.hasListMarkers = hasListMarkers
         view.needsDisplay = true
     }
 }

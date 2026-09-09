@@ -7,8 +7,7 @@ extension WritingTextContext
         in projection: WritingProjection
     ) -> Int
     {
-        guard isCode,
-              let span = projection.map.spans.first(where:
+        guard let span = projection.map.spans.first(where:
                 { $0.blockID == range.start.blockID }),
               span.separatorLength > 0,
               NSMaxRange(native) == NSMaxRange(span.range)

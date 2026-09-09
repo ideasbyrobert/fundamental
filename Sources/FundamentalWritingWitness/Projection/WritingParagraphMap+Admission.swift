@@ -12,7 +12,6 @@ extension WritingParagraphMap
             return nil
         }
         let runs: [SemanticRun]
-        var isCode = false
         switch block
         {
         case let .paragraph(paragraph):
@@ -23,10 +22,8 @@ extension WritingParagraphMap
             runs = item.runs
         case let .code(.plain(code)):
             runs = code.runs
-            isCode = true
         case let .code(.languageTagged(code)):
             runs = code.runs
-            isCode = true
         case .table:
             return nil
         }
@@ -34,9 +31,7 @@ extension WritingParagraphMap
         for run in runs
         {
             guard case .direct = run, run.traits.isEmpty,
-                  WritingSurfacePolicy.admits(
-                    run.text, allowingLineBreaks: isCode
-                  )
+                  WritingSurfacePolicy.admits(run.text)
             else
             {
                 return nil
