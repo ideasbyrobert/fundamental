@@ -1,0 +1,192 @@
+{
+    archiveVersion = 1;
+    classes = {};
+    objectVersion = 56;
+    objects = {
+        102000000000000000000001 = {
+            isa = PBXProject;
+            attributes = { LastUpgradeCheck = 2700; };
+            buildConfigurationList = 102000000000000000000012;
+            compatibilityVersion = "Xcode 14.0";
+            developmentRegion = en;
+            hasScannedForEncodings = 0;
+            knownRegions = (en, Base);
+            mainGroup = 102000000000000000000002;
+            productRefGroup = 102000000000000000000003;
+            projectDirPath = "";
+            projectRoot = "";
+            targets = (102000000000000000000005);
+        };
+        102000000000000000000002 = {
+            isa = PBXGroup;
+            children = (
+                102000000000000000000004,
+                102000000000000000000003,
+            );
+            sourceTree = "<group>";
+        };
+        102000000000000000000003 = {
+            isa = PBXGroup;
+            children = (102000000000000000000008);
+            name = Products;
+            sourceTree = "<group>";
+        };
+        102000000000000000000004 = {
+            isa = PBXGroup;
+            children = (
+                102000000000000000000009,
+                102000000000000000000015,
+                102000000000000000000017,
+                102000000000000000000019,
+                102000000000000000000021,
+                102000000000000000000023,
+            );
+            path = UITests;
+            sourceTree = "<group>";
+        };
+        102000000000000000000005 = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = 102000000000000000000011;
+            buildPhases = (
+                102000000000000000000006,
+                102000000000000000000007,
+            );
+            buildRules = ();
+            dependencies = ();
+            name = FundamentalUITests;
+            productName = FundamentalUITests;
+            productReference = 102000000000000000000008;
+            productType = "com.apple.product-type.bundle.ui-testing";
+        };
+        102000000000000000000006 = {
+            isa = PBXSourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                102000000000000000000010,
+                102000000000000000000016,
+                102000000000000000000018,
+                102000000000000000000020,
+                102000000000000000000022,
+                102000000000000000000024,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        102000000000000000000007 = {
+            isa = PBXFrameworksBuildPhase;
+            buildActionMask = 2147483647;
+            files = ();
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        102000000000000000000008 = {
+            isa = PBXFileReference;
+            explicitFileType = wrapper.cfbundle;
+            includeInIndex = 0;
+            path = FundamentalUITests.xctest;
+            sourceTree = BUILT_PRODUCTS_DIR;
+        };
+        102000000000000000000009 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = WritingUITests.swift;
+            sourceTree = "<group>";
+        };
+        102000000000000000000010 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000009;
+        };
+        102000000000000000000015 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = WritingUIFixture.swift;
+            sourceTree = "<group>";
+        };
+        102000000000000000000016 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000015;
+        };
+        102000000000000000000017 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = WritingUIPasteboard.swift;
+            sourceTree = "<group>";
+        };
+        102000000000000000000018 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000017;
+        };
+        102000000000000000000019 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = WritingUIJourney.swift;
+            sourceTree = "<group>";
+        };
+        102000000000000000000020 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000019;
+        };
+        102000000000000000000021 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+Files.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000022 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000021;
+        };
+        102000000000000000000023 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = WritingUIRecord.swift;
+            sourceTree = "<group>";
+        };
+        102000000000000000000024 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000023;
+        };
+        102000000000000000000011 = {
+            isa = XCConfigurationList;
+            buildConfigurations = (102000000000000000000014);
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Debug;
+        };
+        102000000000000000000012 = {
+            isa = XCConfigurationList;
+            buildConfigurations = (102000000000000000000013);
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Debug;
+        };
+        102000000000000000000013 = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                ALWAYS_SEARCH_USER_PATHS = NO;
+                MACOSX_DEPLOYMENT_TARGET = 26.0;
+                SDKROOT = macosx;
+                SWIFT_VERSION = 6.0;
+                SWIFT_STRICT_CONCURRENCY = complete;
+                SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+            };
+            name = Debug;
+        };
+        102000000000000000000014 = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                CODE_SIGN_IDENTITY = "-";
+                CODE_SIGN_STYLE = Manual;
+                GENERATE_INFOPLIST_FILE = YES;
+                INFOPLIST_FILE = UITests/Info.plist;
+                LD_RUNPATH_SEARCH_PATHS = (
+                    "$(inherited)",
+                    "@executable_path/Frameworks",
+                    "@loader_path/Frameworks",
+                );
+                PRODUCT_BUNDLE_IDENTIFIER = "com.ideasbyrobert.FundamentalUITests";
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SUPPORTED_PLATFORMS = macosx;
+                SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+            };
+            name = Debug;
+        };
+    };
+    rootObject = 102000000000000000000001;
+}
