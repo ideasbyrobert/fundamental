@@ -31,6 +31,8 @@ package enum DocumentSessionTransition: Equatable, Sendable
             self = Self.select(selection, in: editable)
         case let .style(_, change):
             self = Self.style(change, in: editable)
+        case let .convertCode(_, conversion):
+            self = Self.convertCode(conversion, in: editable)
         }
     }
 

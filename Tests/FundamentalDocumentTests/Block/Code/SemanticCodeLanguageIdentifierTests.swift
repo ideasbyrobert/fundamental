@@ -26,4 +26,17 @@ struct SemanticCodeLanguageIdentifierTests
             #expect(SemanticCodeLanguageIdentifier(value) == nil)
         }
     }
+
+    @Test("identifier equality retains raw spelling instead of normalizing it")
+    func exactEquality() throws
+    {
+        let composed = try #require(SemanticCodeLanguageIdentifier("é"))
+        let decomposed = try #require(
+            SemanticCodeLanguageIdentifier("e\u{301}")
+        )
+        #expect(composed.value == decomposed.value)
+        #expect(composed != decomposed)
+        #expect(composed == SemanticCodeLanguageIdentifier("é"))
+        #expect(decomposed == SemanticCodeLanguageIdentifier("e\u{301}"))
+    }
 }

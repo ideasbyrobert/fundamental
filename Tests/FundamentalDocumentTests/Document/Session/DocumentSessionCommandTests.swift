@@ -13,10 +13,12 @@ extension DocumentSessionTransitionTests
         let change = SemanticBlockStyleChange(
             range: selection.range, style: .bulleted
         )
+        let conversion = SemanticCodeConversion(range: selection.range)
         let commands: [DocumentSessionCommand] = [
             .edit(fixture.observation, edit),
             .select(fixture.observation, selection),
-            .style(fixture.observation, change)
+            .style(fixture.observation, change),
+            .convertCode(fixture.observation, conversion)
         ]
         for command in commands
         {
@@ -32,6 +34,10 @@ extension DocumentSessionTransitionTests
             case let .style(observation, value):
                 #expect(observation == fixture.observation)
                 #expect(value == change)
+            case let .convertCode(observation, value):
+                #expect(observation == fixture.observation)
+                #expect(value == conversion)
+                #expect(command.changesContent)
             }
         }
         #expect(commands[0] != commands[1])
