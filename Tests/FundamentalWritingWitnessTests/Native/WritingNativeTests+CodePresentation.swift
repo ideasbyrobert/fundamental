@@ -37,13 +37,13 @@ extension WritingNativeTests
         window.select(7)
         let formatting = window.controller.formatting
         #expect(formatting.block.selectedItem?.title == "Code")
-        #expect(!formatting.block.isEnabled && !formatting.list.isEnabled)
-        #expect(!window.controller.canFormatSelection)
+        #expect(formatting.block.isEnabled && formatting.list.isEnabled)
+        #expect(window.controller.canFormatSelection)
         let heading = try window.formatChoice("Heading",
                                                group: "Paragraph Style")
-        #expect(!window.controller.validateUserInterfaceItem(heading))
+        #expect(window.controller.validateUserInterfaceItem(heading))
         window.select(0, NSMaxRange(spans[1].range))
-        #expect(!formatting.block.isEnabled && !formatting.list.isEnabled)
+        #expect(formatting.block.isEnabled && formatting.list.isEnabled)
         window.select(spans[2].range.location)
         #expect(formatting.block.isEnabled && formatting.list.isEnabled)
         #expect(formatting.block.selectedItem?.title == "Body")

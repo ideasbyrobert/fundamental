@@ -5,7 +5,7 @@ extension WritingWindowController
     var canFormatSelection: Bool
     {
         let responder = documentWindow.firstResponder
-        return bridge.projection.canFormatParagraphs &&
+        return bridge.projection.canFormatBlocks && codeLanguageSheet == nil &&
             documentWindow.isKeyWindow &&
             documentWindow.attachedSheet == nil && !choosingLocation &&
             !fileOwner.isSaving && closeTask == nil && textView.isEditable &&
@@ -15,6 +15,11 @@ extension WritingWindowController
 
     @objc func chooseParagraphStyle(_ sender: Any?)
     {
+        if WritingCodeLanguageMenu.isChoice(sender)
+        {
+            chooseCodeLanguage(sender)
+            return
+        }
         applyFormatting(.paragraph, sender: sender)
     }
 

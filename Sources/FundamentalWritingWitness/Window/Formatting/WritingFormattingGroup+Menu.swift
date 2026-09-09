@@ -15,6 +15,11 @@ extension WritingFormattingGroup
             command.representedObject = choice.style.rawValue
             menu.addItem(command)
         }
+        if self == .paragraph
+        {
+            WritingCodeLanguageMenu.items().forEach { menu.addItem($0) }
+            menu.delegate = WritingFormattingMenuDelegate.shared
+        }
         item.submenu = menu
         return item
     }

@@ -19,9 +19,17 @@ extension WritingFormattingToolbar
         }
         configure(block, label: "Block style", group: .paragraph)
         configure(list, label: "List", group: .list)
+        if let menu = block.menu
+        {
+            let insertion = menu.items.count - 1
+            for (offset, item) in WritingCodeLanguageMenu.items().enumerated()
+            {
+                menu.insertItem(item, at: insertion + offset)
+            }
+        }
         block.setAccessibilityIdentifier(Self.blockID.rawValue)
         list.setAccessibilityIdentifier(Self.listID.rawValue)
-        block.toolTip = "Choose the meaning of the selected paragraphs"
+        block.toolTip = "Choose the meaning of the selected text"
         list.toolTip = "Choose a list style for the selected paragraphs"
     }
 

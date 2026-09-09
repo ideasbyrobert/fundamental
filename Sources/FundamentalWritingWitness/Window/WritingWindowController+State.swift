@@ -14,6 +14,10 @@ extension WritingWindowController
 
     func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool
     {
+        if item.action == #selector(chooseCodeLanguage(_:))
+        {
+            return canChooseCodeLanguage
+        }
         if let group = WritingFormattingGroup.allCases.first(where:
             { $0.action == item.action })
         {
@@ -22,7 +26,8 @@ extension WritingWindowController
         if item.action == #selector(saveDocument(_:)) ||
             item.action == #selector(saveDocumentAs(_:))
         {
-            return !fileOwner.isSaving && !choosingLocation
+            return !fileOwner.isSaving && !choosingLocation &&
+                codeLanguageSheet == nil
         }
         return true
     }

@@ -36,9 +36,9 @@ extension WritingUITests
             app.typeKey(.downArrow, modifierFlags: [])
             app.typeKey(.leftArrow, modifierFlags: [.command])
             let block = journey.window.popUpButtons["FundamentalBlockStyle"]
-            XCTAssertFalse(block.isEnabled)
+            XCTAssertTrue(block.isEnabled)
             XCTAssertEqual(block.value as? String, "Code")
-            XCTAssertFalse(journey.window.menuButtons["FundamentalListStyle"]
+            XCTAssertTrue(journey.window.menuButtons["FundamentalListStyle"]
                 .isEnabled)
             journey.paste(code.prefix)
             app.typeKey(.return, modifierFlags: [])

@@ -60,6 +60,8 @@ extension WritingNativeTests
         {
             let overflow = try #require(item.menuFormRepresentation?.submenu)
             let submenu = try #require(group.submenu)
+            WritingFormattingMenuDelegate.shared.menuNeedsUpdate(overflow)
+            WritingFormattingMenuDelegate.shared.menuNeedsUpdate(submenu)
             #expect(overflow.items.map(\.title) == submenu.items.map(\.title))
             for (command, expected) in zip(overflow.items, submenu.items)
             {
@@ -67,7 +69,8 @@ extension WritingNativeTests
                 #expect(command.representedObject as? String ==
                     expected.representedObject as? String)
                 #expect(command.target == nil)
-                #expect(window.controller.validateUserInterfaceItem(command))
+                #expect(window.controller.validateUserInterfaceItem(command) ==
+                    (command.identifier != WritingCodeLanguageMenu.identifier))
             }
         }
         let list = try #require(items.last?.menuFormRepresentation?.submenu)

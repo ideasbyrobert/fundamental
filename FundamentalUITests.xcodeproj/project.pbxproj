@@ -54,6 +54,10 @@
                 102000000000000000000047,
                 102000000000000000000049,
                 102000000000000000000051,
+                102000000000000000000053,
+                102000000000000000000055,
+                102000000000000000000057,
+                102000000000000000000059,
             );
             path = UITests;
             sourceTree = "<group>";
@@ -96,6 +100,10 @@
                 102000000000000000000048,
                 102000000000000000000050,
                 102000000000000000000052,
+                102000000000000000000054,
+                102000000000000000000056,
+                102000000000000000000058,
+                102000000000000000000060,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -134,6 +142,46 @@
         102000000000000000000052 = {
             isa = PBXBuildFile;
             fileRef = 102000000000000000000051;
+        };
+        102000000000000000000053 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIFormattingRoute+Code.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000054 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000053;
+        };
+        102000000000000000000055 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+CodeLanguage.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000056 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000055;
+        };
+        102000000000000000000057 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+CodeConversion.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000058 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000057;
+        };
+        102000000000000000000059 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+CodeLanguage.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000060 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000059;
         };
         102000000000000000000008 = {
             isa = PBXFileReference;

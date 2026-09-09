@@ -2,7 +2,7 @@ import FundamentalDocument
 
 extension WritingProjection
 {
-    var canFormatParagraphs: Bool
+    var canFormatBlocks: Bool
     {
         guard let selected = SemanticBlockSelection(
             range: snapshot.selection.range,
@@ -16,9 +16,9 @@ extension WritingProjection
         {
             switch $0.block
             {
-            case .paragraph, .heading, .listItem:
+            case .paragraph, .heading, .listItem, .code:
                 true
-            case .code, .table:
+            case .table:
                 false
             }
         }

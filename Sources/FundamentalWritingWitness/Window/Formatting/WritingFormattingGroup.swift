@@ -17,7 +17,7 @@ enum WritingFormattingGroup: CaseIterable
         {
         case .paragraph:
             [("Body", .body), ("Title", .title), ("Heading", .heading),
-             ("Subheading", .subheading)]
+             ("Subheading", .subheading), ("Code", .monostyled)]
         case .list:
             [("No List", .body), ("Bulleted", .bulleted),
              ("Numbered", .numbered)]

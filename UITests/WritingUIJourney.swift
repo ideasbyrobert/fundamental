@@ -34,7 +34,8 @@ struct WritingUIJourney
             activity in
             defer
             {
-                let text = XCTAttachment(string: app.debugDescription)
+                let text = XCTAttachment(data: Data(app.debugDescription.utf8),
+                    uniformTypeIdentifier: "public.utf8-plain-text")
                 text.name = name + " accessibility"
                 text.lifetime = .keepAlways
                 activity.add(text)

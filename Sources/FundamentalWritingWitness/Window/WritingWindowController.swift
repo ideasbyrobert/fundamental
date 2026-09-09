@@ -15,6 +15,7 @@ final class WritingWindowController:
     var discardApproved = false
     var choosingLocation = false
     var closeTask: Task<Bool, Never>?
+    var codeLanguageSheet: WritingCodeLanguageSheet?
     var didClose: (@MainActor () -> Void)?
 
     convenience init?(

@@ -48,7 +48,7 @@ extension WritingNativeTests
         }
         let before = window.storage
         let item = try window.formatChoice("Heading", group: "Paragraph Style")
-        for value in ["unknown", "monostyled", "numbered"]
+        for value in ["unknown", "numbered"]
         {
             item.representedObject = value
             #expect(!window.controller.validateUserInterfaceItem(item))

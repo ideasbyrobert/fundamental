@@ -10,7 +10,8 @@ extension WritingNativeBridge
     {
         changeFormatting(in: view)
         {
-            SemanticBlockStyleChange(range: $0, style: style)
+            WritingBlockStyleProposal(style: style, range: $1,
+                                        in: $0)?.command
         }
     }
 
@@ -19,29 +20,24 @@ extension WritingNativeBridge
     {
         changeFormatting(in: view)
         {
-            SemanticBlockStyleChange(removingListsIn: $0)
+            .style($0.observation,
+                   SemanticBlockStyleChange(removingListsIn: $1))
         }
     }
 
     private func changeFormatting(
         in view: NSTextView,
-        change: (DocumentRange) -> SemanticBlockStyleChange
+        change: (WritingProjection, DocumentRange) -> DocumentSessionCommand?
     ) -> DocumentSessionTransition
     {
-        guard view.textLayoutManager != nil, finishComposition(in: view),
-              view.string.utf16.elementsEqual(projection.text.utf16),
-              let range = projection.range(view.selectedRange())
+        guard let range = formattingRange(in: view),
+              let command = change(projection, range)
         else
         {
             project(in: view)
             return .refused(.invalidCommand)
         }
-        let result = session.submit(.style(
-            projection.observation, change(range)
-        ))
-        project(in: view)
-        view.window?.makeFirstResponder(view)
-        return result
+        return submitFormatting(command, in: view)
     }
 
     func updateTyping(in view: NSTextView)
