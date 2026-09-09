@@ -14,7 +14,7 @@ extension DocumentSession
         let history: DocumentHistory
         switch command
         {
-        case .select:
+        case .select, .typing:
             history = current.history
         case .edit, .style, .convertCode, .inline:
             guard let recorded = recordedHistory(for: successor)

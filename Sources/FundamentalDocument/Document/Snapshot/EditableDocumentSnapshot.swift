@@ -2,10 +2,12 @@ package struct EditableDocumentSnapshot: Equatable, Sendable
 {
     package let snapshot: DocumentSnapshot
     package let selection: DocumentSelection
+    package let typingIntent: DocumentTypingIntent?
 
     package init?(
         snapshot: DocumentSnapshot,
-        selection: DocumentSelection
+        selection: DocumentSelection,
+        typingIntent: DocumentTypingIntent? = nil
     )
     {
         for block in snapshot.document.content.blocks
@@ -17,7 +19,8 @@ package struct EditableDocumentSnapshot: Equatable, Sendable
             }
         }
 
-        guard ResolvedDocumentRange(
+        guard (typingIntent == nil || selection.range.isCollapsed),
+              ResolvedDocumentRange(
             selection.range,
             in: snapshot.document
         ) != nil
@@ -28,5 +31,6 @@ package struct EditableDocumentSnapshot: Equatable, Sendable
 
         self.snapshot = snapshot
         self.selection = selection
+        self.typingIntent = typingIntent
     }
 }

@@ -42,7 +42,8 @@ extension DocumentSessionTransition
                   snapshot: DocumentSnapshot(
                       generation: generation, document: document
                   ),
-                  selection: DocumentSelection(range: range)
+                  selection: DocumentSelection(range: range),
+                  typingIntent: source.typingIntent
               )
         else
         {

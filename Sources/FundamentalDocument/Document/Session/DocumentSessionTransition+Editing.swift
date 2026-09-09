@@ -16,13 +16,8 @@ extension DocumentSessionTransition
             edit,
             in: source.snapshot.document
         ),
-              let editable = EditableDocumentSnapshot(
-                  snapshot: DocumentSnapshot(
-                      generation: generation,
-                      document: applied.document
-                  ),
-                  selection: .caret(at: applied.caret.point)
-              )
+              let editable = source.applying(edit, result: applied,
+                                            generation: generation)
         else
         {
             return .refused(.invalidCommand)

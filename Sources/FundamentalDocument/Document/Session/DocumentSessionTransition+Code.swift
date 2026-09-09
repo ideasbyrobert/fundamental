@@ -41,7 +41,9 @@ extension DocumentSessionTransition
                   snapshot: DocumentSnapshot(
                       generation: generation, document: document
                   ),
-                  selection: selection
+                  selection: selection,
+                  typingIntent: selection.range.isCollapsed
+                      ? source.typingIntent : nil
               )
         else
         {

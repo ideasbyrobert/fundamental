@@ -40,7 +40,8 @@ struct RestoredDocumentHistoryCheckpoint: Equatable, Sendable
                       generation: generation,
                       document: document
                   ),
-                  selection: DocumentSelection(range: rebound)
+                  selection: DocumentSelection(range: rebound),
+                  typingIntent: stored.typingIntent
               )
         else
         {
