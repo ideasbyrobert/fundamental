@@ -3,15 +3,13 @@ import AppKit
 @MainActor
 final class WritingFormattingToolbar: NSObject, NSToolbarDelegate
 {
-    let block = NSPopUpButton(frame: NSRect(x: 0, y: 0, width: 150, height: 28))
-    let bulleted = NSButton(title: "", target: nil, action: nil)
-    let numbered = NSButton(title: "", target: nil, action: nil)
+    let block = NSPopUpButton(frame: .zero)
+    let list = NSPopUpButton(frame: .zero, pullsDown: true)
     weak var textView: WritingTextView?
 
     static let blockID = NSToolbarItem.Identifier("FundamentalBlockStyle")
-    static let bulletedID = NSToolbarItem.Identifier("FundamentalBulletedList")
-    static let numberedID = NSToolbarItem.Identifier("FundamentalNumberedList")
-    static let items = [blockID, bulletedID, numberedID]
+    static let listID = NSToolbarItem.Identifier("FundamentalListStyle")
+    static let items = [blockID, listID]
 
     override init()
     {
@@ -53,12 +51,9 @@ final class WritingFormattingToolbar: NSObject, NSToolbarDelegate
         case Self.blockID:
             item.view = block
             item.label = "Block style"
-        case Self.bulletedID:
-            item.view = bulleted
-            item.label = "Bulleted list"
-        case Self.numberedID:
-            item.view = numbered
-            item.label = "Numbered list"
+        case Self.listID:
+            item.view = list
+            item.label = "List"
         default:
             return nil
         }

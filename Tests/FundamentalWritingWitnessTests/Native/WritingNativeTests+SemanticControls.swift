@@ -25,10 +25,16 @@ extension WritingNativeTests
         }
         let controls = window.controller.formatting
         #expect(controls.block.accessibilityLabel() == "Block style")
-        #expect(controls.bulleted.accessibilityLabel() == "Bulleted list")
-        #expect(controls.numbered.accessibilityLabel() == "Numbered list")
-        #expect(controls.bulleted.image != nil)
-        #expect(controls.numbered.image != nil)
+        #expect(controls.list.accessibilityLabel() == "List")
+        #expect(controls.list.selectedItem?.title == "No List")
+        #expect(controls.list.accessibilityHelp() ==
+            "Current list style: No List")
+        let items = try #require(window.controller.documentWindow.toolbar)
+            .items
+        #expect(items.count == 2)
+        #expect(items.map(\.itemIdentifier.rawValue) == [
+            "FundamentalBlockStyle", "FundamentalListStyle"
+        ])
     }
 
     @Test("mixed selections expose mixed controls and format in one undo step")
@@ -44,19 +50,24 @@ extension WritingNativeTests
         window.select(0, window.view.string.utf16.count)
         let block = window.controller.formatting.block
         #expect(block.selectedItem?.title == "Mixed")
-        #expect(window.controller.formatting.numbered.state == .mixed)
-        let bulleted = window.controller.formatting.bulleted
-        #expect(bulleted.sendAction(bulleted.action, to: bulleted.target))
+        let list = window.controller.formatting.list
+        #expect(list.selectedItem?.title == "Mixed")
+        #expect(list.selectedItem?.state == .on)
+        #expect(list.item(withTitle: "Mixed")?.isHidden == false)
+        try window.choose(.bulleted)
         #expect(window.styles == [.bulleted, .bulleted, .bulleted])
         #expect(window.session.history.undo.count == 1)
-        #expect(window.controller.formatting.bulleted.state == .on)
+        #expect(list.selectedItem?.title == "Bulleted")
+        #expect(list.item(withTitle: "Bulleted")?.state == .on)
+        #expect(list.item(withTitle: "Numbered")?.state == .off)
+        #expect(list.item(withTitle: "Mixed")?.isHidden == true)
         window.view.undoCanonicalEdit(nil)
         #expect(window.styles == [.title, .body, .numbered])
         #expect(block.selectedItem?.title == "Mixed")
         window.view.redoCanonicalEdit(nil)
         #expect(window.styles == [.bulleted, .bulleted, .bulleted])
-        #expect(bulleted.sendAction(bulleted.action, to: bulleted.target))
+        try window.chooseNoList()
         #expect(window.styles == [.body, .body, .body])
-        #expect(window.controller.formatting.bulleted.state == .off)
+        #expect(list.selectedItem?.title == "No List")
     }
 }

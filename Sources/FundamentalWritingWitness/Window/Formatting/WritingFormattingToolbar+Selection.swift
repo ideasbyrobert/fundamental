@@ -21,28 +21,34 @@ extension WritingFormattingToolbar
         {
             [.bulleted, .numbered].contains($0) ? CanonicalBlockStyle.body : $0
         }
-        if let style = prose.first, prose.allSatisfy({ $0 == style }),
-           let item = block.itemArray.first(where:
+        let lists = styles.map
+        {
+            [.bulleted, .numbered].contains($0) ? $0 : CanonicalBlockStyle.body
+        }
+        select(prose, in: block)
+        select(lists, in: list)
+        for item in list.itemArray.dropFirst()
+        {
+            item.state = item === list.selectedItem ? .on : .off
+            item.isHidden = item.title == "Mixed" && item.state == .off
+        }
+        let current = list.selectedItem?.title ?? "Mixed"
+        list.setAccessibilityHelp("Current list style: \(current)")
+    }
+
+    private func select(
+        _ styles: [CanonicalBlockStyle], in popup: NSPopUpButton
+    )
+    {
+        if let style = styles.first, styles.allSatisfy({ $0 == style }),
+           let item = popup.itemArray.first(where:
                { $0.representedObject as? String == style.rawValue })
         {
-            block.select(item)
+            popup.select(item)
         }
         else
         {
-            block.selectItem(withTitle: "Mixed")
+            popup.selectItem(withTitle: "Mixed")
         }
-        bulleted.state = state(.bulleted, in: styles)
-        numbered.state = state(.numbered, in: styles)
-    }
-
-    private func state(
-        _ style: CanonicalBlockStyle, in styles: [CanonicalBlockStyle]
-    ) -> NSControl.StateValue
-    {
-        if styles.allSatisfy({ $0 == style })
-        {
-            return .on
-        }
-        return styles.contains(style) ? .mixed : .off
     }
 }

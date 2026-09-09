@@ -5,29 +5,39 @@ extension WritingNativeBridge
 {
     @discardableResult
     func changeStyle(
-        _ style: CanonicalBlockStyle, toggle: Bool = false, in view: NSTextView
+        _ style: CanonicalBlockStyle, in view: NSTextView
+    ) -> DocumentSessionTransition
+    {
+        changeFormatting(in: view)
+        {
+            SemanticBlockStyleChange(range: $0, style: style)
+        }
+    }
+
+    @discardableResult
+    func removeLists(in view: NSTextView) -> DocumentSessionTransition
+    {
+        changeFormatting(in: view)
+        {
+            SemanticBlockStyleChange(removingListsIn: $0)
+        }
+    }
+
+    private func changeFormatting(
+        in view: NSTextView,
+        change: (DocumentRange) -> SemanticBlockStyleChange
     ) -> DocumentSessionTransition
     {
         guard view.textLayoutManager != nil, finishComposition(in: view),
               view.string.utf16.elementsEqual(projection.text.utf16),
-              let range = projection.range(view.selectedRange()),
-              let selected = SemanticBlockSelection(
-                  range: range, in: projection.snapshot.snapshot.document
-              )
+              let range = projection.range(view.selectedRange())
         else
         {
             project(in: view)
             return .refused(.invalidCommand)
         }
-        let remove = toggle && selected.blocks.allSatisfy
-        {
-            CanonicalBlockStyle($0.block) == style
-        }
         let result = session.submit(.style(
-            projection.observation,
-            SemanticBlockStyleChange(
-                range: range, style: remove ? .body : style
-            )
+            projection.observation, change(range)
         ))
         project(in: view)
         view.window?.makeFirstResponder(view)

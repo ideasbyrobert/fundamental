@@ -4,10 +4,9 @@ struct AppliedSemanticBlockStyleChange: Equatable, Sendable
 
     init?(_ change: SemanticBlockStyleChange, in source: CanonicalDocument)
     {
-        guard change.style != .monostyled,
-              let selected = SemanticBlockSelection(
-                  range: change.range, in: source
-              )
+        guard let selected = SemanticBlockSelection(
+            range: change.range, in: source
+        )
         else
         {
             return nil
@@ -15,15 +14,16 @@ struct AppliedSemanticBlockStyleChange: Equatable, Sendable
         var blocks = source.content.blocks
         for index in selected.indices
         {
-            guard let editable = EditableSemanticBlock(blocks[index].block),
-                  editable.isProse
+            guard let block = change.operation.applying(
+                to: blocks[index].block
+            )
             else
             {
                 return nil
             }
             blocks[index] = IdentifiedSemanticBlock(
                 blockID: blocks[index].blockID,
-                block: change.style.semanticBlock(runs: editable.runs)
+                block: block
             )
         }
         guard let content = CanonicalDocumentContent(

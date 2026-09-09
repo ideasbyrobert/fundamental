@@ -32,7 +32,21 @@ extension WritingTestWindow
 
     func choose(_ style: CanonicalBlockStyle) throws
     {
-        let popup = controller.formatting.block
+        let controls = controller.formatting
+        let popup = [.bulleted, .numbered].contains(style)
+            ? controls.list : controls.block
+        try choose(style, in: popup)
+    }
+
+    func chooseNoList() throws
+    {
+        try choose(.body, in: controller.formatting.list)
+    }
+
+    private func choose(
+        _ style: CanonicalBlockStyle, in popup: NSPopUpButton
+    ) throws
+    {
         let item = try #require(popup.itemArray.first
         {
             $0.representedObject as? String == style.rawValue

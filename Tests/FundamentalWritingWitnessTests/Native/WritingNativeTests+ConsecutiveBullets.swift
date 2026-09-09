@@ -18,8 +18,7 @@ extension WritingNativeTests
             window.close()
         }
         window.select(7, 18)
-        let button = window.controller.formatting.bulleted
-        #expect(button.sendAction(button.action, to: button.target))
+        try window.choose(.bulleted)
         #expect(window.styles == [
             .body, .bulleted, .bulleted, .bulleted, .body
         ])

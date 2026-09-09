@@ -12,7 +12,7 @@ struct SemanticWritingTestDocument
         revision: UInt64 = 8
     ) throws
     {
-        document = try DocumentRecordTestValue.document(
+        try self.init(
             blocks: styles.enumerated().map
             {
                 $0.element.semanticBlock(runs: [SemanticRun(
@@ -20,6 +20,13 @@ struct SemanticWritingTestDocument
                 )])
             },
             revision: revision
+        )
+    }
+
+    init(blocks: [SemanticBlock], revision: UInt64 = 8) throws
+    {
+        document = try DocumentRecordTestValue.document(
+            blocks: blocks, revision: revision
         )
     }
 
