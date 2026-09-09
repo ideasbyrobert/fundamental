@@ -26,7 +26,14 @@ struct WritingTextProposal: Equatable, Sendable
         let (count, overflow) = retained.addingReportingOverflow(
             replacement.utf16.count
         )
-        guard !overflow, count <= WritingSurfacePolicy.maximumUTF16Units
+        let adjustment = context.seamAdjustment(
+            replacing: ranges[0], with: replacement, in: projection
+        )
+        let (projectedCount, seamOverflow) = count.addingReportingOverflow(
+            adjustment
+        )
+        guard !overflow, !seamOverflow,
+              projectedCount <= WritingSurfacePolicy.maximumUTF16Units
         else
         {
             return nil

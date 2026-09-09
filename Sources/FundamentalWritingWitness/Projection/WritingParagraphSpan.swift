@@ -5,4 +5,5 @@ struct WritingParagraphSpan: Equatable, Sendable
 {
     let blockID: FundamentalBlockID
     let range: NSRange
+    let separatorLength: Int
 }

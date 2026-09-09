@@ -27,7 +27,7 @@ struct WritingTextPresentation
             let span = projection.map.spans[index]
             let range = NSRange(
                 location: span.range.location,
-                length: span.range.length + (index < blocks.count - 1 ? 1 : 0)
+                length: span.range.length + span.separatorLength
             )
             content.addAttributes(appearance, range: range)
             attributes.append(appearance)

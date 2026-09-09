@@ -7,8 +7,17 @@ struct WritingUICodeFixture
     let documentID = UUID()
     let blockIDs = (0 ..< 3).map { _ in UUID() }
     let language = " SwIfT "
-    let source = "let letter = \"e\u{301} 😀\"\r\n\treturn letter\n\n"
+    let source: String
     let prefix = "\tlet edited = \"e\u{301} 😀\"\r\n"
+
+    init(
+        tagged: Bool,
+        source: String = "let letter = \"e\u{301} 😀\"\r\n\treturn letter\n\n"
+    )
+    {
+        self.tagged = tagged
+        self.source = source
+    }
 
     func write(to location: URL) throws
     {

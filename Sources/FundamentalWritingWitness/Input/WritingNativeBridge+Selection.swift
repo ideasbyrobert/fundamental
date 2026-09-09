@@ -14,12 +14,14 @@ extension WritingNativeBridge
             return newRanges
         }
         guard finishComposition(in: textView), newRanges.count == 1,
-              projection.range(newRanges[0].rangeValue) != nil
+              let selection = projection.nativeSelection(
+                  newRanges[0].rangeValue, from: projection.selection
+              ), projection.range(selection) != nil
         else
         {
             return [NSValue(range: projection.selection)]
         }
-        return newRanges
+        return [NSValue(range: selection)]
     }
 
     func textViewDidChangeSelection(_ notification: Notification)

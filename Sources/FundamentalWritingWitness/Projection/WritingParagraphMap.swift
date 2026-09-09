@@ -16,9 +16,9 @@ struct WritingParagraphMap: Equatable, Sendable
             return nil
         }
         var spans: [WritingParagraphSpan] = []
-        var paragraphs: [String] = []
+        var parts: [String] = []
         var count = 0
-        for block in blocks
+        for (index, block) in blocks.enumerated()
         {
             guard let text = Self.spelling(block.block, startingAt: count)
             else
@@ -34,15 +34,28 @@ struct WritingParagraphMap: Equatable, Sendable
             {
                 return nil
             }
+            let separator = index == blocks.count - 1 ? "" :
+                text.unicodeScalars.last?.value == 0x0D ? "\r\n" : "\n"
+            let (next, seamOverflow) = end.addingReportingOverflow(
+                separator.utf16.count
+            )
+            guard !seamOverflow,
+                  next <= WritingSurfacePolicy.maximumUTF16Units
+            else
+            {
+                return nil
+            }
             spans.append(WritingParagraphSpan(
                 blockID: block.blockID,
-                range: NSRange(location: start, length: end - start)
+                range: NSRange(location: start, length: end - start),
+                separatorLength: separator.utf16.count
             ))
-            paragraphs.append(text)
-            count = end + 1
+            parts.append(text)
+            parts.append(separator)
+            count = next
         }
         self.spans = spans
-        text = paragraphs.joined(separator: "\n")
-        utf16Count = count - 1
+        text = parts.joined()
+        utf16Count = count
     }
 }
