@@ -15,37 +15,36 @@ struct WritingTextProposal: Equatable, Sendable
               let replacements, replacements.count == 1,
               replacements[0].utf16.count <=
                   WritingSurfacePolicy.maximumUTF16Units * 2,
-              let range = projection.range(ranges[0])
+              let context = WritingTextContext(ranges[0], in: projection)
         else
         {
             return nil
         }
-        let replacement = replacements[0]
-            .replacingOccurrences(of: "\r\n", with: "\n")
-            .replacingOccurrences(of: "\r", with: "\n")
+        let range = context.range
+        let replacement = context.replacement(replacements[0])
         let retained = projection.map.utf16Count - ranges[0].length
         let (count, overflow) = retained.addingReportingOverflow(
             replacement.utf16.count
         )
-        guard !overflow, count <= WritingSurfacePolicy.maximumUTF16Units,
-              let removed = projection.map.separatorCount(in: range)
+        guard !overflow, count <= WritingSurfacePolicy.maximumUTF16Units
         else
         {
             return nil
         }
-        let inserted = replacement.utf16.reduce(0)
+        let inserted = context.isCode ? 0 : replacement.utf16.reduce(0)
         {
             $0 + ($1 == 0x0A ? 1 : 0)
         }
-        let paragraphs = projection.map.spans.count - removed + inserted
+        let paragraphs = projection.map.spans.count - context.separators +
+            inserted
         guard paragraphs <= WritingSurfacePolicy.maximumParagraphs
         else
         {
             return nil
         }
         let edit: CanonicalDocumentEdit?
-        if range.start.blockID != range.end.blockID ||
-            replacement.contains("\n")
+        if !context.isCode && (context.separators > 0 ||
+            replacement.contains("\n"))
         {
             edit = Self.paragraphEdit(replacement, in: range)
         }

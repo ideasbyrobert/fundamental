@@ -5,7 +5,18 @@ extension WritingTextView
 {
     override func insertNewline(_ sender: Any?)
     {
-        if !removeListRole(requiringEmpty: true)
+        if removeListRole(requiringEmpty: true)
+        {
+            return
+        }
+        if let bridge = delegate as? WritingNativeBridge,
+           let context = WritingTextContext(selectedRange(),
+                                             in: bridge.projection),
+           let ending = context.lineEnding(in: bridge.projection)
+        {
+            insertText(ending, replacementRange: selectedRange())
+        }
+        else
         {
             super.insertNewline(sender)
         }

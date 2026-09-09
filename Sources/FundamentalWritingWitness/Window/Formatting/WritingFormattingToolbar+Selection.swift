@@ -4,6 +4,8 @@ extension WritingFormattingToolbar
 {
     func update(_ projection: WritingProjection)
     {
+        block.isEnabled = projection.canFormatParagraphs
+        list.isEnabled = projection.canFormatParagraphs
         select(WritingFormattingGroup.paragraph.selectionTitles(in: projection),
                in: block)
         select(WritingFormattingGroup.list.selectionTitles(in: projection),

@@ -6,7 +6,7 @@ import Testing
 extension WritingProposalTests
 {
     @Test
-    func nonWitnessDocumentFormsRefuseWithoutFlattening() throws
+    func tablesAndReadOnlyStatesRefuseWithoutFlattening() throws
     {
         let content = try #require(SemanticTableContent(
             headerRows: [], bodyRows: [], columnAlignments: []
@@ -14,15 +14,8 @@ extension WritingProposalTests
         let table = SemanticBlock.table(.semantic(.regular(
             RegularSemanticTable(content: content)
         )))
-        let forms: [[SemanticBlock]] = [
-            [.code(.plain(PlainSemanticCodeBlock(runs: [])))],
-            [table]
-        ]
-        for blocks in forms
-        {
-            let source = try WritingTestDocument(blocks: blocks)
-            #expect(WritingProjection(source.state) == nil)
-        }
+        let source = try WritingTestDocument(blocks: [table])
+        #expect(WritingProjection(source.state) == nil)
         let readable = try WritingTestDocument("AB").state.snapshot
         #expect(WritingProjection(.readable(readable)) == nil)
     }

@@ -22,11 +22,20 @@ struct WritingTestApplication
             }
         }
         let ready = controller.documentWindow.isKeyWindow
+        let window = controller.documentWindow
+        let front = NSWorkspace.shared.frontmostApplication
+        let context = """
+            active=\(NSApp.isActive), visible=\(window.isVisible),
+            canKey=\(window.canBecomeKey), window=\(window.windowNumber),
+            key=\(NSApp.keyWindow?.windowNumber ?? -1),
+            front=\(front?.bundleIdentifier ?? "nil"),
+            frontPID=\(front?.processIdentifier ?? 0)
+            """
         if !ready
         {
             controller.documentWindow.delegate = nil
             controller.documentWindow.close()
         }
-        try #require(ready)
+        try #require(ready, Comment(rawValue: context))
     }
 }

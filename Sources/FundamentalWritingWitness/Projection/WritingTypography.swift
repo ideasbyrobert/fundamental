@@ -55,7 +55,9 @@ enum WritingTypography
             return title
         case let .heading(.section(heading)):
             return headings[heading.level.rawValue - 1]
-        case .listItem, .code, .table:
+        case .code:
+            return code
+        case .listItem, .table:
             return nil
         }
     }

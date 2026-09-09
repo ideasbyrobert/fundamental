@@ -51,6 +51,8 @@
                 102000000000000000000041,
                 102000000000000000000043,
                 102000000000000000000045,
+                102000000000000000000047,
+                102000000000000000000049,
             );
             path = UITests;
             sourceTree = "<group>";
@@ -90,6 +92,8 @@
                 102000000000000000000042,
                 102000000000000000000044,
                 102000000000000000000046,
+                102000000000000000000048,
+                102000000000000000000050,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -98,6 +102,26 @@
             buildActionMask = 2147483647;
             files = ();
             runOnlyForDeploymentPostprocessing = 0;
+        };
+        102000000000000000000047 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = WritingUICodeFixture.swift;
+            sourceTree = "<group>";
+        };
+        102000000000000000000048 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000047;
+        };
+        102000000000000000000049 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+Code.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000050 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000049;
         };
         102000000000000000000008 = {
             isa = PBXFileReference;

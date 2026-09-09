@@ -20,6 +20,7 @@ struct WritingUIRecord: Decodable
         let kind: String
         let level: Int?
         let listKind: String?
+        let language: String?
         let runs: [Run]
     }
 
@@ -27,6 +28,8 @@ struct WritingUIRecord: Decodable
     {
         let text: String
         let traits: [String]
+        let link: String?
+        let language: String?
     }
 
     init(at location: URL) throws
