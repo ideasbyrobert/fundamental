@@ -6,11 +6,28 @@ struct WritingUIJourney
 {
     let fixture: WritingUIFixture
     let test: XCTestCase
+    let documentName: String
+
+    init(
+        fixture: WritingUIFixture, test: XCTestCase,
+        documentName: String = "Formatting.fun"
+    )
+    {
+        self.fixture = fixture
+        self.test = test
+        self.documentName = documentName
+    }
 
     var app: XCUIApplication { fixture.app }
-    var editor: XCUIElement { app.textViews["Fundamental document"] }
+    var window: XCUIElement
+    {
+        let named = app.windows[documentName]
+        return named.exists ? named : app.windows["Untitled"]
+    }
+    var editor: XCUIElement { window.textViews["Fundamental document"] }
 
-    func step(_ name: String, _ action: () throws -> Void) rethrows
+    func step<Value>(_ name: String, _ action: () throws -> Value) rethrows
+        -> Value
     {
         try XCTContext.runActivity(named: name)
         {
@@ -26,7 +43,7 @@ struct WritingUIJourney
                 image.lifetime = .keepAlways
                 activity.add(image)
             }
-            try action()
+            return try action()
         }
     }
 

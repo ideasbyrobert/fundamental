@@ -6,10 +6,11 @@ enum WritingUIFormattingRoute
     case toolbar
     case formatMenu
 
-    func chooseHeading(in app: XCUIApplication)
+    func chooseHeading(in journey: WritingUIJourney)
     {
-        open("Paragraph Style", in: app)
-        let heading = choice("Heading", group: "Paragraph Style", in: app)
+        let app = journey.app
+        open("Paragraph Style", in: journey)
+        let heading = choice("Heading", group: "Paragraph Style", in: journey)
         XCTAssertTrue(heading.wait(for: \.isHittable,
                                    toEqual: true, timeout: 5))
         let image = XCTAttachment(screenshot: app.screenshot())
@@ -37,24 +38,25 @@ enum WritingUIFormattingRoute
             XCTAssertTrue(parent.wait(for: \.isHittable,
                                       toEqual: false, timeout: 5))
         }
-        XCTAssertEqual(app.popUpButtons["FundamentalBlockStyle"].value
-            as? String, "Heading")
+        let block = journey.window.popUpButtons["FundamentalBlockStyle"]
+        XCTAssertEqual(block.value as? String, "Heading")
     }
 
-    func chooseList(_ title: String, in app: XCUIApplication)
+    func chooseList(_ title: String, in journey: WritingUIJourney)
     {
-        open("List", in: app)
-        let item = choice(title, group: "List", in: app)
+        open("List", in: journey)
+        let item = choice(title, group: "List", in: journey)
         XCTAssertTrue(item.wait(for: \.isHittable, toEqual: true, timeout: 5))
         item.click()
         XCTAssertTrue(item.wait(for: \.isHittable, toEqual: false, timeout: 5))
     }
 
-    func cancelMixedList(in app: XCUIApplication)
+    func cancelMixedList(in journey: WritingUIJourney)
     {
-        open("List", in: app)
+        let app = journey.app
+        open("List", in: journey)
         let title = self == .toolbar ? "Mixed" : "Numbered"
-        let probe = choice(title, group: "List", in: app)
+        let probe = choice(title, group: "List", in: journey)
         XCTAssertTrue(probe.wait(for: \.isHittable, toEqual: true, timeout: 5))
         if self == .toolbar
         {

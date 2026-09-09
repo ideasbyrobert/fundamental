@@ -2,7 +2,7 @@ import XCTest
 
 extension WritingUIJourney
 {
-    var document: URL { fixture.directory.appending(path: "Formatting.fun") }
+    var document: URL { fixture.directory.appending(path: documentName) }
 
     func saveAs() throws
     {
@@ -16,25 +16,41 @@ extension WritingUIJourney
         app.buttons["OKButton"].click()
         wait("The named document must reach disk")
         {
-            FileManager.default.fileExists(atPath: document.path)
+            FileManager.default.fileExists(atPath: document.path) &&
+                app.windows[documentName].exists
         }
     }
 
     func save(numbered: Bool, texts: [String]) throws -> WritingUIRecord
     {
-        app.typeKey("s", modifierFlags: [.command])
-        wait("The saved document must contain the current list meaning")
+        let record = try save
         {
-            let record = try? WritingUIRecord(at: document)
+            record in
             let expected = numbered ? "listItem" : "paragraph"
-            return record?.blocks.dropFirst().map(\.content.kind) ==
+            return record.blocks.dropFirst().map(\.content.kind) ==
                 [expected, expected]
         }
-        let record = try WritingUIRecord(at: document)
         record.expect(numbered: numbered, texts: texts)
+        return record
+    }
+
+    func save(accepting condition: (WritingUIRecord) -> Bool) throws
+        -> WritingUIRecord
+    {
+        app.typeKey("s", modifierFlags: [.command])
+        wait("The saved document must contain the accepted state")
+        {
+            guard let record = try? WritingUIRecord(at: document)
+            else
+            {
+                return false
+            }
+            return condition(record)
+        }
+        let record = try WritingUIRecord(at: document)
         let attachment = XCTAttachment(data: try Data(contentsOf: document),
                                        uniformTypeIdentifier: "public.json")
-        attachment.name = "Saved semantic document"
+        attachment.name = documentName + " saved semantics"
         attachment.lifetime = .keepAlways
         test.add(attachment)
         return record

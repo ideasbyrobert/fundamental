@@ -3,24 +3,25 @@ import XCTest
 extension WritingUIFormattingRoute
 {
     func choice(
-        _ title: String, group: String, in app: XCUIApplication
+        _ title: String, group: String, in journey: WritingUIJourney
     ) -> XCUIElement
     {
         if self == .formatMenu
         {
-            return app.menuBarItems["Format"].menuItems[group].menuItems[title]
+            return journey.app.menuBarItems["Format"]
+                .menuItems[group].menuItems[title]
         }
-        return control(group, in: app).menuItems[title]
+        return control(group, in: journey.window).menuItems[title]
     }
 
-    func open(_ group: String, in app: XCUIApplication)
+    func open(_ group: String, in journey: WritingUIJourney)
     {
         if self == .toolbar
         {
-            control(group, in: app).click()
+            control(group, in: journey.window).click()
             return
         }
-        let bar = app.menuBars.firstMatch
+        let bar = journey.app.menuBars.firstMatch
         bar.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.05))
             .hover()
         let format = bar.menuBarItems["Format"]
@@ -32,10 +33,10 @@ extension WritingUIFormattingRoute
         submenu.hover()
     }
 
-    private func control(_ group: String, in app: XCUIApplication)
+    private func control(_ group: String, in window: XCUIElement)
         -> XCUIElement
     {
-        group == "List" ? app.menuButtons["FundamentalListStyle"]
-            : app.popUpButtons["FundamentalBlockStyle"]
+        group == "List" ? window.menuButtons["FundamentalListStyle"]
+            : window.popUpButtons["FundamentalBlockStyle"]
     }
 }

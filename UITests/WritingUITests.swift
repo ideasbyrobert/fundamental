@@ -29,7 +29,7 @@ final class WritingUITests: XCTestCase
             app.typeKey(.upArrow, modifierFlags: [.command])
             app.typeKey(.rightArrow, modifierFlags: [.command, .shift])
             journey.expectSelection(texts[0])
-            route.chooseHeading(in: app)
+            route.chooseHeading(in: journey)
             try journey.expectText(text)
         }
         journey.step("Select two paragraphs and number them")
@@ -39,7 +39,7 @@ final class WritingUITests: XCTestCase
             app.typeKey(.leftArrow, modifierFlags: [.command])
             app.typeKey(.downArrow, modifierFlags: [.command, .shift])
             journey.expectSelection(texts.dropFirst().joined(separator: "\n"))
-            route.chooseList("Numbered", in: app)
+            route.chooseList("Numbered", in: journey)
         }
         try journey.step("Save the numbered document")
         {
@@ -49,12 +49,12 @@ final class WritingUITests: XCTestCase
         journey.step("Cancel the mixed List menu without losing selection")
         {
             app.typeKey("a", modifierFlags: [.command])
-            route.cancelMixedList(in: app)
+            route.cancelMixedList(in: journey)
             journey.expectSelection(text)
         }
         journey.step("Remove list roles while retaining the heading")
         {
-            route.chooseList("No List", in: app)
+            route.chooseList("No List", in: journey)
             journey.expectSelection(text)
         }
         let removed = try journey.save(numbered: false, texts: texts)

@@ -42,6 +42,11 @@
                 102000000000000000000023,
                 102000000000000000000025,
                 102000000000000000000027,
+                102000000000000000000029,
+                102000000000000000000031,
+                102000000000000000000033,
+                102000000000000000000035,
+                102000000000000000000037,
             );
             path = UITests;
             sourceTree = "<group>";
@@ -72,6 +77,11 @@
                 102000000000000000000024,
                 102000000000000000000026,
                 102000000000000000000028,
+                102000000000000000000030,
+                102000000000000000000032,
+                102000000000000000000034,
+                102000000000000000000036,
+                102000000000000000000038,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -167,6 +177,56 @@
         102000000000000000000028 = {
             isa = PBXBuildFile;
             fileRef = 102000000000000000000027;
+        };
+        102000000000000000000029 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+Documents.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000030 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000029;
+        };
+        102000000000000000000031 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+Documents.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000032 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000031;
+        };
+        102000000000000000000033 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = WritingUIKeyboard.swift;
+            sourceTree = "<group>";
+        };
+        102000000000000000000034 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000033;
+        };
+        102000000000000000000035 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+Composition.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000036 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000035;
+        };
+        102000000000000000000037 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+Composition.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000038 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000037;
         };
         102000000000000000000011 = {
             isa = XCConfigurationList;
