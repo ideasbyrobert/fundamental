@@ -16,7 +16,7 @@ extension DocumentSession
         {
         case .select:
             history = current.history
-        case .edit, .style, .convertCode:
+        case .edit, .style, .convertCode, .inline:
             guard let recorded = recordedHistory(for: successor)
             else
             {

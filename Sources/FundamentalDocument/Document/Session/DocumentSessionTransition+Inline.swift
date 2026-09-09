@@ -1,11 +1,11 @@
 extension DocumentSessionTransition
 {
-    static func style(
-        _ change: SemanticBlockStyleChange,
+    static func inline(
+        _ change: SemanticInlineTraitChange,
         in source: EditableDocumentSnapshot
     ) -> DocumentSessionTransition
     {
-        guard let applied = AppliedSemanticBlockStyleChange(
+        guard let applied = AppliedSemanticInlineTraitChange(
             change, in: source.snapshot.document
         )
         else

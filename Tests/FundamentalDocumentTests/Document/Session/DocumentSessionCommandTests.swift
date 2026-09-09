@@ -14,11 +14,15 @@ extension DocumentSessionTransitionTests
             range: selection.range, style: .bulleted
         )
         let conversion = SemanticCodeConversion(range: selection.range)
+        let inline = SemanticInlineTraitChange(
+            range: selection.range, trait: .strong, enabled: true
+        )
         let commands: [DocumentSessionCommand] = [
             .edit(fixture.observation, edit),
             .select(fixture.observation, selection),
             .style(fixture.observation, change),
-            .convertCode(fixture.observation, conversion)
+            .convertCode(fixture.observation, conversion),
+            .inline(fixture.observation, inline)
         ]
         for command in commands
         {
@@ -37,6 +41,10 @@ extension DocumentSessionTransitionTests
             case let .convertCode(observation, value):
                 #expect(observation == fixture.observation)
                 #expect(value == conversion)
+                #expect(command.changesContent)
+            case let .inline(observation, value):
+                #expect(observation == fixture.observation)
+                #expect(value == inline)
                 #expect(command.changesContent)
             }
         }

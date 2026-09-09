@@ -4,13 +4,15 @@ package enum DocumentSessionCommand: Equatable, Sendable
     case select(DocumentObservation, DocumentSelection)
     case style(DocumentObservation, SemanticBlockStyleChange)
     case convertCode(DocumentObservation, SemanticCodeConversion)
+    case inline(DocumentObservation, SemanticInlineTraitChange)
 
     var observation: DocumentObservation
     {
         switch self
         {
         case let .edit(observation, _), let .select(observation, _),
-             let .style(observation, _), let .convertCode(observation, _):
+             let .style(observation, _), let .convertCode(observation, _),
+             let .inline(observation, _):
             observation
         }
     }
@@ -19,7 +21,7 @@ package enum DocumentSessionCommand: Equatable, Sendable
     {
         switch self
         {
-        case .edit, .style, .convertCode:
+        case .edit, .style, .convertCode, .inline:
             true
         case .select:
             false
