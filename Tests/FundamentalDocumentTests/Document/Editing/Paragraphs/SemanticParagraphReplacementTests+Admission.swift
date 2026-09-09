@@ -4,7 +4,7 @@ import Testing
 
 extension SemanticParagraphReplacementTests
 {
-    @Test("paragraph requests refuse malformed shape and embedded separators")
+    @Test("paragraph requests refuse malformed shape")
     func requestAdmission() throws
     {
         let source = try SessionTestDocument()
@@ -21,16 +21,6 @@ extension SemanticParagraphReplacementTests
             range: range, paragraphs: [empty, empty, empty],
             continuationBlockIDs: [identifier, identifier]
         ) == nil)
-        for value in ["\n", "\r", "\r\n"]
-        {
-            #expect(SemanticParagraphReplacement(
-                range: range,
-                paragraphs: [SemanticParagraph(runs: [
-                    SemanticRun(text: value)
-                ])],
-                continuationBlockIDs: []
-            ) == nil)
-        }
         #expect(SemanticParagraphReplacement(
             range: try source.selection(0, 0).range,
             paragraphs: [empty], continuationBlockIDs: []

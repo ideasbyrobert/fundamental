@@ -20,15 +20,6 @@ struct ResolvedParagraphReplacement: Equatable, Sendable
         }
         let lower = range.lowerBound
         let upper = range.upperBound
-        for block in blocks[lower.blockIndex ... upper.blockIndex]
-        {
-            guard let editable = EditableSemanticBlock(block.block),
-                  editable.isProse
-            else
-            {
-                return nil
-            }
-        }
         guard let first = EditableSemanticBlock(blocks[lower.blockIndex].block),
               let last = EditableSemanticBlock(blocks[upper.blockIndex].block),
               let leading = SemanticRunPartition(

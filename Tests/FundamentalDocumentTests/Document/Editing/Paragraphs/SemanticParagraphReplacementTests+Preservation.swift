@@ -55,8 +55,8 @@ extension SemanticParagraphReplacementTests
         #expect(result.caret.point.utf16Offset.value == 2)
     }
 
-    @Test("prose replacement refuses to consume a code block")
-    func nonParagraphRefusal() throws
+    @Test("mixed replacement keeps the leading paragraph")
+    func codeReplacementKeepsLeadingParagraph() throws
     {
         let fixture = try SessionTestDocument(texts: ["A", "B"])
         let original = fixture.editable.snapshot.document
@@ -75,6 +75,11 @@ extension SemanticParagraphReplacementTests
         let edit = try request(
             in: fixture, from: (0, 0), to: (1, 1), text: ["X"]
         )
-        #expect(AppliedSemanticParagraphReplacement(edit, in: source) == nil)
+        let result = try #require(AppliedSemanticParagraphReplacement(
+            edit, in: source
+        ))
+        #expect(text(result.document) == ["X"])
+        #expect(result.document.content.blocks[0].blockID ==
+            source.content.blocks[0].blockID)
     }
 }
