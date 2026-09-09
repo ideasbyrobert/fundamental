@@ -6,6 +6,11 @@ extension WritingUIFormattingRoute
         _ title: String, group: String, in journey: WritingUIJourney
     ) -> XCUIElement
     {
+        if self == .toolbarOverflow
+        {
+            return journey.window.popUpButtons["more toolbar items"]
+                .menuItems[group].menuItems[title]
+        }
         if self == .formatMenu
         {
             return journey.app.menuBarItems["Format"]
@@ -16,6 +21,18 @@ extension WritingUIFormattingRoute
 
     func open(_ group: String, in journey: WritingUIJourney)
     {
+        if self == .toolbarOverflow
+        {
+            let overflow = journey.window.popUpButtons["more toolbar items"]
+            XCTAssertTrue(overflow.isHittable)
+            overflow.click()
+            let submenu = overflow.menuItems[group]
+            XCTAssertTrue(submenu.wait(for: \.isHittable,
+                                       toEqual: true, timeout: 5))
+            submenu.hover()
+            journey.app.typeKey(.rightArrow, modifierFlags: [])
+            return
+        }
         if self == .toolbar
         {
             control(group, in: journey.window).click()

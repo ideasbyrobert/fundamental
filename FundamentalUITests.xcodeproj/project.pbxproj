@@ -47,6 +47,10 @@
                 102000000000000000000033,
                 102000000000000000000035,
                 102000000000000000000037,
+                102000000000000000000039,
+                102000000000000000000041,
+                102000000000000000000043,
+                102000000000000000000045,
             );
             path = UITests;
             sourceTree = "<group>";
@@ -82,6 +86,10 @@
                 102000000000000000000034,
                 102000000000000000000036,
                 102000000000000000000038,
+                102000000000000000000040,
+                102000000000000000000042,
+                102000000000000000000044,
+                102000000000000000000046,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -228,17 +236,57 @@
             isa = PBXBuildFile;
             fileRef = 102000000000000000000037;
         };
+        102000000000000000000039 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+Width.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000040 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000039;
+        };
         102000000000000000000011 = {
             isa = XCConfigurationList;
             buildConfigurations = (102000000000000000000014);
             defaultConfigurationIsVisible = 0;
             defaultConfigurationName = Debug;
         };
+        102000000000000000000041 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+Width.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000042 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000041;
+        };
+        102000000000000000000043 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+Appearance.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000044 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000043;
+        };
         102000000000000000000012 = {
             isa = XCConfigurationList;
             buildConfigurations = (102000000000000000000013);
             defaultConfigurationIsVisible = 0;
             defaultConfigurationName = Debug;
+        };
+        102000000000000000000045 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = WritingUIVisibleText.swift;
+            sourceTree = "<group>";
+        };
+        102000000000000000000046 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000045;
         };
         102000000000000000000013 = {
             isa = XCBuildConfiguration;

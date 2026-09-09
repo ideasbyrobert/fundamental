@@ -11,6 +11,20 @@ extension WritingWindowController
 
     func windowDidResize(_ notification: Notification)
     {
+        updateWritingGeometry()
+    }
+
+    func windowDidEndLiveResize(_ notification: Notification)
+    {
+        DispatchQueue.main.async
+        {
+            [weak self] in
+            self?.updateWritingGeometry()
+        }
+    }
+
+    private func updateWritingGeometry()
+    {
         let size = scrollView.contentSize
         textView.minSize = NSSize(width: 0, height: size.height)
         textView.setFrameSize(NSSize(

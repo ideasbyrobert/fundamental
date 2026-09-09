@@ -4,6 +4,7 @@ import XCTest
 enum WritingUIFormattingRoute
 {
     case toolbar
+    case toolbarOverflow
     case formatMenu
 
     func chooseHeading(in journey: WritingUIJourney)
@@ -20,7 +21,7 @@ enum WritingUIFormattingRoute
         {
             $0.add(image)
         }
-        if self == .toolbar
+        if self != .formatMenu
         {
             heading.click()
         }
