@@ -14,6 +14,11 @@ extension WritingWindowController
 
     func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool
     {
+        if let group = WritingFormattingGroup.allCases.first(where:
+            { $0.action == item.action })
+        {
+            return validateFormatting(item, group: group)
+        }
         if item.action == #selector(saveDocument(_:)) ||
             item.action == #selector(saveDocumentAs(_:))
         {

@@ -49,19 +49,18 @@ extension WritingNativeTests
         #expect(window.session.history.undo.isEmpty)
     }
 
-    @Test
+    @Test("owned menus contain admitted commands before system augmentation")
     func witnessMenuContainsOnlyAdmittedCommands() throws
     {
         _ = NSApplication.shared
-        let previous = NSApp.mainMenu
-        defer
-        {
-            NSApp.mainMenu = previous
-        }
-        WritingApplicationMenu.install(in: NSApp)
-        let menu = try #require(NSApp.mainMenu)
+        let menu = WritingApplicationMenu.make()
+        #expect(menu.items.map(\.title) == [
+            "Fundamental", "File", "Edit", "Format"
+        ])
         let file = try #require(menu.item(withTitle: "File")?.submenu)
         let edit = try #require(menu.item(withTitle: "Edit")?.submenu)
+        let format = try #require(menu.item(withTitle: "Format")?.submenu)
+        #expect(format.items.map(\.title) == ["Paragraph Style", "List"])
         #expect(file.items.map(\.title) == [
             "New", "Open…", "", "Save", "Save As…", "", "Close"
         ])

@@ -40,6 +40,8 @@
                 102000000000000000000019,
                 102000000000000000000021,
                 102000000000000000000023,
+                102000000000000000000025,
+                102000000000000000000027,
             );
             path = UITests;
             sourceTree = "<group>";
@@ -68,6 +70,8 @@
                 102000000000000000000020,
                 102000000000000000000022,
                 102000000000000000000024,
+                102000000000000000000026,
+                102000000000000000000028,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -143,6 +147,26 @@
         102000000000000000000024 = {
             isa = PBXBuildFile;
             fileRef = 102000000000000000000023;
+        };
+        102000000000000000000025 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = WritingUIFormattingRoute.swift;
+            sourceTree = "<group>";
+        };
+        102000000000000000000026 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000025;
+        };
+        102000000000000000000027 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIFormattingRoute+Menus.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000028 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000027;
         };
         102000000000000000000011 = {
             isa = XCConfigurationList;

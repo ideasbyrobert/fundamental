@@ -5,6 +5,16 @@ final class WritingUITests: XCTestCase
 {
     func testFormattingKeepsSelectionAndMeaning() throws
     {
+        try exerciseFormatting(.toolbar)
+    }
+
+    func testFormatMenuKeepsSelectionAndMeaning() throws
+    {
+        try exerciseFormatting(.formatMenu)
+    }
+
+    private func exerciseFormatting(_ route: WritingUIFormattingRoute) throws
+    {
         continueAfterFailure = false
         let fixture = try WritingUIFixture(test: self)
         let journey = WritingUIJourney(fixture: fixture, test: self)
@@ -19,8 +29,7 @@ final class WritingUITests: XCTestCase
             app.typeKey(.upArrow, modifierFlags: [.command])
             app.typeKey(.rightArrow, modifierFlags: [.command, .shift])
             journey.expectSelection(texts[0])
-            app.popUpButtons["FundamentalBlockStyle"].click()
-            app.menuItems["Heading"].click()
+            route.chooseHeading(in: app)
             try journey.expectText(text)
         }
         journey.step("Select two paragraphs and number them")
@@ -30,7 +39,7 @@ final class WritingUITests: XCTestCase
             app.typeKey(.leftArrow, modifierFlags: [.command])
             app.typeKey(.downArrow, modifierFlags: [.command, .shift])
             journey.expectSelection(texts.dropFirst().joined(separator: "\n"))
-            journey.chooseList("Numbered")
+            route.chooseList("Numbered", in: app)
         }
         try journey.step("Save the numbered document")
         {
@@ -40,17 +49,12 @@ final class WritingUITests: XCTestCase
         journey.step("Cancel the mixed List menu without losing selection")
         {
             app.typeKey("a", modifierFlags: [.command])
-            app.menuButtons["FundamentalListStyle"].click()
-            XCTAssertTrue(app.menuItems["Mixed"].exists)
-            XCTAssertFalse(app.menuItems["Mixed"].isEnabled)
-            app.typeKey(.escape, modifierFlags: [])
-            XCTAssertTrue(app.menuItems["Mixed"]
-                .waitForNonExistence(timeout: 5))
+            route.cancelMixedList(in: app)
             journey.expectSelection(text)
         }
         journey.step("Remove list roles while retaining the heading")
         {
-            journey.chooseList("No List")
+            route.chooseList("No List", in: app)
             journey.expectSelection(text)
         }
         let removed = try journey.save(numbered: false, texts: texts)

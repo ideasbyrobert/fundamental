@@ -5,6 +5,11 @@ struct WritingApplicationMenu
 {
     static func install(in application: NSApplication)
     {
+        application.mainMenu = make()
+    }
+
+    static func make() -> NSMenu
+    {
         let main = NSMenu()
         let app = NSMenuItem(title: "Fundamental",
                              action: nil, keyEquivalent: "")
@@ -21,7 +26,10 @@ struct WritingApplicationMenu
         let edit = NSMenuItem(title: "Edit", action: nil, keyEquivalent: "")
         edit.submenu = editMenu()
         main.addItem(edit)
-        application.mainMenu = main
+        let format = NSMenuItem(title: "Format", action: nil, keyEquivalent: "")
+        format.submenu = formatMenu()
+        main.addItem(format)
+        return main
     }
 
     private static func editMenu() -> NSMenu

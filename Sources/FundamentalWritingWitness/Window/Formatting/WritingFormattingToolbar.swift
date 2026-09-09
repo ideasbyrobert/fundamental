@@ -5,7 +5,6 @@ final class WritingFormattingToolbar: NSObject, NSToolbarDelegate
 {
     let block = NSPopUpButton(frame: .zero)
     let list = NSPopUpButton(frame: .zero, pullsDown: true)
-    weak var textView: WritingTextView?
 
     static let blockID = NSToolbarItem.Identifier("FundamentalBlockStyle")
     static let listID = NSToolbarItem.Identifier("FundamentalListStyle")
@@ -17,9 +16,8 @@ final class WritingFormattingToolbar: NSObject, NSToolbarDelegate
         configureControls()
     }
 
-    func install(in window: NSWindow, for view: WritingTextView)
+    func install(in window: NSWindow)
     {
-        textView = view
         let toolbar = NSToolbar(identifier: "FundamentalWriting")
         toolbar.delegate = self
         toolbar.displayMode = .iconOnly
@@ -51,9 +49,12 @@ final class WritingFormattingToolbar: NSObject, NSToolbarDelegate
         case Self.blockID:
             item.view = block
             item.label = "Block style"
+            item.menuFormRepresentation = WritingFormattingGroup.paragraph
+                .menuItem()
         case Self.listID:
             item.view = list
             item.label = "List"
+            item.menuFormRepresentation = WritingFormattingGroup.list.menuItem()
         default:
             return nil
         }

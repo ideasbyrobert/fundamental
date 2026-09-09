@@ -51,7 +51,7 @@ final class WritingWindowController:
         self.fileOwner = owner
         self.confirmDiscard = confirmDiscard
         super.init(window: surface.window)
-        formatting.install(in: surface.window, for: surface.view)
+        formatting.install(in: surface.window)
         surface.window.delegate = self
         bridge.didChange = { [weak self] in self?.updateDocumentState() }
         owner.didChange = { [weak self] in self?.updateDocumentState() }

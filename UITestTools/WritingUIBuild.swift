@@ -25,12 +25,13 @@ struct WritingUIBuild
         let manager = FileManager.default
         try manager.createDirectory(at: snapshot,
                                       withIntermediateDirectories: false)
-        for name in ["Package.swift", "Sources", "Tests", "UITests",
-                     "UITestTools", "FundamentalUITests.xcodeproj"]
+        for name in ["Package.swift", "Sources", "Tests", "TestTools",
+                     "UITests", "UITestTools", "FundamentalUITests.xcodeproj"]
         {
             try manager.copyItem(at: source.appending(path: name),
                                  to: snapshot.appending(path: name))
         }
+        try nativeTestHost()
         try bundle()
     }
 }

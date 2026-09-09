@@ -50,12 +50,6 @@ struct WritingUIJourney
         app.typeKey("v", modifierFlags: [.command])
     }
 
-    func chooseList(_ title: String)
-    {
-        app.menuButtons["FundamentalListStyle"].click()
-        app.menuItems[title].click()
-    }
-
     func wait(_ message: String, until condition: () -> Bool)
     {
         let deadline = ContinuousClock.now.advanced(by: .seconds(5))

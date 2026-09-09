@@ -25,6 +25,8 @@ struct WritingTestWindow
     {
         try #require(Thread.isMainThread)
         _ = NSApplication.shared
+        try #require(NSApp.isRunning,
+                     "Native window tests require NativeTestHost")
         self.session = session
         let candidate = WritingWindowController(
             session: session,
@@ -33,7 +35,7 @@ struct WritingTestWindow
         )
         controller = try #require(candidate)
         controller.documentWindow.animationBehavior = .none
-        controller.showWindow(nil)
+        try WritingTestApplication.activate(controller)
     }
 
     var view: WritingTextView
