@@ -66,7 +66,7 @@ let package = Package(
         ),
         .testTarget(
             name: "FundamentalWritingWitnessTests",
-            dependencies: [document, storage, writing]
+            dependencies: [document, storage, writing, oracle, presentation]
         ),
         .testTarget(
             name: "FundamentalProjectionTests",
