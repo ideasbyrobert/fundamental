@@ -4,6 +4,8 @@ package enum RasterInteractionRole: Equatable, Sendable
     case title
     case section(RasterHeadingLevel)
     case code
+    case bulleted(RasterListPosition)
+    case numbered(RasterListPosition)
     case table
     case caption
     case tableColumn(Int)

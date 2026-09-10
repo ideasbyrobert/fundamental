@@ -62,6 +62,7 @@ struct RasterCounts
         residentUTF16Units = texts.reduce(0)
         {
             $0 + $1.text.utf16.count
+                + ($1.marker?.source.label.utf16.count ?? 0)
         } + slices.reduce(0)
         {
             $0 + $1.text.utf16.count + Self.scopeCount($1.scope)

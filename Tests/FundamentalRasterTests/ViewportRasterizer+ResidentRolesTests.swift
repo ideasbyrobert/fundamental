@@ -4,15 +4,22 @@ import Testing
 @testable import FundamentalViewport
 @testable import FundamentalProjection
 
-@Suite("Unsupported reader list roles do not become body interaction regions")
-struct RasterListRefusalTests
+@Suite("Reader list roles retain their item position")
+struct RasterListRoleTests
 {
-    @Test("both unadmitted list roles refuse while admitted body remains exact")
-    func listRolesRefuse() throws
+    @Test("both list kinds map exactly while body remains body")
+    func listRoles() throws
     {
-        let position = try #require(ProjectedListPosition(index: 0, count: 1))
-        #expect(ViewportRasterizer.role(.prose(.bulleted(position))) == nil)
-        #expect(ViewportRasterizer.role(.prose(.numbered(position))) == nil)
+        let position = try #require(ProjectedListPosition(index: 9, count: 10))
+        let raster = try #require(RasterListPosition(index: 9, count: 10))
+        #expect(
+            ViewportRasterizer.role(.prose(.bulleted(position)))
+                == .bulleted(raster)
+        )
+        #expect(
+            ViewportRasterizer.role(.prose(.numbered(position)))
+                == .numbered(raster)
+        )
         #expect(ViewportRasterizer.role(.prose(.body)) == .body)
     }
 }

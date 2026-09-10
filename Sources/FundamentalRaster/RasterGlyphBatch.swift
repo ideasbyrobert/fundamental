@@ -9,9 +9,14 @@ package struct RasterGlyphBatch: Equatable, Sendable
     package let textMatrix: RasterAffineTransform
     package let baselineOffset: Double
     package let color: RasterColor
-    package let sourceSlices: [RasterSourceSlice]
+    package let source: RasterGlyphSource
     package let firstGlyph: RasterGlyph
     package let remainingGlyphs: [RasterGlyph]
+
+    package var sourceSlices: [RasterSourceSlice]
+    {
+        source.sourceSlices
+    }
 
     package var glyphs: [RasterGlyph]
     {

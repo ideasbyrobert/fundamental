@@ -22,8 +22,12 @@ extension ViewportRasterizer
     {
         switch role
         {
-        case .prose(.bulleted), .prose(.numbered):
-            nil
+        case let .prose(.bulleted(position)):
+            RasterListPosition(index: position.index, count: position.count)
+                .map(RasterInteractionRole.bulleted)
+        case let .prose(.numbered(position)):
+            RasterListPosition(index: position.index, count: position.count)
+                .map(RasterInteractionRole.numbered)
         case .prose(.body):
             .body
         case .prose(.title):
