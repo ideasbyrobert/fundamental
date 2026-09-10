@@ -4,6 +4,7 @@ extension WritingFormattingToolbar
 {
     func update(_ projection: WritingProjection)
     {
+        updateTextStyles(projection)
         block.isEnabled = projection.canFormatBlocks
         list.isEnabled = projection.canFormatBlocks
         if let menu = block.menu

@@ -54,17 +54,25 @@ extension WritingNativeTests
         let items = try #require(window.controller.documentWindow.toolbar)
             .items
         let menu = WritingApplicationMenu.formatMenu()
-        #expect(menu.items.map(\.title) == ["Paragraph Style", "List"])
-        #expect(items.count == 2)
+        #expect(menu.items.map(\.title) == [
+            "Paragraph Style", "Text Style", "List"
+        ])
+        #expect(items.count == 3)
         for (item, group) in zip(items, menu.items)
         {
             let overflow = try #require(item.menuFormRepresentation?.submenu)
             let submenu = try #require(group.submenu)
-            WritingFormattingMenuDelegate.shared.menuNeedsUpdate(overflow)
-            WritingFormattingMenuDelegate.shared.menuNeedsUpdate(submenu)
+            overflow.delegate?.menuNeedsUpdate?(overflow)
+            submenu.delegate?.menuNeedsUpdate?(submenu)
             #expect(overflow.items.map(\.title) == submenu.items.map(\.title))
             for (command, expected) in zip(overflow.items, submenu.items)
             {
+                #expect(command.isSeparatorItem == expected.isSeparatorItem)
+                guard !command.isSeparatorItem
+                else
+                {
+                    continue
+                }
                 #expect(command.action == expected.action)
                 #expect(command.representedObject as? String ==
                     expected.representedObject as? String)

@@ -14,6 +14,10 @@ extension WritingWindowController
 
     func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool
     {
+        if item.action == #selector(chooseTextStyle(_:))
+        {
+            return validateTextStyle(item)
+        }
         if item.action == #selector(chooseCodeLanguage(_:))
         {
             return canChooseCodeLanguage

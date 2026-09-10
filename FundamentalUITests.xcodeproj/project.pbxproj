@@ -61,6 +61,12 @@
                 102000000000000000000061,
                 102000000000000000000063,
                 102000000000000000000065,
+                102000000000000000000067,
+                102000000000000000000069,
+                102000000000000000000071,
+                102000000000000000000073,
+                102000000000000000000075,
+                102000000000000000000077,
             );
             path = UITests;
             sourceTree = "<group>";
@@ -110,6 +116,12 @@
                 102000000000000000000062,
                 102000000000000000000064,
                 102000000000000000000066,
+                102000000000000000000068,
+                102000000000000000000070,
+                102000000000000000000072,
+                102000000000000000000074,
+                102000000000000000000076,
+                102000000000000000000078,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -218,6 +230,66 @@
         102000000000000000000066 = {
             isa = PBXBuildFile;
             fileRef = 102000000000000000000065;
+        };
+        102000000000000000000067 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIFormattingRoute+Inline.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000068 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000067;
+        };
+        102000000000000000000069 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = WritingUIInlineState.swift;
+            sourceTree = "<group>";
+        };
+        102000000000000000000070 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000069;
+        };
+        102000000000000000000071 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+Inline.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000072 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000071;
+        };
+        102000000000000000000073 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+Inline.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000074 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000073;
+        };
+        102000000000000000000075 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+InlineKeys.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000076 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000075;
+        };
+        102000000000000000000077 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+InlineComposition.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000078 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000077;
         };
         102000000000000000000008 = {
             isa = PBXFileReference;

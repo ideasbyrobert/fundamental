@@ -53,7 +53,11 @@ extension WritingUIFormattingRoute
     private func control(_ group: String, in window: XCUIElement)
         -> XCUIElement
     {
-        group == "List" ? window.menuButtons["FundamentalListStyle"]
-            : window.popUpButtons["FundamentalBlockStyle"]
+        switch group
+        {
+        case "List": window.menuButtons["FundamentalListStyle"]
+        case "Text Style": window.menuButtons["FundamentalInlineStyle"]
+        default: window.popUpButtons["FundamentalBlockStyle"]
+        }
     }
 }

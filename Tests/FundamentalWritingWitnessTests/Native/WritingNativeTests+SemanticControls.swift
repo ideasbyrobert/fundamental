@@ -25,15 +25,19 @@ extension WritingNativeTests
         }
         let controls = window.controller.formatting
         #expect(controls.block.accessibilityLabel() == "Block style")
+        #expect(controls.text.accessibilityLabel() == "Text style")
+        #expect(controls.text.accessibilityHelp() ==
+            "Current text styles: Plain")
         #expect(controls.list.accessibilityLabel() == "List")
         #expect(controls.list.selectedItem?.title == "No List")
         #expect(controls.list.accessibilityHelp() ==
             "Current list style: No List")
         let items = try #require(window.controller.documentWindow.toolbar)
             .items
-        #expect(items.count == 2)
+        #expect(items.count == 3)
         #expect(items.map(\.itemIdentifier.rawValue) == [
-            "FundamentalBlockStyle", "FundamentalListStyle"
+            "FundamentalBlockStyle", "FundamentalInlineStyle",
+            "FundamentalListStyle"
         ])
     }
 

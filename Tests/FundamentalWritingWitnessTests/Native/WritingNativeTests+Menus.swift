@@ -60,7 +60,9 @@ extension WritingNativeTests
         let file = try #require(menu.item(withTitle: "File")?.submenu)
         let edit = try #require(menu.item(withTitle: "Edit")?.submenu)
         let format = try #require(menu.item(withTitle: "Format")?.submenu)
-        #expect(format.items.map(\.title) == ["Paragraph Style", "List"])
+        #expect(format.items.map(\.title) == [
+            "Paragraph Style", "Text Style", "List"
+        ])
         #expect(file.items.map(\.title) == [
             "New", "Open…", "", "Save", "Save As…", "", "Close"
         ])

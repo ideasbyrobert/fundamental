@@ -4,11 +4,13 @@ import AppKit
 final class WritingFormattingToolbar: NSObject, NSToolbarDelegate
 {
     let block = NSPopUpButton(frame: .zero)
+    let text = NSPopUpButton(frame: .zero, pullsDown: true)
     let list = NSPopUpButton(frame: .zero, pullsDown: true)
 
     static let blockID = NSToolbarItem.Identifier("FundamentalBlockStyle")
     static let listID = NSToolbarItem.Identifier("FundamentalListStyle")
-    static let items = [blockID, listID]
+    static let textID = NSToolbarItem.Identifier("FundamentalInlineStyle")
+    static let items = [blockID, textID, listID]
 
     override init()
     {
@@ -55,6 +57,10 @@ final class WritingFormattingToolbar: NSObject, NSToolbarDelegate
             item.view = list
             item.label = "List"
             item.menuFormRepresentation = WritingFormattingGroup.list.menuItem()
+        case Self.textID:
+            item.view = text
+            item.label = "Text Style"
+            item.menuFormRepresentation = WritingInlineMenu.menuItem()
         default:
             return nil
         }

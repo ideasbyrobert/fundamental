@@ -10,7 +10,7 @@ extension WritingWindowController
             documentWindow.attachedSheet == nil && !choosingLocation &&
             !fileOwner.isSaving && closeTask == nil && textView.isEditable &&
             (responder === textView || responder === formatting.block ||
-                responder === formatting.list)
+                responder === formatting.list || responder === formatting.text)
     }
 
     @objc func chooseParagraphStyle(_ sender: Any?)

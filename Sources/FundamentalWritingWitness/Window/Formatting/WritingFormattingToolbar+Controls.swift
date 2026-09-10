@@ -5,6 +5,7 @@ extension WritingFormattingToolbar
 {
     func configureControls()
     {
+        configureTextStyles()
         for (title, style) in WritingFormattingGroup.paragraph.choices
         {
             block.addItem(withTitle: title)
@@ -19,6 +20,8 @@ extension WritingFormattingToolbar
         }
         configure(block, label: "Block style", group: .paragraph)
         configure(list, label: "List", group: .list)
+        block.widthAnchor.constraint(equalToConstant: block.frame.width)
+            .isActive = true
         if let menu = block.menu
         {
             let insertion = menu.items.count - 1

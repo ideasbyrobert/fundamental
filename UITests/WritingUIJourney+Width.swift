@@ -14,6 +14,7 @@ extension WritingUIJourney
         XCTAssertEqual(window.frame.width, width, accuracy: 1)
         XCTAssertEqual(window.frame.height, before.height, accuracy: 1)
         let controls = [window.popUpButtons["FundamentalBlockStyle"],
+                        window.menuButtons["FundamentalInlineStyle"],
                         window.menuButtons["FundamentalListStyle"]]
         if width == 360
         {

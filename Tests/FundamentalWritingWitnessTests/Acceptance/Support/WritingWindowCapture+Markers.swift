@@ -7,10 +7,12 @@ extension WritingWindowCapture
 {
     static func markerInk(
         _ rectangle: NSRect, in window: WritingTestWindow,
-        bitmap: NSBitmapImageRep
+        bitmap: NSBitmapImageRep, background: NSBitmapImageRep
     ) throws -> Int
     {
         let root = try #require(window.controller.documentWindow.contentView)
+        try #require(bitmap.pixelsWide == background.pixelsWide &&
+                     bitmap.pixelsHigh == background.pixelsHigh)
         let frame = window.view.convert(rectangle, to: root)
         let scaleX = Double(bitmap.pixelsWide) / root.bounds.width
         let scaleY = Double(bitmap.pixelsHigh) / root.bounds.height
@@ -29,8 +31,12 @@ extension WritingWindowCapture
             {
                 let pixel = try #require(bitmap.colorAt(x: x, y: y)?
                     .usingColorSpace(.deviceRGB))
-                if pixel.redComponent + pixel.greenComponent +
-                    pixel.blueComponent < 1
+                let plain = try #require(background.colorAt(x: x, y: y)?
+                    .usingColorSpace(.deviceRGB))
+                let difference = abs(pixel.redComponent - plain.redComponent) +
+                    abs(pixel.greenComponent - plain.greenComponent) +
+                    abs(pixel.blueComponent - plain.blueComponent)
+                if difference > 0.3
                 {
                     ink += 1
                 }

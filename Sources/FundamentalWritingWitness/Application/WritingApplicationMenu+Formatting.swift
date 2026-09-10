@@ -8,6 +8,10 @@ extension WritingApplicationMenu
         for group in WritingFormattingGroup.allCases
         {
             menu.addItem(group.menuItem())
+            if group == .paragraph
+            {
+                menu.addItem(WritingInlineMenu.menuItem())
+            }
         }
         return menu
     }
