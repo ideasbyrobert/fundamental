@@ -1,0 +1,3 @@
+import FundamentalProjection
+
+package typealias LayoutDocumentProjection = ProjectionSnapshot

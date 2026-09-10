@@ -1,0 +1,3 @@
+import FundamentalRaster
+
+package typealias PresentationDocumentProjection = RasterDocumentProjection

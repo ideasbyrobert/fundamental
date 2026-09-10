@@ -11,9 +11,21 @@ package final class MacReaderWindowController:
     package init?(
         contentSize: NSSize,
         screen: NSScreen,
-        appearance: NSAppearance
+        appearance: NSAppearance,
+        projection: MacReaderDocumentProjection? = nil
     )
     {
+        guard let model = MacReaderModel(
+            viewportWidth: contentSize.width,
+            viewportHeight: contentSize.height,
+            screen: screen,
+            appearance: appearance,
+            projection: projection
+        )
+        else
+        {
+            return nil
+        }
         let contentRect = NSRect(origin: .zero, size: contentSize)
         let window = NSWindow(
             contentRect: contentRect,
@@ -27,16 +39,6 @@ package final class MacReaderWindowController:
             defer: false,
             screen: screen
         )
-        guard let model = MacReaderModel(
-            viewportWidth: contentSize.width,
-            viewportHeight: contentSize.height,
-            screen: screen,
-            appearance: appearance
-        )
-        else
-        {
-            return nil
-        }
         let scroll = NSScrollView(frame: contentRect)
         scroll.hasVerticalScroller = true
         scroll.hasHorizontalScroller = false
@@ -81,44 +83,5 @@ package final class MacReaderWindowController:
     {
         super.showWindow(sender)
         synchronize()
-    }
-
-    package func windowDidResize(
-        _ notification: Notification
-    )
-    {
-        synchronize()
-    }
-
-    package func windowDidChangeBackingProperties(
-        _ notification: Notification
-    )
-    {
-        synchronize()
-    }
-
-    package func windowDidChangeScreen(
-        _ notification: Notification
-    )
-    {
-        synchronize()
-    }
-
-    package func windowDidMove(
-        _ notification: Notification
-    )
-    {
-        readerView.refreshAccessibilityGeometry()
-    }
-
-    @objc
-    private func scrolled(_ notification: Notification)
-    {
-        synchronize()
-    }
-
-    package func synchronize()
-    {
-        _ = readerView.synchronizeFromScrollView()
     }
 }

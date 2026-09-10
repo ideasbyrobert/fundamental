@@ -1,0 +1,68 @@
+import FundamentalLayout
+
+extension SummitViewportPreparation
+{
+    func viewportDiagnostics(
+        generation: UInt64,
+        readableMeasure: Double,
+        visibleOriginY: Double,
+        visibleHeight: Double,
+        overscanExtent: Double,
+        maximumResidentCount: Int
+    ) -> ViewportWindowAdmissionDiagnostics?
+    {
+        guard readableMeasure.isFinite,
+              readableMeasure > 0,
+              visibleOriginY.isFinite,
+              visibleHeight.isFinite,
+              visibleOriginY >= 0,
+              visibleHeight > 0,
+              overscanExtent.isFinite,
+              overscanExtent >= 0,
+              maximumResidentCount > 0,
+              let capacity = Self.materializationCapacity(
+                  maximumResidentCount: maximumResidentCount
+              ),
+              let indexed = layoutPreparation.indexedProjection(
+                  readableMeasure: readableMeasure
+              )
+        else
+        {
+            return nil
+        }
+        let maximumOrigin = max(
+            0,
+            indexed.documentSize.height - visibleHeight
+        )
+        let admittedOrigin = min(visibleOriginY, maximumOrigin)
+        guard let origin = LayoutPoint(
+                  x: 0,
+                  y: admittedOrigin
+              ),
+              let size = LayoutSize(
+                  width: indexed.documentSize.width,
+                  height: visibleHeight
+              ),
+              let bounds = LayoutRectangle(
+                  origin: origin,
+                  size: size
+              ),
+              let request = ViewportRequest(
+                  expectedLayoutLineage: indexed.lineage,
+                  generation: generation,
+                  visibleBounds: bounds,
+                  precedingOverscanExtent: overscanExtent,
+                  followingOverscanExtent: overscanExtent,
+                  maximumResidentCount: maximumResidentCount
+              )
+        else
+        {
+            return nil
+        }
+        return try? ViewportSnapshot.windowAdmissionDiagnostics(
+            indexed,
+            request: request,
+            capacity: capacity
+        )
+    }
+}

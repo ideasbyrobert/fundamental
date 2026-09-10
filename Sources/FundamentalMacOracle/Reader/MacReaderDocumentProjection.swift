@@ -1,0 +1,3 @@
+import FundamentalPresentation
+
+package typealias MacReaderDocumentProjection = PresentationDocumentProjection

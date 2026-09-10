@@ -42,6 +42,12 @@ package struct MacReaderEnvironment
         visibleHeight: Double
     ) -> SummitPresentationSurface?
     {
+        guard viewportWidth.isFinite,
+              viewportWidth > 64
+        else
+        {
+            return nil
+        }
         let measure = min(720, viewportWidth - 64)
         return SummitPresentationSurface(
             readableMeasure: measure,

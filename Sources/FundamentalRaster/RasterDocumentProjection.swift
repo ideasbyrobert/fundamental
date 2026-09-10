@@ -1,0 +1,3 @@
+import FundamentalViewport
+
+package typealias RasterDocumentProjection = ViewportDocumentProjection
