@@ -19,13 +19,15 @@ extension DocumentSessionTransitionTests
         )
         let typing = SemanticInlineTraitAssignment(trait: .emphasis,
                                                    enabled: true)
+        let input = DocumentInputTransaction(edit: edit, selection: selection)
         let commands: [DocumentSessionCommand] = [
             .edit(fixture.observation, edit),
             .select(fixture.observation, selection),
             .style(fixture.observation, change),
             .convertCode(fixture.observation, conversion),
             .inline(fixture.observation, inline),
-            .typing(fixture.observation, typing)
+            .typing(fixture.observation, typing),
+            .input(fixture.observation, input)
         ]
         for command in commands
         {
@@ -53,6 +55,10 @@ extension DocumentSessionTransitionTests
                 #expect(observation == fixture.observation)
                 #expect(value == typing)
                 #expect(!command.changesContent)
+            case let .input(observation, value):
+                #expect(observation == fixture.observation)
+                #expect(value == input)
+                #expect(command.changesContent)
             }
         }
         #expect(commands[0] != commands[1])

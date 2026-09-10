@@ -21,7 +21,8 @@ extension WritingNativeBridge
         )
         guard let prior, matches(prior, in: view),
               let next = prior.replacing(actual, with: inserted,
-                                         selecting: selected)
+                                         selecting: selected),
+              let presentation = WritingTextPresentation(next.presentation)
         else
         {
             project(in: view)
@@ -29,8 +30,10 @@ extension WritingNativeBridge
         }
         composition = next
         composing = true
+        view.typingAttributes = presentation.typingAttributes
         perform()
-        WritingTextPresentation(next.presentation)?.restyle(in: view)
+        presentation.restyle(in: view)
+        view.typingAttributes = presentation.typingAttributes
         composing = false
         guard matches(next, in: view),
               view.selectedRange() == next.selection,

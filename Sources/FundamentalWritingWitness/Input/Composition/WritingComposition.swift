@@ -1,40 +1,42 @@
 import Foundation
+import FundamentalDocument
 
 struct WritingComposition
 {
     let baseline: WritingProjection
+    let source: WritingRunSequence
     let range: NSRange
-    let replacement: String
+    let replacement: WritingRunSequence
     let markedRange: NSRange
     let selection: NSRange
+    let attributes: SemanticRunAttributes
+    let input: WritingCompositionInput?
 
     var text: String
     {
         (baseline.text as NSString).replacingCharacters(
-            in: range, with: replacement
+            in: range, with: replacement.text
         )
     }
 
-    var proposal: WritingTextProposal?
+    init(
+        baseline: WritingProjection, source: WritingRunSequence,
+        range: NSRange, replacement: WritingRunSequence,
+        markedRange: NSRange, selection: NSRange,
+        attributes: SemanticRunAttributes
+    )
     {
-        WritingTextProposal(ranges: [range], replacements: [replacement],
-                            in: baseline)
-    }
-
-    static func starting(
-        at range: NSRange, in baseline: WritingProjection
-    ) -> Self?
-    {
-        guard baseline.range(range) != nil,
-              WritingCompositionRange.valid(range, in: baseline.text)
-        else
-        {
-            return nil
-        }
-        return Self(
-            baseline: baseline, range: range,
-            replacement: (baseline.text as NSString).substring(with: range),
-            markedRange: range, selection: baseline.selection
-        )
+        self.baseline = baseline
+        self.source = source
+        self.range = range
+        self.replacement = replacement
+        self.markedRange = markedRange
+        self.selection = selection
+        self.attributes = attributes
+        let unchanged = source.replacing(range, with: replacement.runs)?
+            .matches(source) == true
+        input = WritingCompositionInput(baseline: baseline, range: range,
+            replacement: replacement, selection: selection,
+            attributes: attributes, unchanged: unchanged)
     }
 }

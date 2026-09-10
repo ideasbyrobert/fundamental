@@ -15,7 +15,11 @@ struct WritingTextProposal: Equatable, Sendable
               let replacements, replacements.count == 1,
               replacements[0].utf16.count <=
                   WritingSurfacePolicy.maximumUTF16Units * 2,
-              let context = WritingTextContext(ranges[0], in: projection)
+              let context = WritingTextContext(ranges[0], in: projection),
+              let attributes = projection.snapshot.typingAttributes(
+                  in: context.range
+              ) ?? WritingRunSequence(projection)?.partition(ranges[0])?
+                  .selected.first(where: { !$0.text.isEmpty })?.attributes
         else
         {
             return nil
@@ -39,7 +43,8 @@ struct WritingTextProposal: Equatable, Sendable
         if structural
         {
             edit = Self.paragraphEdit(replacement, in: range,
-                                      sourceLines: context.isCode)
+                                      sourceLines: context.isCode,
+                                      attributes: attributes)
         }
         else
         {
@@ -51,7 +56,7 @@ struct WritingTextProposal: Equatable, Sendable
             {
                 return nil
             }
-            edit = Self.textEdit(replacement, in: range)
+            edit = Self.textEdit(replacement, in: range, attributes: attributes)
         }
         guard let edit
         else

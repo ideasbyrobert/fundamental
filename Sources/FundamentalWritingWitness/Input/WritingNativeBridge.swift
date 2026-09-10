@@ -50,6 +50,7 @@ final class WritingNativeBridge: NSObject, NSTextViewDelegate
         presentation.replace(in: view)
         view.setSelectedRange(next.selection)
         view.scrollRangeToVisible(next.selection)
+        view.typingAttributes = presentation.typingAttributes
         composing = false
         return true
     }

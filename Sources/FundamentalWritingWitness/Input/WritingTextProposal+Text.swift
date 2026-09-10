@@ -3,7 +3,8 @@ import FundamentalDocument
 extension WritingTextProposal
 {
     static func textEdit(
-        _ replacement: String, in range: DocumentRange
+        _ replacement: String, in range: DocumentRange,
+        attributes: SemanticRunAttributes
     ) -> CanonicalDocumentEdit?
     {
         if replacement.isEmpty
@@ -16,7 +17,7 @@ extension WritingTextProposal
             return .text(.deletion(deletion))
         }
         guard let insertion = SemanticInsertion(
-            text: replacement, attributes: .direct(traits: [])
+            text: replacement, attributes: attributes
         )
         else
         {

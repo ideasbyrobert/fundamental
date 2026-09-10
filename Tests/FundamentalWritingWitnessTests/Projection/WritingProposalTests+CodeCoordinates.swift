@@ -43,7 +43,7 @@ extension WritingProposalTests
     }
 
     @Test(arguments: [false, true])
-    func codeTraitsAndScopesRemainOutsideThisAdmissionStep(tagged: Bool)
+    func codeScopesRemainOutsideThisAdmissionStep(tagged: Bool)
         throws
     {
         let plain = try WritingCodeFixture.block("X", tagged: tagged)
@@ -53,11 +53,8 @@ extension WritingProposalTests
             text: "X",
             attributes: .scoped(traits: [], scopes: .language(language))
         )).run
-        for run in [SemanticRun(text: "X", traits: [.strong]), scoped]
-        {
-            let styled = editable.replacingRuns([run])
-            let fixture = try WritingTestDocument(blocks: [styled])
-            #expect(WritingProjection(fixture.state) == nil)
-        }
+        let styled = editable.replacingRuns([scoped])
+        let fixture = try WritingTestDocument(blocks: [styled])
+        #expect(WritingProjection(fixture.state) == nil)
     }
 }

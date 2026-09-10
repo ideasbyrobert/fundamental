@@ -27,6 +27,8 @@ package enum DocumentSessionTransition: Equatable, Sendable
         {
         case let .edit(_, edit):
             self = Self.apply(edit, to: editable)
+        case let .input(_, transaction):
+            self = Self.input(transaction, in: editable)
         case let .select(_, selection):
             self = Self.select(selection, in: editable)
         case let .style(_, change):

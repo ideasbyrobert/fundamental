@@ -21,17 +21,14 @@ extension WritingProposalTests
     }
 
     @Test
-    func traitsAndScopesAreNotSilentlyFlattened() throws
+    func scopesAreNotSilentlyFlattened() throws
     {
         let language = try #require(SemanticLanguageIdentifier("fr"))
         let scoped = try #require(SemanticInsertion(
             text: "X",
             attributes: .scoped(traits: [], scopes: .language(language))
         )).run
-        let runs = [
-            SemanticRun(text: "X", traits: [.strong]),
-            SemanticRun(text: "X", traits: [.emphasis]), scoped
-        ]
+        let runs = [scoped]
         for run in runs
         {
             let source = try WritingTestDocument(blocks: [

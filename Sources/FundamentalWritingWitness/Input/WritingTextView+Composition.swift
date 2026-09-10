@@ -22,21 +22,28 @@ extension WritingTextView
         _ value: Any, selectedRange: NSRange, replacementRange: NSRange
     )
     {
-        guard let bridge = delegate as? WritingNativeBridge
+        guard let bridge = delegate as? WritingNativeBridge,
+              let spelling = WritingCompositionRange.string(value)
         else
         {
             return
         }
         if bridge.composing
         {
-            super.setMarkedText(value, selectedRange: selectedRange,
+            let marked = WritingMarkedInput(value, attributes: typingAttributes)
+            super.setMarkedText(marked?.text ?? NSAttributedString(
+                string: spelling, attributes: typingAttributes
+            ), selectedRange: selectedRange,
                                 replacementRange: replacementRange)
             return
         }
         bridge.mark(value, selected: selectedRange, replacing: replacementRange,
                     in: self)
         {
-            super.setMarkedText(value, selectedRange: selectedRange,
+            let marked = WritingMarkedInput(value, attributes: typingAttributes)
+            super.setMarkedText(marked?.text ?? NSAttributedString(
+                string: spelling, attributes: typingAttributes
+            ), selectedRange: selectedRange,
                                 replacementRange: replacementRange)
         }
     }

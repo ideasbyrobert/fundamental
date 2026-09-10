@@ -42,24 +42,13 @@ extension WritingNativeBridge
 
     func updateTyping(in view: NSTextView)
     {
-        let blocks = projection.snapshot.snapshot.document.content.blocks
-        guard let index = projection.map.spans.lastIndex(where:
-            { $0.range.location <= projection.selection.location })
+        guard let appearance = WritingTypingAppearance(projection)
         else
         {
             return
         }
-        var ordinal = blocks[..<index].reversed().prefix
-        {
-            if case let .listItem(item) = $0.block
-            {
-                return item.kind == .numbered
-            }
-            return false
-        }.count
-        if let attributes = WritingTypography.attributes(
-            for: blocks[index].block, ordinal: &ordinal
-        ), !NSDictionary(dictionary: attributes)
+        let attributes = appearance.attributes
+        if !NSDictionary(dictionary: attributes)
             .isEqual(to: view.typingAttributes)
         {
             view.typingAttributes = attributes

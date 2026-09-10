@@ -18,11 +18,12 @@ extension WritingFileOwnerTests
         let source = try WritingTestDocument("A").state
         let document = DocumentSession(state: source).document
         let original = try #require(document.content.blocks.first)
+        let language = try #require(SemanticLanguageIdentifier("fr"))
+        let scoped = try #require(SemanticInsertion(text: "Français",
+            attributes: .scoped(traits: [], scopes: .language(language))))
         let changed = IdentifiedSemanticBlock(
             blockID: original.blockID,
-            block: .paragraph(SemanticParagraph(runs: [
-                SemanticRun(text: "Strong", traits: [.strong])
-            ]))
+            block: .paragraph(SemanticParagraph(runs: [scoped.run]))
         )
         let content = try #require(CanonicalDocumentContent(
             firstBlock: changed, remainingBlocks: []

@@ -1,11 +1,11 @@
-enum EditableSemanticBlock: Equatable, Sendable
+package enum EditableSemanticBlock: Equatable, Sendable
 {
     case paragraph(SemanticParagraph)
     case heading(SemanticHeading)
     case listItem(SemanticListItem)
     case code(SemanticCodeBlock)
 
-    init?(_ block: SemanticBlock)
+    package init?(_ block: SemanticBlock)
     {
         switch block
         {
@@ -22,7 +22,7 @@ enum EditableSemanticBlock: Equatable, Sendable
         }
     }
 
-    var runs: [SemanticRun]
+    package var runs: [SemanticRun]
     {
         switch self
         {

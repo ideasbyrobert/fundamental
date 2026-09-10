@@ -46,22 +46,17 @@ extension WritingNativeBridge
         {
             project(in: view)
         }
-        if !candidate.text.utf16.elementsEqual(candidate.baseline.text.utf16)
+        guard let input = candidate.input
+        else
         {
-            guard let proposal = candidate.proposal,
-                  case .applied = session.submit(proposal.command)
-            else
-            {
-                return false
-            }
+            return false
         }
-        if let next = WritingProjection(session.state),
-           let selection = WritingSelectionProposal(
-               ranges: [candidate.selection], in: next
-           )
+        switch session.submit(input.command)
         {
-            session.submit(selection.command)
+        case .applied, .unchanged:
+            return true
+        case .refused:
+            return false
         }
-        return true
     }
 }

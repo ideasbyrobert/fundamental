@@ -12,17 +12,18 @@ extension DocumentSession
             return result
         }
         let history: DocumentHistory
-        switch command
+        if command.changesContent
         {
-        case .select, .typing:
-            history = current.history
-        case .edit, .style, .convertCode, .inline:
             guard let recorded = recordedHistory(for: successor)
             else
             {
                 return .refused(.historyCapacity)
             }
             history = recorded
+        }
+        else
+        {
+            history = current.history
         }
         current = DocumentSessionStorage(state: successor, history: history)
         if command.changesContent

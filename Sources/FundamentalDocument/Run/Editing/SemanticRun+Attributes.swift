@@ -1,6 +1,6 @@
 extension SemanticRun
 {
-    init(
+    package init(
         text: String,
         attributes: SemanticRunAttributes
     )
@@ -21,7 +21,7 @@ extension SemanticRun
         }
     }
 
-    var attributes: SemanticRunAttributes
+    package var attributes: SemanticRunAttributes
     {
         switch self
         {

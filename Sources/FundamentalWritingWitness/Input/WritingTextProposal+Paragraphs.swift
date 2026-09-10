@@ -4,7 +4,8 @@ import FundamentalDocument
 extension WritingTextProposal
 {
     static func paragraphEdit(
-        _ replacement: String, in range: DocumentRange, sourceLines: Bool
+        _ replacement: String, in range: DocumentRange, sourceLines: Bool,
+        attributes: SemanticRunAttributes
     ) -> CanonicalDocumentEdit?
     {
         var paragraphs: [SemanticParagraph] = []
@@ -19,7 +20,7 @@ extension WritingTextProposal
             else
             {
                 guard let insertion = SemanticInsertion(
-                    text: text, attributes: .direct(traits: [])
+                    text: text, attributes: attributes
                 )
                 else
                 {
