@@ -23,7 +23,7 @@ extension WritingNativeTests
             second.close()
             first.close()
         }
-        let item = try first.formatChoice("Heading", group: "Paragraph Style")
+        let item = try first.formatChoice("Heading 4", group: "Paragraph Style")
         let firstState = first.storage
         #expect(!first.controller.validateUserInterfaceItem(item))
         first.controller.chooseParagraphStyle(item)
@@ -47,7 +47,8 @@ extension WritingNativeTests
             window.close()
         }
         let before = window.storage
-        let item = try window.formatChoice("Heading", group: "Paragraph Style")
+        let item = try window.formatChoice("Heading 4",
+                                           group: "Paragraph Style")
         for value in ["unknown", "numbered"]
         {
             item.representedObject = value

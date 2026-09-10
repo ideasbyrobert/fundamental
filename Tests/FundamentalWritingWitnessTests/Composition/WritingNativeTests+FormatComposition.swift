@@ -6,8 +6,10 @@ import Testing
 
 extension WritingNativeTests
 {
-    @Test("Format validates preedit without committing then applies in order")
-    func formatMenuCommitsCompositionInOrder() throws
+    @Test("Format validates preedit then applies each heading in order",
+          arguments: SemanticHeadingLevel.allCases)
+    func formatMenuCommitsCompositionInOrder(_ level: SemanticHeadingLevel)
+        throws
     {
         let window = try WritingTestWindow(styles: [.body], texts: [""])
         defer
@@ -17,15 +19,18 @@ extension WritingNativeTests
         let original = window.session.document.content
         window.mark("題名")
         let preedit = window.storage
-        let heading = try window.formatChoice("Heading",
-                                              group: "Paragraph Style")
+        let heading = try window.formatChoice("Heading \(level.rawValue)",
+            group: "Paragraph Style")
         #expect(window.controller.validateUserInterfaceItem(heading))
         #expect(window.storage == preedit)
         #expect(window.view.hasMarkedText())
         try window.performFormat(heading)
         #expect(!window.view.hasMarkedText())
         #expect(window.view.string == "題名")
-        #expect(window.styles == [.heading])
+        #expect(window.session.document.content.blocks.first?.block ==
+            .heading(.section(SectionSemanticHeading(
+                runs: [SemanticRun(text: "題名")], level: level
+            ))))
         #expect(window.session.history.undo.count == 2)
         window.view.undoCanonicalEdit(nil)
         #expect(window.styles == [.body])

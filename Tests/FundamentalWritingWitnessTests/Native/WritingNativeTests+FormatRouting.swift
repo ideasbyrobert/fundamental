@@ -19,11 +19,11 @@ extension WritingNativeTests
         first.controller.showWindow(nil)
         first.select(1, 2)
         let other = second.storage
-        let heading = try first.formatChoice("Heading",
+        let heading = try first.formatChoice("Heading 6",
                                              group: "Paragraph Style")
         #expect(first.controller.validateUserInterfaceItem(heading))
         try first.performFormat(heading)
-        #expect(first.styles == [.heading])
+        #expect(first.styles == [.heading6])
         #expect(second.storage == other)
         try first.expect("A😀B", selection: NSRange(location: 1, length: 2))
         #expect(first.controller.documentWindow.firstResponder === first.view)

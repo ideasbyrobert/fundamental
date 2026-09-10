@@ -52,7 +52,7 @@ extension WritingNativeTests
             window.close()
         }
         window.select(7 + source.utf16.count)
-        let heading = try window.formatChoice("Heading",
+        let heading = try window.formatChoice("Heading 2",
                                                group: "Paragraph Style")
         try window.performFormat(heading)
         try window.expect("Before\nA\nB\n\nAfter",

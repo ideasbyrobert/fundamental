@@ -9,38 +9,7 @@ enum WritingUIFormattingRoute
 
     func chooseHeading(in journey: WritingUIJourney)
     {
-        let app = journey.app
-        open("Paragraph Style", in: journey)
-        let heading = choice("Heading", group: "Paragraph Style", in: journey)
-        XCTAssertTrue(heading.wait(for: \.isHittable,
-                                   toEqual: true, timeout: 5))
-        let image = XCTAttachment(screenshot: app.screenshot())
-        image.name = "Visible paragraph choices"
-        image.lifetime = .keepAlways
-        XCTContext.runActivity(named: "Inspect paragraph choices")
-        {
-            $0.add(image)
-        }
-        if self != .formatMenu
-        {
-            heading.click()
-        }
-        else
-        {
-            app.typeKey(.rightArrow, modifierFlags: [])
-            app.typeKey("h", modifierFlags: [])
-            app.typeKey(.return, modifierFlags: [])
-        }
-        XCTAssertTrue(heading.wait(for: \.isHittable,
-                                   toEqual: false, timeout: 5))
-        if self == .formatMenu
-        {
-            let parent = app.menuBarItems["Format"].menuItems["Paragraph Style"]
-            XCTAssertTrue(parent.wait(for: \.isHittable,
-                                      toEqual: false, timeout: 5))
-        }
-        let block = journey.window.popUpButtons["FundamentalBlockStyle"]
-        XCTAssertEqual(block.value as? String, "Heading")
+        chooseBlock("Heading 2", in: journey)
     }
 
     func chooseList(_ title: String, in journey: WritingUIJourney)

@@ -39,7 +39,7 @@ extension WritingNativeTests
         #expect(formatting.block.selectedItem?.title == "Code")
         #expect(formatting.block.isEnabled && formatting.list.isEnabled)
         #expect(window.controller.canFormatSelection)
-        let heading = try window.formatChoice("Heading",
+        let heading = try window.formatChoice("Heading 4",
                                                group: "Paragraph Style")
         #expect(window.controller.validateUserInterfaceItem(heading))
         window.select(0, NSMaxRange(spans[1].range))

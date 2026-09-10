@@ -15,7 +15,9 @@ extension WritingNativeTests
             window.close()
         }
         window.select(1, 2)
-        for style in [CanonicalBlockStyle.title, .heading, .subheading, .body]
+        let styles: [CanonicalBlockStyle] = [.title, .heading1, .heading,
+            .subheading, .heading4, .heading5, .heading6, .body]
+        for style in styles
         {
             try window.choose(style)
             #expect(window.styles == [style])

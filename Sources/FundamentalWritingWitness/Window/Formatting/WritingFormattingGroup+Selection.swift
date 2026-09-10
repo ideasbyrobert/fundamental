@@ -32,15 +32,7 @@ extension WritingFormattingGroup
         case .heading(.title):
             return "Title"
         case let .heading(.section(section)):
-            switch section.level
-            {
-            case .two:
-                return "Heading"
-            case .three:
-                return "Subheading"
-            default:
-                return "Heading \(section.level.rawValue)"
-            }
+            return "Heading \(section.level.rawValue)"
         case .code:
             return "Code"
         case .table:

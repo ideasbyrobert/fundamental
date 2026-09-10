@@ -6,10 +6,10 @@ import Testing
 
 extension WritingNativeTests
 {
-    @Test("unlisted heading levels retain exact current labels")
+    @Test("every heading level has an exact enabled current choice")
     func formatPreservesExactHeadingPresentation() throws
     {
-        for level in [SemanticHeadingLevel.one, .four, .five, .six]
+        for level in SemanticHeadingLevel.allCases
         {
             let block = SemanticBlock.heading(.section(SectionSemanticHeading(
                 runs: [SemanticRun(text: "Exact")], level: level
@@ -24,13 +24,13 @@ extension WritingNativeTests
             }
             let current = window.controller.formatting.block.selectedItem
             #expect(current?.title == "Heading \(level.rawValue)")
-            #expect(current?.isEnabled == false)
-            for title in ["Heading", "Subheading"]
+            #expect(current?.isEnabled == true)
+            for value in 1 ... 6
             {
-                let item = try window.formatChoice(title,
-                                                   group: "Paragraph Style")
+                let item = try window.formatChoice("Heading \(value)",
+                    group: "Paragraph Style")
                 #expect(window.controller.validateUserInterfaceItem(item))
-                #expect(item.state == .off)
+                #expect(item.state == (value == level.rawValue ? .on : .off))
             }
             let before = window.storage
             try window.performFormat(window.formatChoice("No List",
