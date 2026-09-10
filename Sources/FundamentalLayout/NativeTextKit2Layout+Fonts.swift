@@ -8,9 +8,7 @@ extension NativeTextKit2Layout
     {
         switch role
         {
-        case .bulleted, .numbered:
-            throw LayoutFailure.unsupportedProseRole
-        case .body:
+        case .body, .bulleted, .numbered:
             try serifFont(ofSize: 17, weight: .regular)
         case .title:
             try serifFont(ofSize: 28, weight: .semibold)

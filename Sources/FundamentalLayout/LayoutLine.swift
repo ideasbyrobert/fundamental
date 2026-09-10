@@ -8,6 +8,7 @@ package struct LayoutLine: Equatable, Sendable
     package let remainingCaretStops: [LayoutCaretStop]
     package let defaultFont: LayoutFontIdentity
     package let glyphRuns: [LayoutGlyphRun]
+    package let marker: LayoutListMarker?
 
     package var caretStops: [LayoutCaretStop]
     {

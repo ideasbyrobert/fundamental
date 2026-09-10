@@ -77,7 +77,8 @@ extension NativeTextKit2Layout
                 baseline: baseline,
                 segments: segments,
                 text: text
-            )
+            ),
+            marker: nil
         )
     }
 }

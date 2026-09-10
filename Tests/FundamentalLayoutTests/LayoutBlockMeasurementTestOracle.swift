@@ -75,7 +75,9 @@ extension LayoutBlockMeasurementTests
         seen: inout Set<LayoutFontIdentity>
     )
     {
-        for font in [line.defaultFont] + line.glyphRuns.map(\.font)
+        let candidates = [line.defaultFont] + line.glyphRuns.map(\.font)
+            + (line.marker?.glyphRuns.map(\.font) ?? [])
+        for font in candidates
             where seen.insert(font).inserted
         {
             fonts.append(font)

@@ -11,7 +11,15 @@ extension NativeTextKit2Layout
         originY: Double
     ) throws -> [LayoutLine]
     {
-        try textLines(
+        if let markerSource = LayoutListMarkerSource(
+            block: source, role: prose.role
+        )
+        {
+            return try listLines(
+                prose, source: markerSource, width: width, originY: originY
+            )
+        }
+        return try textLines(
             runs: prose.runs,
             width: width,
             originX: 0,

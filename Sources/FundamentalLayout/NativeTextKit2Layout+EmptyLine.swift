@@ -34,7 +34,8 @@ extension NativeTextKit2Layout
             ),
             remainingCaretStops: [],
             defaultFont: try fontIdentity(font as CTFont),
-            glyphRuns: []
+            glyphRuns: [],
+            marker: nil
         )
     }
 }

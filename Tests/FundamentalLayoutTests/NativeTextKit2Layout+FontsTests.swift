@@ -3,12 +3,12 @@ import Testing
 @testable import FundamentalDocument
 @testable import FundamentalLayout
 
-@Suite("Unadmitted reader list layout refuses explicitly")
-struct NativeListLayoutRefusalTests
+@Suite("Reader list layout retains list identity")
+struct NativeListLayoutTests
 {
     @MainActor
-    @Test("the older reader cannot disguise a list as an ordinary paragraph")
-    func unsupportedLists() throws
+    @Test("body and list lines share a font without losing list markers")
+    func listFonts() throws
     {
         for kind in SemanticListKind.allCases
         {
@@ -21,10 +21,23 @@ struct NativeListLayoutRefusalTests
                 ))
             ])
             let request = try LayoutFixture.request(width: 600)
-            #expect(throws: LayoutFailure.unsupportedProseRole)
+            let snapshot = try NativeTextKit2Layout().layout(
+                projection, request: request
+            )
+            let lines = snapshot.fragments.compactMap
             {
-                try NativeTextKit2Layout().layout(projection, request: request)
+                fragment -> LayoutLine? in
+                guard case let .lines(value) = fragment
+                else
+                {
+                    return nil
+                }
+                return value.line
             }
+            #expect(lines.count == 2)
+            #expect(lines[0].marker == nil)
+            #expect(lines[1].marker != nil)
+            #expect(lines[0].defaultFont == lines[1].defaultFont)
         }
     }
 }

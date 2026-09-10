@@ -27,7 +27,12 @@ extension ExpectedLayoutMaterializationUsage
         caretStops += line.remainingCaretStops.count + 1
         consume(line.sourceSlices)
         consume(line.defaultFont)
-        for run in line.glyphRuns
+        let generatedRuns = line.marker?.glyphRuns ?? []
+        if let marker = line.marker
+        {
+            consume(marker.source.label)
+        }
+        for run in line.glyphRuns + generatedRuns
         {
             glyphs += run.remainingGlyphs.count + 1
             consume(run.font)

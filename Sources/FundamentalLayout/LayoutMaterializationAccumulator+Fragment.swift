@@ -38,29 +38,22 @@ extension LayoutMaterializationAccumulator
         }
         for run in line.glyphRuns
         {
-            let glyphCount = run.remainingGlyphs.count
-                .addingReportingOverflow(1)
-            guard !glyphCount.overflow,
-                  consumeGlyphs(glyphCount.partialValue),
-                  consume(run.font),
-                  consume(run.sourceSlices),
-                  consume(run.firstGlyph.sourceSlices)
+            guard consume(run)
             else
             {
                 return false
             }
-            for glyph in run.remainingGlyphs
+        }
+        if let marker = line.marker
+        {
+            guard consumeText(marker.source.label)
+            else
             {
-                guard consume(glyph.sourceSlices)
-                else
-                {
-                    return false
-                }
+                return false
             }
-            for decoration in run.decorations
+            for run in marker.glyphRuns
             {
-                guard consumeDecoration(),
-                      consume(decoration.sourceSlices)
+                guard consume(run)
                 else
                 {
                     return false

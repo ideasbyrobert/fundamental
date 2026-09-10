@@ -46,10 +46,15 @@ struct LayoutListMarkerTests
                     #expect(run.glyphs.allSatisfy { $0.sourceSlices.isEmpty })
                 }
                 #expect(prose.runs.map(\.text).joined() == text)
-                #expect(throws: LayoutFailure.unsupportedProseRole)
+                let snapshot = try native.layout(projection,
+                    request: LayoutFixture.request(width: 240))
+                if case let .lines(fragment) = snapshot.firstFragment
                 {
-                    try native.layout(projection,
-                        request: LayoutFixture.request(width: 240))
+                    #expect(fragment.line.marker?.source == source)
+                }
+                else
+                {
+                    Issue.record("Expected list line")
                 }
             }
         }
