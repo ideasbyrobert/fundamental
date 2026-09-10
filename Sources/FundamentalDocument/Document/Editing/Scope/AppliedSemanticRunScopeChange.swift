@@ -1,8 +1,8 @@
-struct AppliedSemanticInlineTraitChange: Equatable, Sendable
+struct AppliedSemanticRunScopeChange: Equatable, Sendable
 {
     let content: CanonicalDocumentContent
 
-    init?(_ change: SemanticInlineTraitChange, in source: CanonicalDocument)
+    init?(_ change: SemanticRunScopeChange, in source: CanonicalDocument)
     {
         guard let applied = AppliedSemanticRunFormatting(
             change.range, in: source, assigning: change.assignment.applying(to:)

@@ -1,6 +1,7 @@
-extension SemanticInlineTraitChange
+enum SemanticRunFormatting
 {
-    func applying(
+    static func applying(
+        _ assignment: (SemanticRunAttributes) -> SemanticRunAttributes,
         to runs: [SemanticRun], lowerBound: DocumentUTF16Offset,
         upperBound: DocumentUTF16Offset
     ) -> [SemanticRun]?
@@ -24,7 +25,14 @@ extension SemanticInlineTraitChange
             }
             position = addition.partialValue
             guard lowerBound.value < position, upperBound.value > start,
-                  applying(to: run) != run
+                  length > 0
+            else
+            {
+                result.append(run)
+                continue
+            }
+            let attributes = assignment(run.attributes)
+            guard attributes != run.attributes
             else
             {
                 result.append(run)
@@ -32,19 +40,20 @@ extension SemanticInlineTraitChange
             }
             guard let lower = DocumentUTF16Offset(
                 max(0, lowerBound.value - start)
-            ),
-                  let upper = DocumentUTF16Offset(
-                      min(length, upperBound.value - start)
-                  ),
-                  let partition = SemanticRunPartition(
-                      runs: [run], lowerBound: lower, upperBound: upper
-                  )
+            ), let upper = DocumentUTF16Offset(
+                min(length, upperBound.value - start)
+            ), let partition = SemanticRunPartition(
+                runs: [run], lowerBound: lower, upperBound: upper
+            )
             else
             {
                 return nil
             }
             result += partition.prefix
-            result += partition.selected.map { applying(to: $0) }
+            result += partition.selected.map
+            {
+                SemanticRun(text: $0.text, attributes: attributes)
+            }
             result += partition.suffix
         }
         return upperBound.value <= position ? result : nil

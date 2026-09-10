@@ -5,17 +5,27 @@ extension DocumentSessionTransition
         in source: EditableDocumentSnapshot
     ) -> DocumentSessionTransition
     {
-        guard source.selection.range.isCollapsed,
-              let inherited = source.typingAttributes(
-                  in: source.selection.range
-              )
+        guard let inherited = source.typingAttributes(
+            in: source.selection.range
+        )
         else
         {
             return .refused(.invalidCommand)
         }
-        let intent = DocumentTypingIntent(
-            attributes: assignment.applying(to: inherited)
-        )
+        return typing(assignment.applying(to: inherited), in: source)
+    }
+
+    static func typing(
+        _ attributes: SemanticRunAttributes,
+        in source: EditableDocumentSnapshot
+    ) -> DocumentSessionTransition
+    {
+        guard source.selection.range.isCollapsed
+        else
+        {
+            return .refused(.invalidCommand)
+        }
+        let intent = DocumentTypingIntent(attributes: attributes)
         guard intent != source.typingIntent
         else
         {

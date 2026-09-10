@@ -39,6 +39,10 @@ package enum DocumentSessionTransition: Equatable, Sendable
             self = Self.inline(change, in: editable)
         case let .typing(_, assignment):
             self = Self.typing(assignment, in: editable)
+        case let .scope(_, change):
+            self = Self.scope(change, in: editable)
+        case let .typingScope(_, assignment):
+            self = Self.typingScope(assignment, in: editable)
         }
     }
 
