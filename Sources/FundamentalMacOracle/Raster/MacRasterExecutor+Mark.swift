@@ -4,7 +4,7 @@ extension MacRasterExecutor
 {
     func admit(
         _ mark: PresentationMark,
-        origins: [PresentationResidentID: PresentationPoint],
+        origins: [PresentationResidentID: MacRasterLineOrigin],
         colorSpace: MacAdmittedColorSpace
     ) -> MacAdmittedRasterMark?
     {
@@ -25,7 +25,7 @@ extension MacRasterExecutor
                 logicalBounds: Self.rectangle(fill.logicalBounds)
             ))
         case let .glyphs(batch):
-            guard let origin = origins[batch.residentID]
+            guard let origin = origins[batch.residentID]?.resolve(batch)
             else
             {
                 return nil

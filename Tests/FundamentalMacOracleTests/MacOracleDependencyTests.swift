@@ -42,7 +42,18 @@ extension MacOracleArchitectureTests
             #expect(!source.contains("import \(module)"))
         }
         #expect(source.contains("import FundamentalPresentation"))
-        #expect(!source.contains("NSAttributedString"))
+        let adapter = "Sources/FundamentalMacOracle/Accessibility/"
+            + "MacAccessibilityElement+ListText.swift"
+        let outsideAdapter = try MacOracleRepository.swiftSources(
+            "Sources/FundamentalMacOracle", excluding: adapter
+        ).joined(separator: "\n")
+        #expect(!outsideAdapter.contains("NSAttributedString"))
+        for buffer in [
+            "NSTextStorage", "NSTextView", "NSMutableAttributedString"
+        ]
+        {
+            #expect(!source.contains(buffer))
+        }
         #expect(!source.contains("CTLineCreate"))
     }
 }

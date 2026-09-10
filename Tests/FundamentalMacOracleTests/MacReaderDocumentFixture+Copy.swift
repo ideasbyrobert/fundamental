@@ -28,6 +28,7 @@ extension MacReaderDocumentFixture
         guard case let .selection(_, selection) = view.model.snapshot
         else
         {
+            Issue.record("No source selection for \(blockID.uuidString)")
             throw MacOracleTestFailure.admission
         }
         #expect(view.model.snapshot.presentedDocument.sharesStorage(

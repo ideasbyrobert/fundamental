@@ -4,66 +4,57 @@ import Testing
 @testable import FundamentalPresentation
 @testable import FundamentalRaster
 
-@Suite("Explicit list presentation admission boundary")
+@Suite("Malformed list presentation refusal")
 @MainActor
 struct PresentationListRefusalTests
 {
-    @Test("list glyph provenance and marker text cannot be silently dropped",
-          arguments: SemanticListKind.allCases, ["", "Source"])
-    func firstLine(kind: SemanticListKind, source: String) throws
+    @Test("malformed marker ownership and canonical source are refused",
+          arguments: PresentationListFault.allCases)
+    func malformed(fault: PresentationListFault) throws
     {
-        let layout = try PresentationFixture.layout([
-            .listItem(SemanticListItem(
-                kind: kind, runs: [PresentationFixture.run(source)]
-            ))
-        ])
-        let raster = try PresentationFixture.raster(
-            PresentationFixture.viewport(layout)
+        let raster = try PresentationListFixture.raster(.numbered, count: 2)
+        let malformed = try PresentationListFixture.corrupt(
+            raster, fault: fault
         )
-        let composer = PresentationComposer()
-        let lineage = try #require(composer.rasterLineage(of: raster))
-        let request = try PresentationFixture.request(raster)
-        #expect(composer.present(raster, request: request) == nil)
-        guard case let .text(text) = raster.interactionMap.firstRegion.content
-        else
-        {
-            Issue.record("Expected list text")
-            return
-        }
-        #expect(text.marker != nil)
-        #expect(PresentationComposer.textLine(text) == nil)
-        var generated = 0
-        for mark in raster.marks
-        {
-            guard case let .glyphs(batch) = mark,
-                  case .listMarker = batch.source
-            else { continue }
-            generated += 1
-            #expect(PresentationComposer.glyphBatch(
-                batch, specification: lineage.specification
-            ) == nil)
-        }
-        #expect(generated > 0)
+        #expect(PresentationComposer().present(
+            malformed, request: try PresentationFixture.request(malformed)
+        ) == nil)
+        #expect(PresentationComposer().present(
+            raster, request: try PresentationFixture.request(raster)
+        ) != nil)
     }
 
-    @Test("continuations refuse even when their marker is not resident")
-    func continuation() throws
+    @Test("continuations cannot change list context or repeat a marker",
+          arguments: [0, 1, 2, 3, 4])
+    func continuation(fault: Int) throws
     {
-        let layout = try PresentationFixture.layout([
-            .listItem(SemanticListItem(kind: .numbered, runs: [
-                PresentationFixture.run(
-                    "Readable source continues across several visual lines."
-                )
-            ]))
-        ], width: 180)
-        let fragment = try #require(layout.fragments.dropFirst().first)
-        let raster = try PresentationFixture.raster(
-            PresentationFixture.viewport(
-                layout, y: fragment.frame.minY + 0.5,
-                height: fragment.frame.size.height - 1
-            )
+        let raster = try PresentationListFixture.raster(
+            .numbered, text: "First\nSecond", count: 2
         )
-        let request = try PresentationFixture.request(raster)
-        #expect(PresentationComposer().present(raster, request: request) == nil)
+        var regions = raster.interactionMap.regions
+        try #require(regions.count == 4)
+        guard case let .text(first) = regions[0].content,
+              case let .text(second) = regions[1].content
+        else { throw PresentationListTestFailure.missingText }
+        let position = try #require(RasterListPosition(
+            index: fault == 2 ? 1 : 0, count: fault == 3 ? 3 : 2
+        ))
+        let role: RasterInteractionRole
+        switch fault
+        {
+        case 0: role = .body
+        case 1: role = .bulleted(position)
+        default: role = .numbered(position)
+        }
+        regions[1] = try PresentationListFixture.region(
+            regions[1], role: role,
+            marker: fault == 4 ? first.marker : second.marker
+        )
+        let changed = try PresentationListFixture.replacing(
+            raster, regions: regions
+        )
+        #expect(PresentationComposer().present(
+            changed, request: try PresentationFixture.request(changed)
+        ) == nil)
     }
 }

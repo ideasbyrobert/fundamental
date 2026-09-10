@@ -18,6 +18,11 @@ extension PresentationTransferTests
              let (.code, .code(line)),
              let (.caption, .caption(line)):
             expectText(source, equals: line)
+        case let (.bulleted, .list(item, line)),
+             let (.numbered, .list(item, line)):
+            expectListItem(role, equals: item)
+            expectMarker(source.marker, equals: line.marker)
+            expectText(source, equals: line.textLine)
         case let (.section(level), .section(resultLevel, line)):
             #expect(level.rawValue == resultLevel.rawValue)
             expectText(source, equals: line)

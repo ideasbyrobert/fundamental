@@ -49,7 +49,8 @@ package struct PresentationComposer
                   rasterLineage: rasterLineage,
                   request: request,
                   previous: previous?.presentedDocument
-              )
+              ),
+              Self.validListResidents(document.residents)
         else
         {
             return nil

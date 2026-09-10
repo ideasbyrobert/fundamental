@@ -9,9 +9,14 @@ package struct PresentationGlyphBatch: Equatable, Sendable
     package let textMatrix: PresentationAffineTransform
     package let baselineOffset: Double
     package let color: PresentationColor
-    package let sourceSlices: [PresentationSourceSlice]
+    package let source: PresentationGlyphSource
     package let firstGlyph: PresentationGlyph
     package let remainingGlyphs: [PresentationGlyph]
+
+    package var sourceSlices: [PresentationSourceSlice]
+    {
+        source.sourceSlices
+    }
 
     package var glyphs: [PresentationGlyph]
     {

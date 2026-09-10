@@ -40,7 +40,7 @@ extension MacRasterSnapshotFixture
             textMatrix: source.textMatrix,
             baselineOffset: source.baselineOffset,
             color: source.color,
-            sourceSlices: source.sourceSlices,
+            source: source.source,
             firstGlyph: first,
             remainingGlyphs: Array(glyphs.dropFirst())
         )

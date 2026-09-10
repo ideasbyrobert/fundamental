@@ -18,10 +18,14 @@ enum MacOracleRepository
     }
 
     static func swiftSources(
-        _ path: String
+        _ path: String, excluding: String? = nil
     ) throws -> [String]
     {
         let directory = root.appending(path: path)
+        let excluded = excluding.map
+        {
+            root.appending(path: $0).standardizedFileURL
+        }
         let keys: [URLResourceKey] = [.isRegularFileKey]
         guard let enumerator = FileManager.default.enumerator(
             at: directory,
@@ -34,6 +38,7 @@ enum MacOracleRepository
         return try enumerator.compactMap
         {
             guard let url = $0 as? URL,
+                  url.standardizedFileURL != excluded,
                   url.pathExtension == "swift",
                   try url.resourceValues(forKeys: Set(keys))
                     .isRegularFile == true

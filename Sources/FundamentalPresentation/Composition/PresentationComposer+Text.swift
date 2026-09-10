@@ -6,8 +6,7 @@ extension PresentationComposer
         _ value: RasterInteractionText
     ) -> PresentedTextLine?
     {
-        guard value.marker == nil,
-              let font = font(value.defaultFont),
+        guard let font = font(value.defaultFont),
               let bounds = rectangle(value.lineBounds),
               bounds.size.height > 0,
               let baseline = point(value.baseline),

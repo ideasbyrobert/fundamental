@@ -7,7 +7,7 @@ extension PresentationComposer
         specification: PresentationRasterSpecificationIdentity
     ) -> PresentationGlyphBatch?
     {
-        guard case .text = value.source,
+        guard validGlyphSource(value),
               value.paintOrder >= 0,
               value.baselineOffset.isFinite,
               let identifier = residentID(value.residentID),
@@ -23,7 +23,7 @@ extension PresentationComposer
               let matrix = transform(value.textMatrix),
               let color = color(value.color),
               color.colorSpace == specification.colorSpace,
-              let slices = sourceSlices(value.sourceSlices),
+              let source = glyphSource(value.source),
               let firstGlyph = glyph(value.firstGlyph)
         else
         {
@@ -50,7 +50,7 @@ extension PresentationComposer
             textMatrix: matrix,
             baselineOffset: value.baselineOffset,
             color: color,
-            sourceSlices: slices,
+            source: source,
             firstGlyph: firstGlyph,
             remainingGlyphs: remaining
         )

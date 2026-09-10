@@ -4,6 +4,7 @@ package enum PresentedResidentContent: Equatable, Sendable
     case title(PresentedTextLine)
     case section(PresentationHeadingLevel, PresentedTextLine)
     case code(PresentedTextLine)
+    case list(PresentationListItem, PresentedListLine)
     case table
     case caption(PresentedTextLine)
     case tableColumn(PresentedTableColumn)

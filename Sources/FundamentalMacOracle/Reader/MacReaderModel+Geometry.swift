@@ -22,25 +22,6 @@ extension MacReaderModel
         _ content: PresentedResidentContent
     ) -> PresentedTextLine?
     {
-        switch content
-        {
-        case let .body(line),
-             let .title(line),
-             let .code(line),
-             let .caption(line):
-            return line
-        case let .section(_, line):
-            return line
-        case let .headerCell(_, _, .line(line)),
-             let .bodyCell(_, _, .line(line)):
-            return line
-        case .table,
-             .tableColumn,
-             .headerRow,
-             .bodyRow,
-             .headerCell(_, _, .area),
-             .bodyCell(_, _, .area):
-            return nil
-        }
+        content.textLine
     }
 }

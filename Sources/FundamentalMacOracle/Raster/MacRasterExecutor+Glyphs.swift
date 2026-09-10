@@ -15,7 +15,7 @@ extension MacRasterExecutor
               ),
               let font = MacAdmittedFont(
                   batch.font,
-                  sourceText: batch.sourceSlices.map(\.text).joined()
+                  sourceText: Self.sourceText(batch.source)
               ),
               let color = MacAdmittedColor(
                   batch.color,

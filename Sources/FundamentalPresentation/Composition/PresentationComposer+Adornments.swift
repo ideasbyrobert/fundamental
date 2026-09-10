@@ -44,30 +44,7 @@ extension PresentationComposer
         _ content: PresentedResidentContent
     ) -> PresentedTextLine?
     {
-        switch content
-        {
-        case let .body(line):
-            return line
-        case let .title(line):
-            return line
-        case let .section(_, line):
-            return line
-        case let .code(line):
-            return line
-        case let .caption(line):
-            return line
-        case let .headerCell(_, _, .line(line)):
-            return line
-        case let .bodyCell(_, _, .line(line)):
-            return line
-        case .table,
-             .tableColumn,
-             .headerRow,
-             .bodyRow,
-             .headerCell(_, _, .area),
-             .bodyCell(_, _, .area):
-            return nil
-        }
+        content.textLine
     }
 
     static func exactCaret(

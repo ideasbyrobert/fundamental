@@ -10,6 +10,7 @@ extension PresentationTransferTests
         equals result: PresentationGlyphBatch
     )
     {
+        expectGlyphSource(source.source, equals: result.source)
         #expect(source.paintOrder == result.paintOrder)
         #expect(source.residentID.blockID == result.residentID.blockID)
         #expect(source.residentID.blockOrdinal

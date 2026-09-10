@@ -6,6 +6,11 @@ extension PresentationComposer
         content: PresentedResidentContent
     ) -> Bool
     {
+        guard validListMarks(marks, residentID: residentID, content: content)
+        else
+        {
+            return false
+        }
         let slices = marks.flatMap
         {
             markSourceSlices($0)
@@ -15,7 +20,8 @@ extension PresentationComposer
         case .body,
              .title,
              .section,
-             .code:
+             .code,
+             .list:
             return slices.allSatisfy
             {
                 $0.source.domain == .block(residentID.blockID)
