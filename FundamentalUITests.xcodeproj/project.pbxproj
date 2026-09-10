@@ -72,6 +72,13 @@
                 102000000000000000000083,
                 102000000000000000000085,
                 102000000000000000000087,
+                102000000000000000000089,
+                102000000000000000000091,
+                102000000000000000000093,
+                102000000000000000000095,
+                102000000000000000000097,
+                102000000000000000000099,
+                102000000000000000000101,
             );
             path = UITests;
             sourceTree = "<group>";
@@ -132,6 +139,13 @@
                 102000000000000000000084,
                 102000000000000000000086,
                 102000000000000000000088,
+                102000000000000000000090,
+                102000000000000000000092,
+                102000000000000000000094,
+                102000000000000000000096,
+                102000000000000000000098,
+                102000000000000000000100,
+                102000000000000000000102,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -350,6 +364,76 @@
         102000000000000000000088 = {
             isa = PBXBuildFile;
             fileRef = 102000000000000000000087;
+        };
+        102000000000000000000089 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIScopeRun.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000090 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000089;
+        };
+        102000000000000000000091 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIScopeControlFixture.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000092 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000091;
+        };
+        102000000000000000000093 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+ScopeControls.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000094 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000093;
+        };
+        102000000000000000000095 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+ScopeControls.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000096 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000095;
+        };
+        102000000000000000000097 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+ScopeEditing.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000098 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000097;
+        };
+        102000000000000000000099 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+ScopeKeys.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000100 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000099;
+        };
+        102000000000000000000101 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+ScopeCode.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000102 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000101;
         };
         102000000000000000000008 = {
             isa = PBXFileReference;

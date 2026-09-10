@@ -20,7 +20,7 @@ extension WritingWindowController
             return true
         }
         guard !fileOwner.isSaving, !choosingLocation, closeTask == nil,
-              codeLanguageSheet == nil,
+              !hasFormattingSheet,
               bridge.finishComposition(in: textView)
         else
         {

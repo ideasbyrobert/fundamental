@@ -5,7 +5,7 @@ extension WritingWindowController
     var canFormatSelection: Bool
     {
         let responder = documentWindow.firstResponder
-        return bridge.projection.canFormatBlocks && codeLanguageSheet == nil &&
+        return bridge.projection.canFormatBlocks && !hasFormattingSheet &&
             documentWindow.isKeyWindow &&
             documentWindow.attachedSheet == nil && !choosingLocation &&
             !fileOwner.isSaving && closeTask == nil && textView.isEditable &&

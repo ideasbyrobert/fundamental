@@ -2,10 +2,15 @@ import AppKit
 
 extension WritingWindowController
 {
+    var textSelection: WritingSelectedAttributes?
+    {
+        WritingSelectedAttributes(bridge.composition?.presentation ??
+            bridge.projection)
+    }
+
     var inlineSelection: WritingInlineSelection?
     {
-        WritingInlineSelection(bridge.composition?.presentation ??
-            bridge.projection)
+        textSelection.map { WritingInlineSelection($0) }
     }
 
     var canChooseTextStyle: Bool
@@ -15,6 +20,11 @@ extension WritingWindowController
 
     @objc func chooseTextStyle(_ sender: Any?)
     {
+        if WritingScopeMenu.kind(from: sender) != nil
+        {
+            chooseTextScope(sender)
+            return
+        }
         guard canChooseTextStyle,
               let choice = WritingInlineChoice.selected(from: sender)
         else

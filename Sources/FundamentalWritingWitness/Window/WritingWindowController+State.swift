@@ -22,6 +22,10 @@ extension WritingWindowController
         {
             return canChooseCodeLanguage
         }
+        if item.action == #selector(chooseTextScope(_:))
+        {
+            return validateTextScope(item)
+        }
         if let group = WritingFormattingGroup.allCases.first(where:
             { $0.action == item.action })
         {
@@ -31,7 +35,7 @@ extension WritingWindowController
             item.action == #selector(saveDocumentAs(_:))
         {
             return !fileOwner.isSaving && !choosingLocation &&
-                codeLanguageSheet == nil
+                !hasFormattingSheet
         }
         return true
     }

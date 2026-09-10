@@ -50,10 +50,12 @@ struct WritingTestWindow
 
     func close()
     {
-        if let sheet = controller.codeLanguageSheet
+        let sheet = controller.scopeSheet?.alert.window ??
+            controller.codeLanguageSheet?.alert.window
+        if let sheet
         {
             controller.documentWindow.endSheet(
-                sheet.alert.window, returnCode: .alertSecondButtonReturn
+                sheet, returnCode: .alertSecondButtonReturn
             )
         }
         controller.documentWindow.delegate = nil

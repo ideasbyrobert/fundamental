@@ -21,7 +21,8 @@ extension WritingFormattingToolbar
 
     func updateTextStyles(_ projection: WritingProjection)
     {
-        let selected = WritingInlineSelection(projection)
+        let selected = WritingSelectedAttributes(projection)
+        let inline = selected.map { WritingInlineSelection($0) }
         text.isEnabled = selected != nil
         text.selectItem(at: 0)
         if let menu = text.menu
@@ -31,7 +32,7 @@ extension WritingFormattingToolbar
         let active = WritingInlineChoice.all.compactMap
         {
             choice -> String? in
-            switch selected?.state(of: choice.trait)
+            switch inline?.state(of: choice.trait)
             {
             case .on: choice.title
             case .mixed: choice.title + ": mixed"

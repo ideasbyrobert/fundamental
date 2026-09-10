@@ -2,7 +2,7 @@ package struct SemanticLinkDestination: Equatable, Sendable
 {
     package let value: String
 
-    init?(_ value: String)
+    package init?(_ value: String)
     {
         guard value.contains(where: { !$0.isWhitespace })
         else

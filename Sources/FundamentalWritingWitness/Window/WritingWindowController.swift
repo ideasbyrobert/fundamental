@@ -16,7 +16,13 @@ final class WritingWindowController:
     var choosingLocation = false
     var closeTask: Task<Bool, Never>?
     var codeLanguageSheet: WritingCodeLanguageSheet?
+    var scopeSheet: WritingScopeSheet?
     var didClose: (@MainActor () -> Void)?
+
+    var hasFormattingSheet: Bool
+    {
+        codeLanguageSheet != nil || scopeSheet != nil
+    }
 
     convenience init?(
         session: DocumentSession,

@@ -22,7 +22,7 @@ extension WritingWindowController
     @discardableResult
     func performSave(choosingLocation choose: Bool, closing: Bool) async -> Bool
     {
-        guard !fileOwner.isSaving, !choosingLocation, codeLanguageSheet == nil,
+        guard !fileOwner.isSaving, !choosingLocation, !hasFormattingSheet,
               bridge.finishComposition(in: textView)
         else
         {

@@ -25,11 +25,13 @@ final class WritingInlineMenu: NSObject, NSMenuDelegate
             }
             menu.addItem(choice.menuItem())
         }
+        WritingScopeMenu.populate(menu)
         menu.delegate = shared
     }
 
-    static func update(_ menu: NSMenu, selection: WritingInlineSelection?)
+    static func update(_ menu: NSMenu, selection: WritingSelectedAttributes?)
     {
+        let inline = selection.map { WritingInlineSelection($0) }
         for item in menu.items
         {
             guard let choice = WritingInlineChoice.selected(from: item)
@@ -38,8 +40,9 @@ final class WritingInlineMenu: NSObject, NSMenuDelegate
                 continue
             }
             item.isEnabled = selection != nil
-            item.state = value(selection?.state(of: choice.trait) ?? .off)
+            item.state = value(inline?.state(of: choice.trait) ?? .off)
         }
+        WritingScopeMenu.update(menu, selection: selection)
     }
 
     static func value(_ state: WritingInlineState) -> NSControl.StateValue
@@ -58,7 +61,7 @@ final class WritingInlineMenu: NSObject, NSMenuDelegate
         let controller = NSApp.target(forAction: action, to: nil, from: menu)
             as? WritingWindowController
         let selected = controller?.canChooseTextStyle == true
-            ? controller?.inlineSelection : nil
+            ? controller?.textSelection : nil
         Self.update(menu, selection: selected)
     }
 }
