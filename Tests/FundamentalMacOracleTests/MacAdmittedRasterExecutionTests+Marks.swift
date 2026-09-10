@@ -35,9 +35,15 @@ extension MacAdmittedRasterExecutionTests
                 {
                     CGGlyph($0.identifier)
                 })
-                #expect(batch.positions == sourceBatch.glyphs.map
+                #expect(batch.positions.map
                 {
-                    CGPoint(x: $0.position.x, y: -$0.position.y)
+                    CGPoint(
+                        x: $0.x + batch.origin.x,
+                        y: batch.origin.y - $0.y
+                    )
+                } == sourceBatch.glyphs.map
+                {
+                    CGPoint(x: $0.position.x, y: $0.position.y)
                 })
                 #expect(batch.clipBounds == Self.rectangle(
                     sourceBatch.clipBounds

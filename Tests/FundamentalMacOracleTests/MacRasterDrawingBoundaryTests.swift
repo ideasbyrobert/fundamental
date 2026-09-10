@@ -6,10 +6,9 @@ extension MacOracleArchitectureTests
     @Test("native drawing consumes only an admitted execution")
     func drawingConsumesOnlyAdmittedExecution() throws
     {
-        let source = try MacOracleRepository.source(
-            "Sources/FundamentalMacOracle/Raster/"
-                + "MacRasterExecutor+Drawing.swift"
-        )
+        let source = try MacOracleRepository.swiftSources(
+            "Sources/FundamentalMacOracle/Raster/Drawing"
+        ).joined(separator: "\n")
         #expect(source.contains(
             "_ execution: MacAdmittedRasterExecution"
         ))
