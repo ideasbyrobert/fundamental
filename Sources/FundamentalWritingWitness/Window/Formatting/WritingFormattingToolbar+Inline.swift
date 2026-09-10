@@ -27,7 +27,8 @@ extension WritingFormattingToolbar
         text.selectItem(at: 0)
         if let menu = text.menu
         {
-            WritingInlineMenu.update(menu, selection: selected)
+            WritingInlineMenu.update(menu, selection: selected,
+                opening: WritingLinkRequest(in: projection))
         }
         let active = WritingInlineChoice.all.compactMap
         {

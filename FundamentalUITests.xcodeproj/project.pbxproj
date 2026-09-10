@@ -79,6 +79,12 @@
                 102000000000000000000097,
                 102000000000000000000099,
                 102000000000000000000101,
+                102000000000000000000103,
+                102000000000000000000105,
+                102000000000000000000107,
+                102000000000000000000109,
+                102000000000000000000111,
+                102000000000000000000113,
             );
             path = UITests;
             sourceTree = "<group>";
@@ -146,6 +152,12 @@
                 102000000000000000000098,
                 102000000000000000000100,
                 102000000000000000000102,
+                102000000000000000000104,
+                102000000000000000000106,
+                102000000000000000000108,
+                102000000000000000000110,
+                102000000000000000000112,
+                102000000000000000000114,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -624,6 +636,66 @@
             isa = PBXBuildFile;
             fileRef = 102000000000000000000045;
         };
+        102000000000000000000103 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUILinkReceiver.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000104 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000103;
+        };
+        102000000000000000000105 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUILinkReceiver+HTTP.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000106 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000105;
+        };
+        102000000000000000000107 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUILinkDocument.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000108 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000107;
+        };
+        102000000000000000000109 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUILinkBrowser.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000110 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000109;
+        };
+        102000000000000000000111 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+LinkOpening.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000112 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000111;
+        };
+        102000000000000000000113 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+LinkOpening.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000114 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000113;
+        };
         102000000000000000000013 = {
             isa = XCBuildConfiguration;
             buildSettings = {
@@ -641,6 +713,7 @@
             buildSettings = {
                 CODE_SIGN_IDENTITY = "-";
                 CODE_SIGN_STYLE = Manual;
+                ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
                 GENERATE_INFOPLIST_FILE = YES;
                 INFOPLIST_FILE = UITests/Info.plist;
                 LD_RUNPATH_SEARCH_PATHS = (

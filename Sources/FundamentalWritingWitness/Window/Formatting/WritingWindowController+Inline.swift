@@ -20,6 +20,11 @@ extension WritingWindowController
 
     @objc func chooseTextStyle(_ sender: Any?)
     {
+        if WritingOpenLinkMenu.choice(from: sender) != nil
+        {
+            openLink(sender)
+            return
+        }
         if WritingScopeMenu.kind(from: sender) != nil
         {
             chooseTextScope(sender)

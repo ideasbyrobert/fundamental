@@ -32,7 +32,7 @@ struct WritingApplicationMenu
         return main
     }
 
-    private static func editMenu() -> NSMenu
+    static func editMenu() -> NSMenu
     {
         let menu = NSMenu(title: "Edit")
         menu.addItem(NSMenuItem(

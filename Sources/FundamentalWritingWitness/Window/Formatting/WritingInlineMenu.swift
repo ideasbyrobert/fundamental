@@ -29,7 +29,10 @@ final class WritingInlineMenu: NSObject, NSMenuDelegate
         menu.delegate = shared
     }
 
-    static func update(_ menu: NSMenu, selection: WritingSelectedAttributes?)
+    static func update(
+        _ menu: NSMenu, selection: WritingSelectedAttributes?,
+        opening: WritingLinkRequest? = nil
+    )
     {
         let inline = selection.map { WritingInlineSelection($0) }
         for item in menu.items
@@ -43,6 +46,7 @@ final class WritingInlineMenu: NSObject, NSMenuDelegate
             item.state = value(inline?.state(of: choice.trait) ?? .off)
         }
         WritingScopeMenu.update(menu, selection: selection)
+        WritingOpenLinkMenu.update(menu, request: opening)
     }
 
     static func value(_ state: WritingInlineState) -> NSControl.StateValue
@@ -62,6 +66,6 @@ final class WritingInlineMenu: NSObject, NSMenuDelegate
             as? WritingWindowController
         let selected = controller?.canChooseTextStyle == true
             ? controller?.textSelection : nil
-        Self.update(menu, selection: selected)
+        Self.update(menu, selection: selected, opening: controller?.linkRequest)
     }
 }

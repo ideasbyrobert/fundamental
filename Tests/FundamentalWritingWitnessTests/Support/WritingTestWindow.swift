@@ -34,6 +34,7 @@ struct WritingTestWindow
             confirmDiscard: decision
         )
         controller = try #require(candidate)
+        controller.openDestination = Self.refuseUnexpectedLink
         controller.documentWindow.animationBehavior = .none
         try WritingTestApplication.activate(controller)
     }
@@ -50,9 +51,7 @@ struct WritingTestWindow
 
     func close()
     {
-        let sheet = controller.scopeSheet?.alert.window ??
-            controller.codeLanguageSheet?.alert.window
-        if let sheet
+        if let sheet = controller.documentWindow.attachedSheet
         {
             controller.documentWindow.endSheet(
                 sheet, returnCode: .alertSecondButtonReturn

@@ -70,6 +70,8 @@ extension WritingNativeTests
             window.close()
         }
         let before = window.storage
+        var opened: [URL] = []
+        window.controller.openDestination = { opened.append($0); return true }
         let bridge = window.controller.bridge
         #expect(bridge.responds(to: NSSelectorFromString(
             "textView:clickedOnLink:atIndex:"
@@ -79,5 +81,6 @@ extension WritingNativeTests
         #expect(!window.view.isAutomaticLinkDetectionEnabled)
         #expect(!window.view.isAutomaticDataDetectionEnabled)
         #expect(window.storage == before)
+        #expect(opened.isEmpty)
     }
 }

@@ -78,7 +78,8 @@ extension WritingNativeTests
                     expected.representedObject as? String)
                 #expect(command.target == nil)
                 #expect(window.controller.validateUserInterfaceItem(command) ==
-                    (command.identifier != WritingCodeLanguageMenu.identifier))
+                    (command.identifier != WritingCodeLanguageMenu.identifier &&
+                     command.identifier != WritingOpenLinkMenu.identifier))
             }
         }
         let list = try #require(items.last?.menuFormRepresentation?.submenu)

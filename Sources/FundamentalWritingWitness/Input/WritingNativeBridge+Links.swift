@@ -8,4 +8,11 @@ extension WritingNativeBridge
     {
         true
     }
+
+    func textView(
+        _ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int
+    ) -> NSMenu?
+    {
+        WritingContextMenu.make(in: projection)
+    }
 }

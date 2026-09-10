@@ -14,6 +14,10 @@ enum WritingScopeMenu
             item.identifier = NSUserInterfaceItemIdentifier(kind.rawValue)
             item.keyEquivalentModifierMask = [.command]
             menu.addItem(item)
+            if kind == .link
+            {
+                menu.addItem(WritingOpenLinkMenu.item())
+            }
         }
     }
 
