@@ -11,6 +11,9 @@ struct SemanticRoleHintTests
         .heading1,
         .heading2,
         .heading3,
+        .heading4,
+        .heading5,
+        .heading6,
         .body,
         .quote,
         .code,
@@ -23,7 +26,7 @@ struct SemanticRoleHintTests
     @Test("the compatibility vocabulary and raw values are exact")
     func vocabularyIsExact()
     {
-        #expect(roleHints.count == 11)
+        #expect(roleHints.count == 14)
         for roleHint in roleHints
         {
             let rawValue = expectedRawValue(for: roleHint)
@@ -61,37 +64,6 @@ struct SemanticRoleHintTests
                 SemanticRoleHint.self,
                 from: data
             )
-        }
-    }
-
-    private func expectedRawValue(
-        for roleHint: SemanticRoleHint
-    ) -> String
-    {
-        switch roleHint
-        {
-        case .title:
-            "title"
-        case .heading1:
-            "heading1"
-        case .heading2:
-            "heading2"
-        case .heading3:
-            "heading3"
-        case .body:
-            "body"
-        case .quote:
-            "quote"
-        case .code:
-            "code"
-        case .bullet:
-            "bullet"
-        case .numberedItem:
-            "numberedItem"
-        case .sceneBreak:
-            "sceneBreak"
-        case .caption:
-            "caption"
         }
     }
 }

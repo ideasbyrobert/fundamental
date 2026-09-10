@@ -18,7 +18,7 @@ extension SemanticParagraphReplacementTests
                 edit, in: source.document
             ))
             let continuation: CanonicalBlockStyle =
-                [.title, .heading, .subheading].contains(style) ? .body : style
+                style.semanticKind == .heading ? .body : style
             #expect(result.document.content.blocks.map
                 { CanonicalBlockStyle($0.block) } ==
                 [style, continuation, continuation])

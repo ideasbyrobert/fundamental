@@ -11,8 +11,12 @@ struct CanonicalBlockStyleTests
     {
         #expect(CanonicalBlockStyle.allCases == [
             .title,
+            .heading1,
             .heading,
             .subheading,
+            .heading4,
+            .heading5,
+            .heading6,
             .body,
             .monostyled,
             .bulleted,
@@ -20,8 +24,12 @@ struct CanonicalBlockStyleTests
         ])
         #expect(CanonicalBlockStyle.allCases.map(\.rawValue) == [
             "title",
+            "heading1",
             "heading",
             "subheading",
+            "heading4",
+            "heading5",
+            "heading6",
             "body",
             "monostyled",
             "bulleted",

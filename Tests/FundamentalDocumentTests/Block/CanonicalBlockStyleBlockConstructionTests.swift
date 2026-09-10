@@ -25,28 +25,19 @@ extension CanonicalBlockStyleMappingTests
 
         for runs in runSets
         {
+            let sections = SemanticHeadingLevel.allCases.map
+            {
+                SemanticBlock.heading(.section(SectionSemanticHeading(
+                    runs: runs, level: $0
+                )))
+            }
             let expected: [SemanticBlock] = [
                 .heading(
                     .title(
                         TitleSemanticHeading(runs: runs)
                     )
-                ),
-                .heading(
-                    .section(
-                        SectionSemanticHeading(
-                            runs: runs,
-                            level: .two
-                        )
-                    )
-                ),
-                .heading(
-                    .section(
-                        SectionSemanticHeading(
-                            runs: runs,
-                            level: .three
-                        )
-                    )
-                ),
+                )
+            ] + sections + [
                 .paragraph(SemanticParagraph(runs: runs)),
                 .code(
                     .plain(

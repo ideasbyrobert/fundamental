@@ -9,7 +9,21 @@ extension CanonicalBlockStyle
         case .heading(.title):
             self = .title
         case let .heading(.section(section)):
-            self = section.level.rawValue <= 2 ? .heading : .subheading
+            switch section.level
+            {
+            case .one:
+                self = .heading1
+            case .two:
+                self = .heading
+            case .three:
+                self = .subheading
+            case .four:
+                self = .heading4
+            case .five:
+                self = .heading5
+            case .six:
+                self = .heading6
+            }
         case .code:
             self = .monostyled
         case let .listItem(item):

@@ -5,8 +5,12 @@ package enum CanonicalBlockStyle:
     Sendable
 {
     case title
+    case heading1
     case heading
     case subheading
+    case heading4
+    case heading5
+    case heading6
     case body
     case monostyled
     case bulleted
@@ -24,24 +28,18 @@ package enum CanonicalBlockStyle:
                     TitleSemanticHeading(runs: runs)
                 )
             )
+        case .heading1:
+            Self.section(.one, runs: runs)
         case .heading:
-            .heading(
-                .section(
-                    SectionSemanticHeading(
-                        runs: runs,
-                        level: .two
-                    )
-                )
-            )
+            Self.section(.two, runs: runs)
         case .subheading:
-            .heading(
-                .section(
-                    SectionSemanticHeading(
-                        runs: runs,
-                        level: .three
-                    )
-                )
-            )
+            Self.section(.three, runs: runs)
+        case .heading4:
+            Self.section(.four, runs: runs)
+        case .heading5:
+            Self.section(.five, runs: runs)
+        case .heading6:
+            Self.section(.six, runs: runs)
         case .body:
             .paragraph(
                 SemanticParagraph(runs: runs)
@@ -57,5 +55,12 @@ package enum CanonicalBlockStyle:
         case .numbered:
             .listItem(SemanticListItem(kind: .numbered, runs: runs))
         }
+    }
+
+    private static func section(
+        _ level: SemanticHeadingLevel, runs: [SemanticRun]
+    ) -> SemanticBlock
+    {
+        .heading(.section(SectionSemanticHeading(runs: runs, level: level)))
     }
 }

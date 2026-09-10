@@ -17,8 +17,12 @@ struct CanonicalBlockStyleMappingTests
             )
         ] = [
             (.title, .heading, 1, .title),
+            (.heading1, .heading, 1, .heading1),
             (.heading, .heading, 2, .heading2),
             (.subheading, .heading, 3, .heading3),
+            (.heading4, .heading, 4, .heading4),
+            (.heading5, .heading, 5, .heading5),
+            (.heading6, .heading, 6, .heading6),
             (.body, .paragraph, nil, .body),
             (.monostyled, .code, nil, .code),
             (.bulleted, .listItem, nil, .bullet),

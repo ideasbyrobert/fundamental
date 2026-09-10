@@ -21,7 +21,7 @@ extension SemanticParagraphReplacementTests
         ))
         let blocks = result.document.content.blocks
         let continuation: CanonicalBlockStyle =
-            [.title, .heading, .subheading].contains(style) ? .body : style
+            style.semanticKind == .heading ? .body : style
         #expect(blocks.map { CanonicalBlockStyle($0.block) } ==
             [style, continuation])
         #expect(SemanticWritingTestDocument.texts(result.document)[0] == "AX")
