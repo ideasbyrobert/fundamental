@@ -15,7 +15,10 @@ extension ProjectionProseTests
             ))
         }
         let projection = try ProjectionFixture.projection(blocks)
-        let expected: [ProjectedProseRole] = [.bulleted, .numbered]
+        let position = try #require(ProjectedListPosition(index: 0, count: 1))
+        let expected: [ProjectedProseRole] = [
+            .bulleted(position), .numbered(position)
+        ]
         for (index, block) in projection.blocks.enumerated()
         {
             guard case let .prose(source, prose) = block

@@ -12,9 +12,17 @@ enum ProjectionFixture
 
     static func blockID(_ ordinal: Int) -> UUID
     {
-        UUID(uuid: (
+        let value = UInt64(ordinal) + 1
+        return UUID(uuid: (
             0x20, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, UInt8(ordinal + 1)
+            UInt8(truncatingIfNeeded: value >> 56),
+            UInt8(truncatingIfNeeded: value >> 48),
+            UInt8(truncatingIfNeeded: value >> 40),
+            UInt8(truncatingIfNeeded: value >> 32),
+            UInt8(truncatingIfNeeded: value >> 24),
+            UInt8(truncatingIfNeeded: value >> 16),
+            UInt8(truncatingIfNeeded: value >> 8),
+            UInt8(truncatingIfNeeded: value)
         ))
     }
 

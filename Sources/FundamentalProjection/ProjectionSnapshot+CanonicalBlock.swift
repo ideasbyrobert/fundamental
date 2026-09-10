@@ -5,7 +5,8 @@ extension ProjectionSnapshot
 {
     static func project(
         _ identified: IdentifiedSemanticBlock,
-        ordinal: Int
+        ordinal: Int,
+        listPosition: ProjectedListPosition
     ) -> ProjectedBlock
     {
         let blockID = identified.blockID.value
@@ -17,7 +18,8 @@ extension ProjectionSnapshot
         {
         case let .listItem(item):
             return .prose(source: source, prose: ProjectedProse(
-                role: item.kind == .bulleted ? .bulleted : .numbered,
+                role: item.kind == .bulleted
+                    ? .bulleted(listPosition) : .numbered(listPosition),
                 runs: projectBlockRuns(item.runs, blockID: blockID)
             ))
         case let .paragraph(paragraph):

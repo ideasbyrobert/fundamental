@@ -6,13 +6,7 @@ package extension ProjectionSnapshot
     init(_ snapshot: DocumentSnapshot)
     {
         let document = snapshot.document
-        let blocks = document.content.blocks.enumerated().map
-        {
-            Self.project(
-                $0.element,
-                ordinal: $0.offset
-            )
-        }
+        let blocks = Self.projectBlocks(document.content.blocks)
         lineage = ProjectionLineage(
             documentID: document.documentID.value,
             revision: document.revision.value,
