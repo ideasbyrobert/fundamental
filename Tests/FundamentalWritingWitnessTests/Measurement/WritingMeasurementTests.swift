@@ -22,7 +22,8 @@ struct WritingMeasurementTests
         ))
         let corpus = try WritingMeasurementCorpus(
             paragraphs: count,
-            semantic: environment["FUNDAMENTAL_WRITING_SEMANTIC"] == "1"
+            semantic: environment["FUNDAMENTAL_WRITING_SEMANTIC"] == "1",
+            scoped: environment["FUNDAMENTAL_WRITING_SCOPED"] == "1"
         )
         let seed = try #require(WritingDocumentSeed(document: corpus.document))
         let window = try WritingTestWindow(session: DocumentSession(

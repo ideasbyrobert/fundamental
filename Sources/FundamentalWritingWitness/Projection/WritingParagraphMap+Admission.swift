@@ -30,8 +30,7 @@ extension WritingParagraphMap
         var count = initial
         for run in runs
         {
-            guard case .direct = run,
-                  WritingSurfacePolicy.admits(run.text)
+            guard WritingSurfacePolicy.admits(run.text)
             else
             {
                 return nil

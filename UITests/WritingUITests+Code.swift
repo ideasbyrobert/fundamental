@@ -12,13 +12,13 @@ extension WritingUITests
         try exerciseCode(tagged: true)
     }
 
-    private func exerciseCode(tagged: Bool) throws
+    func exerciseCode(tagged: Bool, scoped: Bool = false) throws
     {
         continueAfterFailure = false
         let fixture = try WritingUIFixture(test: self)
         let journey = WritingUIJourney(fixture: fixture, test: self,
                                        documentName: "Code.fun")
-        let code = WritingUICodeFixture(tagged: tagged)
+        let code = WritingUICodeFixture(tagged: tagged, scoped: scoped)
         try code.write(to: journey.document)
         let app = fixture.app
         try journey.step("Open existing code with exact source lines")

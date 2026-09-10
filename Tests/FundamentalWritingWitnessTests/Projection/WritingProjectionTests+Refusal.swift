@@ -21,24 +21,6 @@ extension WritingProposalTests
     }
 
     @Test
-    func scopesAreNotSilentlyFlattened() throws
-    {
-        let language = try #require(SemanticLanguageIdentifier("fr"))
-        let scoped = try #require(SemanticInsertion(
-            text: "X",
-            attributes: .scoped(traits: [], scopes: .language(language))
-        )).run
-        let runs = [scoped]
-        for run in runs
-        {
-            let source = try WritingTestDocument(blocks: [
-                .paragraph(SemanticParagraph(runs: [run]))
-            ])
-            #expect(WritingProjection(source.state) == nil)
-        }
-    }
-
-    @Test
     func projectionAdmitsExactCapacityAndRefusesOverflow() throws
     {
         let capacity = WritingSurfacePolicy.maximumUTF16Units

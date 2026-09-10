@@ -41,20 +41,4 @@ extension WritingProposalTests
         try WritingCodeFixture.expect(document.content.blocks[1].block,
                                       text: text, tagged: tagged)
     }
-
-    @Test(arguments: [false, true])
-    func codeScopesRemainOutsideThisAdmissionStep(tagged: Bool)
-        throws
-    {
-        let plain = try WritingCodeFixture.block("X", tagged: tagged)
-        let editable = try #require(EditableSemanticBlock(plain))
-        let language = try #require(SemanticLanguageIdentifier("fr"))
-        let scoped = try #require(SemanticInsertion(
-            text: "X",
-            attributes: .scoped(traits: [], scopes: .language(language))
-        )).run
-        let styled = editable.replacingRuns([scoped])
-        let fixture = try WritingTestDocument(blocks: [styled])
-        #expect(WritingProjection(fixture.state) == nil)
-    }
 }

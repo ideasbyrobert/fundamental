@@ -4,6 +4,7 @@ import XCTest
 struct WritingUICodeFixture
 {
     let tagged: Bool
+    let scoped: Bool
     let documentID = UUID()
     let blockIDs = (0 ..< 3).map { _ in UUID() }
     let language = " SwIfT "
@@ -11,17 +12,19 @@ struct WritingUICodeFixture
     let prefix = "\tlet edited = \"e\u{301} 😀\"\r\n"
 
     init(
-        tagged: Bool,
+        tagged: Bool, scoped: Bool = false,
         source: String = "let letter = \"e\u{301} 😀\"\r\n\treturn letter\n\n"
     )
     {
         self.tagged = tagged
+        self.scoped = scoped
         self.source = source
     }
 
     func write(to location: URL) throws
     {
-        var code = content(source, kind: tagged ? "languageCode" : "code")
+        var code = content(source, kind: tagged ? "languageCode" : "code",
+                           scoped: scoped)
         if tagged
         {
             code["language"] = language
@@ -59,15 +62,20 @@ struct WritingUICodeFixture
         XCTAssertEqual(record.blocks.map(\.content.language),
                        [nil, tagged ? language : nil, nil])
         XCTAssertTrue(matches(record, code: code, after: after))
-        XCTAssertTrue(record.blocks.flatMap(\.content.runs).allSatisfy
-        {
-            $0.traits.isEmpty && $0.link == nil && $0.language == nil
-        })
+        expectScopes(record)
     }
 
-    private func content(_ text: String, kind: String = "paragraph")
+    private func content(
+        _ text: String, kind: String = "paragraph", scoped: Bool = false
+    )
         -> [String: Any]
     {
-        ["kind": kind, "runs": [["text": text, "traits": []]]]
+        var run: [String: Any] = ["text": text, "traits": [String]()]
+        if scoped
+        {
+            run["link"] = WritingUIScopeFixture.link
+            run["language"] = WritingUIScopeFixture.language
+        }
+        return ["kind": kind, "runs": [run]]
     }
 }

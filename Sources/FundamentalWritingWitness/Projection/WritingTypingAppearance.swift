@@ -12,7 +12,7 @@ struct WritingTypingAppearance
         let caret = projection.selection.location
         guard let index = projection.map.spans.lastIndex(where:
             { $0.range.location <= caret }),
-              case let .direct(traits) = projection.snapshot.typingAttributes(
+              let typing = projection.snapshot.typingAttributes(
                   in: projection.snapshot.selection.range
               )
         else
@@ -30,8 +30,8 @@ struct WritingTypingAppearance
         guard let base = WritingTypography.attributes(
             for: blocks[index].block, ordinal: &ordinal
         ), let font = base[.font] as? NSFont,
-              let inline = WritingInlineAppearance.attributes(
-                  traits: traits, font: font
+              let inline = WritingRunAppearance.attributes(
+                  typing, font: font
               )
         else
         {

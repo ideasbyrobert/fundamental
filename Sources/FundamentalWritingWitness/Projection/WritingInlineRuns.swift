@@ -14,9 +14,8 @@ enum WritingInlineRuns
         {
             let length = run.text.utf16.count
             guard length <= NSMaxRange(range) - offset,
-                  case .direct = run,
-                  let attributes = WritingInlineAppearance.attributes(
-                      traits: run.traits, font: font
+                  let attributes = WritingRunAppearance.attributes(
+                      run.attributes, font: font
                   )
             else
             {

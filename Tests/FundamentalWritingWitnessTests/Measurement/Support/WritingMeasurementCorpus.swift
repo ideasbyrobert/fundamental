@@ -9,8 +9,11 @@ struct WritingMeasurementCorpus
     let utf16Count: Int
     let paragraphCount: Int
     let semantic: Bool
+    let scoped: Bool
 
-    init(paragraphs count: Int, semantic: Bool = false) throws
+    init(
+        paragraphs count: Int, semantic: Bool = false, scoped: Bool = false
+    ) throws
     {
         try #require((1 ... 16_384).contains(count))
         let sentence = "A manuscript paragraph keeps ordinary words, " +
@@ -20,8 +23,11 @@ struct WritingMeasurementCorpus
         {
             index in
             let marker = ("00000" + String(index)).suffix(5)
+            let attributes: SemanticRunAttributes = scoped
+                ? try WritingMeasurementScopes.attributes(at: index)
+                : .direct(traits: [])
             let insertion = try #require(SemanticInsertion(
-                text: "A \(marker) " + text, attributes: .direct(traits: [])
+                text: "A \(marker) " + text, attributes: attributes
             ))
             let styles: [CanonicalBlockStyle] = [
                 .heading, .body, .bulleted, .bulleted, .subheading,
@@ -44,5 +50,6 @@ struct WritingMeasurementCorpus
         utf16Count = (text.utf16.count + 8) * count + count - 1
         paragraphCount = count
         self.semantic = semantic
+        self.scoped = scoped
     }
 }

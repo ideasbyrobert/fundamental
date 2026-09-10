@@ -26,6 +26,7 @@ struct WritingMeasurementReport
             "os": ProcessInfo.processInfo.operatingSystemVersionString,
             "paragraphs": corpus.paragraphCount,
             "corpus": corpus.semantic ? "mixed semantic" : "body paragraphs",
+            "scoped": corpus.scoped,
             "utf16Units": corpus.utf16Count,
             "location": location.rawValue,
             "sampleCount": samples.count,

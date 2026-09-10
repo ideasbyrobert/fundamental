@@ -19,11 +19,6 @@ struct WritingProjection: Equatable, Sendable
         {
             return nil
         }
-        if let intent = editable.typingIntent,
-           case .scoped = intent.attributes
-        {
-            return nil
-        }
         snapshot = editable
         self.map = map
         selection = NSRange(location: min(start, end), length: abs(end - start))

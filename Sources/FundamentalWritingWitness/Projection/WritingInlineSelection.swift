@@ -10,13 +10,17 @@ struct WritingInlineSelection: Equatable, Sendable
         let selected = projection.selection
         if selected.length == 0
         {
-            guard case let .direct(traits) = projection.snapshot
+            guard let attributes = projection.snapshot
                 .typingAttributes(in: projection.snapshot.selection.range)
             else
             {
                 return nil
             }
-            values = [traits]
+            switch attributes
+            {
+            case let .direct(traits), let .scoped(traits, _):
+                values = [traits]
+            }
             return
         }
         let blocks = projection.snapshot.snapshot.document.content.blocks
