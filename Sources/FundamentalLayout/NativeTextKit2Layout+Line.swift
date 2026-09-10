@@ -7,6 +7,7 @@ extension NativeTextKit2Layout
     func line(
         _ nativeLine: NSTextLineFragment,
         fragment: NSTextLayoutFragment,
+        selectionExtent: LayoutSelectionExtent,
         range: NSRange,
         attributed: NSAttributedString,
         text: NSString,
@@ -66,6 +67,7 @@ extension NativeTextKit2Layout
             text: lineText,
             frame: frame,
             baseline: baseline,
+            selectionExtent: selectionExtent,
             sourceSlices: sourceSlices,
             firstCaretStop: caretStops[0],
             remainingCaretStops: Array(caretStops.dropFirst()),

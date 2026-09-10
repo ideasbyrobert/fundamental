@@ -6,7 +6,7 @@ import Testing
 
 extension MacReaderListTests
 {
-    @Test("newline-only selection remains an explicit shared prerequisite",
+    @Test("newline-only selection publishes visible source feedback",
           arguments: SemanticListKind.allCases)
     func newlineOnlySelection(kind: SemanticListKind) throws
     {
@@ -25,7 +25,7 @@ extension MacReaderListTests
             #expect(line.text == "\n")
             #expect(first.sourcePoint.utf16Offset == 0)
             #expect(last.sourcePoint.utf16Offset == 1)
-            #expect(!model.showSelection(
+            #expect(model.showSelection(
                 anchor: PresentationTextPosition(
                     residentID: resident.residentID,
                     sourcePoint: first.sourcePoint
@@ -35,7 +35,15 @@ extension MacReaderListTests
                     sourcePoint: last.sourcePoint
                 )
             ))
-            #expect(model.snapshot == snapshot)
+            guard case let .selection(document, selection) = model.snapshot
+            else
+            {
+                Issue.record("Expected visible line-break selection")
+                return
+            }
+            #expect(document.sharesStorage(with: snapshot.presentedDocument))
+            #expect(selection.text == "\n")
+            #expect(selection.firstFragment.logicalBounds.size.width > 0)
         }
     }
 }

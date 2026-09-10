@@ -46,6 +46,11 @@ extension NativeTextKit2Layout
                     lines.append(try line(
                         nativeLine,
                         fragment: fragment,
+                        selectionExtent: try selectionExtent(
+                            storage: storage, manager: manager,
+                            fragment: fragment, line: nativeLine,
+                            originX: originX
+                        ),
                         range: range,
                         attributed: attributed,
                         text: text,

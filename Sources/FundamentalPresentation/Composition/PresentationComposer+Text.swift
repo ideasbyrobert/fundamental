@@ -10,6 +10,10 @@ extension PresentationComposer
               let bounds = rectangle(value.lineBounds),
               bounds.size.height > 0,
               let baseline = point(value.baseline),
+              let extent = PresentationSelectionExtent(
+                  leading: value.selectionExtent.leading,
+                  trailing: value.selectionExtent.trailing
+              ),
               let slices = sourceSlices(value.sourceSlices),
               let firstCaret = caretSite(value.firstCaretSite)
         else
@@ -41,6 +45,7 @@ extension PresentationComposer
             defaultFont: font,
             lineBounds: bounds,
             baseline: baseline,
+            selectionExtent: extent,
             sourceSlices: slices,
             firstCaretSite: firstCaret,
             remainingCaretSites: Array(carets.dropFirst())

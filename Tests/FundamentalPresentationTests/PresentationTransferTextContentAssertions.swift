@@ -52,6 +52,10 @@ extension PresentationTransferTests
             == rectangleSignature(result.lineBounds))
         #expect(source.baseline.x == result.baseline.x)
         #expect(source.baseline.y == result.baseline.y)
+        #expect(source.selectionExtent.leading
+            == result.selectionExtent.leading)
+        #expect(source.selectionExtent.trailing
+            == result.selectionExtent.trailing)
         expectFont(source.defaultFont, equals: result.defaultFont)
         expectSlices(source.sourceSlices, equals: result.sourceSlices)
         #expect(source.caretSites.count == result.caretSites.count)

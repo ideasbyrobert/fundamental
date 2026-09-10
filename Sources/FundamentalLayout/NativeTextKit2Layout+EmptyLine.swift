@@ -6,6 +6,7 @@ extension NativeTextKit2Layout
 {
     func emptyLine(
         font: NSFont,
+        width: Double,
         originX: Double,
         originY: Double,
         pointContext: NativeTextPointContext
@@ -14,7 +15,10 @@ extension NativeTextKit2Layout
         let metrics = NSLayoutManager()
         let height = metrics.defaultLineHeight(for: font)
         let offset = metrics.defaultBaselineOffset(for: font)
-        guard height > 0, offset >= 0, offset <= height
+        guard height > 0, offset >= 0, offset <= height,
+              let extent = LayoutSelectionExtent(
+                  leading: originX, trailing: originX + width
+              )
         else
         {
             throw LayoutFailure.nonfiniteNativeGeometry
@@ -26,6 +30,7 @@ extension NativeTextKit2Layout
                 x: originX, y: originY, width: 0, height: height
             ),
             baseline: baseline,
+            selectionExtent: extent,
             sourceSlices: [],
             firstCaretStop: LayoutCaretStop(
                 utf16Offset: 0,

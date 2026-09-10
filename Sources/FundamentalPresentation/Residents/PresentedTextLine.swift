@@ -4,6 +4,7 @@ package struct PresentedTextLine: Equatable, Sendable
     package let defaultFont: PresentationFontIdentity
     package let lineBounds: PresentationRectangle
     package let baseline: PresentationPoint
+    package let selectionExtent: PresentationSelectionExtent
     package let sourceSlices: [PresentationSourceSlice]
     package let firstCaretSite: PresentedCaretSite
     package let remainingCaretSites: [PresentedCaretSite]

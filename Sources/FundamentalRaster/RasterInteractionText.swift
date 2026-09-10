@@ -4,6 +4,7 @@ package struct RasterInteractionText: Equatable, Sendable
     package let defaultFont: RasterFontIdentity
     package let lineBounds: RasterRectangle
     package let baseline: RasterPoint
+    package let selectionExtent: RasterSelectionExtent
     package let marker: RasterListMarker?
     package let sourceSlices: [RasterSourceSlice]
     package let firstCaretSite: RasterCaretSite
@@ -12,6 +13,7 @@ package struct RasterInteractionText: Equatable, Sendable
     init(
         text: String, defaultFont: RasterFontIdentity,
         lineBounds: RasterRectangle, baseline: RasterPoint,
+        selectionExtent: RasterSelectionExtent,
         marker: RasterListMarker? = nil, sourceSlices: [RasterSourceSlice],
         firstCaretSite: RasterCaretSite,
         remainingCaretSites: [RasterCaretSite]
@@ -21,6 +23,7 @@ package struct RasterInteractionText: Equatable, Sendable
         self.defaultFont = defaultFont
         self.lineBounds = lineBounds
         self.baseline = baseline
+        self.selectionExtent = selectionExtent
         self.marker = marker
         self.sourceSlices = sourceSlices
         self.firstCaretSite = firstCaretSite

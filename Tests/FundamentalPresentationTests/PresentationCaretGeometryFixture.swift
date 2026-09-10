@@ -6,7 +6,8 @@ extension PresentationFixture
 {
     static func raster(
         _ raster: RasterSnapshot,
-        replacingFirstCaretXs values: [Double]
+        replacingFirstCaretXs values: [Double],
+        selectionExtent: RasterSelectionExtent? = nil
     ) throws -> RasterSnapshot
     {
         let first = raster.interactionMap.firstRegion
@@ -37,6 +38,7 @@ extension PresentationFixture
             defaultFont: text.defaultFont,
             lineBounds: text.lineBounds,
             baseline: text.baseline,
+            selectionExtent: selectionExtent ?? text.selectionExtent,
             sourceSlices: text.sourceSlices,
             firstCaretSite: carets[0],
             remainingCaretSites: Array(carets.dropFirst())

@@ -3,6 +3,7 @@ package struct LayoutLine: Equatable, Sendable
     package let text: String
     package let frame: LayoutRectangle
     package let baseline: LayoutPoint
+    package let selectionExtent: LayoutSelectionExtent
     package let sourceSlices: [LayoutSourceSlice]
     package let firstCaretStop: LayoutCaretStop
     package let remainingCaretStops: [LayoutCaretStop]

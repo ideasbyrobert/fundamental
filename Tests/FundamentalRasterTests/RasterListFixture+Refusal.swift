@@ -13,14 +13,14 @@ extension RasterListFixture
         var budget = RasterAdmissionBudget(
             capacities: specification.capacities
         )
+        let frame = try bounds(line.frame)
         #expect(!ViewportRasterizer.admits(
-            line, residentID: owner, role: role,
+            line, residentID: owner, role: role, frame: frame,
             targetBounds: specification.logicalBounds, budget: &budget
         ))
         var accumulator = RasterAccumulator(
             capacities: specification.capacities
         )
-        let frame = try bounds(line.frame)
         #expect(!ViewportRasterizer.append(
             line, residentID: owner, residence: .visible, role: role,
             frame: frame, targetBounds: specification.logicalBounds,

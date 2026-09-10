@@ -45,6 +45,8 @@ extension RasterTextTests
             == RasterFixture.expectedFont(line.defaultFont))
         #expect(text.lineBounds == lineBounds)
         #expect(text.baseline == baseline)
+        #expect(text.selectionExtent.leading == line.selectionExtent.leading)
+        #expect(text.selectionExtent.trailing == line.selectionExtent.trailing)
         #expect(text.sourceSlices
             == RasterFixture.expectedSlices(line.sourceSlices))
         #expect(text.caretSites == carets)

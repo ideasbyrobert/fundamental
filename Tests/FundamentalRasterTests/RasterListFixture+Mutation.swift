@@ -3,11 +3,13 @@
 extension RasterListFixture
 {
     static func line(
-        _ value: LayoutLine, marker: LayoutListMarker?
+        _ value: LayoutLine, marker: LayoutListMarker?,
+        extent: LayoutSelectionExtent? = nil
     ) -> LayoutLine
     {
         LayoutLine(
             text: value.text, frame: value.frame, baseline: value.baseline,
+            selectionExtent: extent ?? value.selectionExtent,
             sourceSlices: value.sourceSlices,
             firstCaretStop: value.firstCaretStop,
             remainingCaretStops: value.remainingCaretStops,

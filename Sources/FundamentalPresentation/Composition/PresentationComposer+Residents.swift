@@ -15,6 +15,11 @@ extension PresentationComposer
                   content: value.content,
                   residentID: identifier
               ),
+              content.textLine.map(
+              {
+                  $0.selectionExtent.minX >= frame.minX
+                      && $0.selectionExtent.maxX <= frame.maxX
+              }) ?? true,
               marks.allSatisfy(
               {
                   $0.residentID == identifier

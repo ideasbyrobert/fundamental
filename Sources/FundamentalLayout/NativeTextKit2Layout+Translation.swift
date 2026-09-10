@@ -3,7 +3,8 @@ extension NativeTextKit2Layout
     func translated(
         _ line: LayoutLine,
         dx: Double,
-        dy: Double
+        dy: Double,
+        containerDX: Double? = nil
     ) throws -> LayoutLine
     {
         LayoutLine(
@@ -12,6 +13,9 @@ extension NativeTextKit2Layout
             baseline: try point(
                 x: line.baseline.x + dx,
                 y: line.baseline.y + dy
+            ),
+            selectionExtent: try translated(
+                line.selectionExtent, dx: containerDX ?? dx
             ),
             sourceSlices: line.sourceSlices,
             firstCaretStop: try translated(

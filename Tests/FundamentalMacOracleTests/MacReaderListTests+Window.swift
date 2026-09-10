@@ -40,7 +40,7 @@ extension MacReaderListTests
                 group, text: texts[index], index: index, label: label
             )
             let block = source.document.content.blocks[index]
-            if texts[index].contains(where: { $0 != "\n" && $0 != "\r" })
+            if !texts[index].isEmpty
             {
                 let selection = try MacReaderDocumentFixture.copy(
                     blockID: block.blockID.value, from: controller

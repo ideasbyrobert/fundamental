@@ -36,6 +36,7 @@ extension PresentationListFixture
             content: .text(RasterInteractionText(
                 text: line.text, defaultFont: line.defaultFont,
                 lineBounds: line.lineBounds, baseline: line.baseline,
+                selectionExtent: line.selectionExtent,
                 marker: marker, sourceSlices: line.sourceSlices,
                 firstCaretSite: line.firstCaretSite,
                 remainingCaretSites: line.remainingCaretSites

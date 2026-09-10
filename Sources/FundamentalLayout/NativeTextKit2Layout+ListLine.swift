@@ -31,6 +31,7 @@ extension NativeTextKit2Layout
                 x: x, y: y, width: right - x, height: bottom - y
             ),
             baseline: line.baseline,
+            selectionExtent: line.selectionExtent,
             sourceSlices: line.sourceSlices,
             firstCaretStop: line.firstCaretStop,
             remainingCaretStops: line.remainingCaretStops,

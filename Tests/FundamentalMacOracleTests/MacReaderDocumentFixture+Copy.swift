@@ -7,7 +7,8 @@ import Testing
 extension MacReaderDocumentFixture
 {
     static func copy(
-        blockID: UUID, from controller: MacReaderWindowController
+        blockID: UUID, from controller: MacReaderWindowController,
+        reverse: Bool = false
     ) throws -> PresentationSelectionAdornment
     {
         let window = try #require(controller.window)
@@ -17,18 +18,25 @@ extension MacReaderDocumentFixture
         {
             $0.residentID.blockID == blockID
         }.compactMap { line($0.content) }
-        let first = try #require(lines.first?.caretSites.first)
-        let last = try #require(lines.last?.caretSites.last)
+        let firstLine = try #require(lines.first)
+        let lastLine = try #require(lines.last)
+        let first = try mouseSite(firstLine.firstCaretSite, line: firstLine)
+        let last = try mouseSite(
+            #require(lastLine.caretSites.last), line: lastLine
+        )
         view.mouseDown(with: try MacReaderInteractionTests.event(
-            type: .leftMouseDown, site: first, view: view, window: window
+            type: .leftMouseDown, site: reverse ? last : first,
+            view: view, window: window
         ))
         view.mouseDragged(with: try MacReaderInteractionTests.event(
-            type: .leftMouseDragged, site: last, view: view, window: window
+            type: .leftMouseDragged, site: reverse ? first : last,
+            view: view, window: window
         ))
         guard case let .selection(_, selection) = view.model.snapshot
         else
         {
-            Issue.record("No source selection for \(blockID.uuidString)")
+            let diagnostic = selectionDiagnostic(lines, model: view.model)
+            Issue.record("Selection refused: \(diagnostic)")
             throw MacOracleTestFailure.admission
         }
         #expect(view.model.snapshot.presentedDocument.sharesStorage(

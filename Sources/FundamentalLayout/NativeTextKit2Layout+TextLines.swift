@@ -20,7 +20,7 @@ extension NativeTextKit2Layout
         else
         {
             return [try emptyLine(
-                font: font, originX: originX, originY: originY,
+                font: font, width: width, originX: originX, originY: originY,
                 pointContext: pointContext
             )]
         }

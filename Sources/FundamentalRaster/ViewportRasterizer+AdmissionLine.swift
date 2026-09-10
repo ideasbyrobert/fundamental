@@ -5,6 +5,7 @@ extension ViewportRasterizer
     static func admits(
         _ line: ResidentLayoutLine,
         residentID: RasterResidentID, role: RasterInteractionRole,
+        frame: RasterRectangle,
         targetBounds: RasterRectangle, budget: inout RasterAdmissionBudget
     ) -> Bool
     {
@@ -16,7 +17,9 @@ extension ViewportRasterizer
             && residentID.fragmentOrdinal == 0
         let (caretCount, overflow) = line.remainingCaretStops.count
             .addingReportingOverflow(1)
-        guard (line.marker == nil || marker != nil),
+        guard line.selectionExtent.minX >= frame.minX,
+              line.selectionExtent.maxX <= frame.maxX,
+              (line.marker == nil || marker != nil),
               (marker != nil) == expectsMarker, !overflow,
               budget.consumeText(line.text),
               budget.consumeCaretSites(caretCount),

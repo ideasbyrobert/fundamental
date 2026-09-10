@@ -6,11 +6,12 @@ import Testing
 extension PresentationAdornmentTests
 {
     @MainActor
-    @Test("newline-only selection cannot invent drawable geometry")
-    func newlineOnlyRefuses() throws
+    @Test("hard-break selection uses the native container extent",
+          arguments: ["\n", "\r", "\r\n", "\u{2028}", "\u{2029}"])
+    func newlineOnlySelection(text: String) throws
     {
         let block = SemanticBlock.code(.plain(PlainSemanticCodeBlock(runs: [
-            PresentationFixture.run("\n")
+            PresentationFixture.run(text)
         ])))
         let raster = try PresentationFixture.raster(
             PresentationFixture.viewport(
@@ -21,7 +22,7 @@ extension PresentationAdornmentTests
         let pair = try #require(
             PresentationFixture.textResidents(snapshot).first
             {
-                $0.1.text == "\n" && $0.1.caretSites.count == 2
+                $0.1.text == text && $0.1.caretSites.count == 2
             }
         )
         let anchor = try PresentationFixture.position(
@@ -34,16 +35,14 @@ extension PresentationAdornmentTests
             line: pair.1,
             caret: 1
         )
-        let value = try #require(PresentationTextSelection(
-            anchor: anchor,
-            focus: focus
-        ))
-        #expect(PresentationComposer().present(
-            raster,
-            request: try PresentationFixture.request(
-                raster,
-                intent: .selection(value)
-            )
-        ) == nil)
+        let selected = try selection(raster, anchor: anchor, focus: focus)
+        #expect(selected.text.utf16.elementsEqual(text.utf16))
+        #expect(selected.sourceSlices.map(\.text).joined()
+            .utf16.elementsEqual(text.utf16))
+        let bounds = selected.firstFragment.logicalBounds
+        #expect(bounds.minX == pair.1.selectionExtent.minX)
+        #expect(bounds.maxX == pair.1.selectionExtent.maxX)
+        #expect(bounds.size.height == pair.1.lineBounds.size.height)
+        #expect(selected.firstFragment.range == 0 ..< text.utf16.count)
     }
 }

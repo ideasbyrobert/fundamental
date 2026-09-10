@@ -4,6 +4,7 @@ struct RasterLineGeometry
 {
     let bounds: RasterRectangle
     let baseline: RasterPoint
+    let selectionExtent: RasterSelectionExtent
     let clip: RasterRectangle
     let pixels: RasterPixelBounds
 
@@ -19,6 +20,11 @@ struct RasterLineGeometry
               let baseline = RasterPoint(
                   x: line.baseline.x, y: line.baseline.y
               ),
+              let extent = RasterSelectionExtent(
+                  leading: line.selectionExtent.leading,
+                  trailing: line.selectionExtent.trailing
+              ),
+              extent.minX >= frame.minX, extent.maxX <= frame.maxX,
               let clip = frame.intersection(target),
               let pixels = RasterPixelBounds(
                   logicalBounds: clip, backingScale: scale
@@ -29,6 +35,7 @@ struct RasterLineGeometry
         }
         self.bounds = bounds
         self.baseline = baseline
+        self.selectionExtent = extent
         self.clip = clip
         self.pixels = pixels
     }

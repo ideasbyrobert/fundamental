@@ -46,6 +46,7 @@ extension MacRasterOriginFixture
             text: empty ? "" : source.text,
             defaultFont: source.defaultFont, lineBounds: source.lineBounds,
             baseline: baseline,
+            selectionExtent: source.selectionExtent,
             sourceSlices: empty ? [] : source.sourceSlices,
             firstCaretSite: source.firstCaretSite,
             remainingCaretSites: empty ? [] : source.remainingCaretSites

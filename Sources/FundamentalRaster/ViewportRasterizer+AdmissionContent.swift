@@ -17,7 +17,7 @@ extension ViewportRasterizer
                 return false
             }
             return admits(
-                fragment.line, residentID: residentID, role: role,
+                fragment.line, residentID: residentID, role: role, frame: frame,
                 targetBounds: targetBounds, budget: &budget
             )
         case let .grid(fragment):
@@ -25,12 +25,13 @@ extension ViewportRasterizer
             {
             case let .captionLine(line):
                 return admits(
-                    line, residentID: residentID, role: .caption,
+                    line, residentID: residentID, role: .caption, frame: frame,
                     targetBounds: targetBounds, budget: &budget
                 )
             case let .cellLine(line):
                 return admits(
                     line.line, residentID: residentID, role: role(line),
+                    frame: frame,
                     targetBounds: targetBounds, budget: &budget
                 )
             case .region:

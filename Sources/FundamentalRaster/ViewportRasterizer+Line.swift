@@ -60,6 +60,7 @@ extension ViewportRasterizer
         let text = RasterInteractionText(
             text: line.text, defaultFont: font(line.defaultFont),
             lineBounds: geometry.bounds, baseline: geometry.baseline,
+            selectionExtent: geometry.selectionExtent,
             marker: marker, sourceSlices: sourceSlices(line.sourceSlices),
             firstCaretSite: firstCaret,
             remainingCaretSites: Array(carets.dropFirst())
