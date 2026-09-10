@@ -11,12 +11,11 @@ struct LayoutArchitectureTests
             contentsOf: root.appendingPathComponent("Package.swift"),
             encoding: .utf8
         )
-        let expected = """
-        .target(
-                    name: "FundamentalLayout",
-                    dependencies: ["FundamentalProjection"]
-                )
-        """
+        let expected = ".target(name: \"FundamentalLayout\", "
+            + "dependencies: [projection])"
+        #expect(package.contains(
+            "let projection: Target.Dependency = \"FundamentalProjection\""
+        ))
         #expect(package.contains(expected))
         let source = try productionSource()
         for forbidden in [

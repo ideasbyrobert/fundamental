@@ -4,6 +4,7 @@ import PackageDescription
 
 let document: Target.Dependency = "FundamentalDocument"
 let storage: Target.Dependency = "FundamentalStorage"
+let wrapping: Target.Dependency = "FundamentalWrapping"
 let writing: Target.Dependency = "FundamentalWritingWitness"
 let projection: Target.Dependency = "FundamentalProjection"
 let layout: Target.Dependency = "FundamentalLayout"
@@ -27,16 +28,14 @@ let package = Package(
     ],
     targets: [
         .target(name: "FundamentalDocument"),
+        .target(name: "FundamentalWrapping"),
         .target(name: "FundamentalStorage", dependencies: [document]),
         .executableTarget(
             name: "FundamentalWritingWitness",
             dependencies: [document, storage]
         ),
         .target(name: "FundamentalProjection", dependencies: [document]),
-        .target(
-            name: "FundamentalLayout",
-            dependencies: ["FundamentalProjection"]
-        ),
+        .target(name: "FundamentalLayout", dependencies: [projection]),
         .target(
             name: "FundamentalViewport",
             dependencies: ["FundamentalLayout"]
@@ -60,6 +59,7 @@ let package = Package(
         .executableTarget(name: "lint"),
         .executableTarget(name: "bundle"),
         .testTarget(name: "FundamentalDocumentTests", dependencies: [document]),
+        .testTarget(name: "FundamentalWrappingTests", dependencies: [wrapping]),
         .testTarget(
             name: "FundamentalStorageTests",
             dependencies: [document, storage]
