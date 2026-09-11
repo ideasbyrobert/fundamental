@@ -6,6 +6,8 @@ let document: Target.Dependency = "FundamentalDocument"
 let storage: Target.Dependency = "FundamentalStorage"
 let wrapping: Target.Dependency = "FundamentalWrapping"
 let nativeWrapping: Target.Dependency = "FundamentalNativeWrapping"
+let paragraph: Target.Dependency = "FundamentalParagraph"
+let nativeParagraph: Target.Dependency = "FundamentalNativeParagraph"
 let writing: Target.Dependency = "FundamentalWritingWitness"
 let projection: Target.Dependency = "FundamentalProjection"
 let layout: Target.Dependency = "FundamentalLayout"
@@ -29,6 +31,9 @@ let package = Package(
         .target(name: "FundamentalDocument"),
         .target(name: "FundamentalWrapping"),
         .target(name: "FundamentalNativeWrapping", dependencies: [wrapping]),
+        .target(name: "FundamentalParagraph",
+                dependencies: [document, wrapping]),
+        .target(name: "FundamentalNativeParagraph", dependencies: [paragraph]),
         .target(name: "FundamentalStorage", dependencies: [document]),
         .executableTarget(name: "FundamentalWritingWitness",
             dependencies: [document, storage]
@@ -60,6 +65,8 @@ let package = Package(
         .testTarget(name: "FundamentalWrappingTests", dependencies: [wrapping]),
         .testTarget(name: "FundamentalNativeWrappingTests",
                     dependencies: [wrapping, nativeWrapping]),
+        .testTarget(name: "FundamentalParagraphTests",
+                    dependencies: [document, paragraph, nativeParagraph]),
         .testTarget(
             name: "FundamentalStorageTests",
             dependencies: [document, storage]
