@@ -61,6 +61,8 @@ package struct SpacedNativeLine
 
     package func draw(in context: CGContext, origin: CGPoint, ink: CGColor)
     {
+        let matrix = context.textMatrix
+        let position = context.textPosition
         context.saveGState()
         context.textMatrix = .identity
         context.textPosition = .zero
@@ -84,5 +86,7 @@ package struct SpacedNativeLine
             }
         }
         context.restoreGState()
+        context.textMatrix = matrix
+        context.textPosition = position
     }
 }
