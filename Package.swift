@@ -53,7 +53,7 @@ let package = Package(
             dependencies: ["FundamentalPresentation"]
         ),
         .executableTarget(name: "FundamentalApplication",
-                          dependencies: ["FundamentalMacOracle"]),
+            dependencies: ["FundamentalMacOracle"]),
         .executableTarget(name: "lint"),
         .executableTarget(name: "bundle"),
         .testTarget(name: "FundamentalDocumentTests", dependencies: [document]),

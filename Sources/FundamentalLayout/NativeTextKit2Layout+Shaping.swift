@@ -42,8 +42,8 @@ extension NativeTextKit2Layout
             let nativeRun = nativeRuns[paintOrder] as! CTRun
             if let run = try glyphRun(
                 nativeRun,
-                attributed: shaping.attributed,
-                documentOffset: 0,
+                attributed: measured.attributed,
+                documentOffset: measured.range.lowerBound,
                 baseline: baseline,
                 segments: segments,
                 text: text,

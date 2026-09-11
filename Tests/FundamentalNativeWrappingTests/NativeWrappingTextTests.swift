@@ -46,7 +46,7 @@ struct NativeWrappingTextTests
             < 0.001)
     }
 
-    @Test("a tab uses the full context and the actual inline offset")
+    @Test("a tab retains its source range and actual inline offset")
     func contextualTab() throws
     {
         let attributed = NativeWrappingFixture.text("\talpha\tbeta\tgamma\t")
@@ -63,7 +63,9 @@ struct NativeWrappingTextTests
         let advance = CTLineGetTypographicBounds(isolated, nil, nil, nil)
         #expect(abs(line.advance - advance) > 0.5)
         let range = CTLineGetStringRange(try #require(line.native))
-        #expect(range.location == 10 && range.length == 2)
+        #expect(range.location == 0 && range.length == 2)
+        #expect(range.location + line.range.lowerBound == 10)
+        #expect(line.attributed.string == "a\t")
         #expect(line.range == 10 ..< 12 && line.inlineOffset == offset)
     }
 }

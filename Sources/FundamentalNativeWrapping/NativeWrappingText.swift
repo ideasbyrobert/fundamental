@@ -7,7 +7,6 @@ package struct NativeWrappingText
 {
     package let source: WrappingSource
     package let attributed: NSAttributedString
-    private let typesetter: CTTypesetter
 
     package init?(_ input: NSAttributedString)
     {
@@ -30,7 +29,6 @@ package struct NativeWrappingText
         }
         attributed = NSAttributedString(attributedString: input)
         source = WrappingSource(attributed.string)
-        typesetter = CTTypesetterCreateWithAttributedString(attributed)
     }
 
     package func line(
@@ -45,16 +43,21 @@ package struct NativeWrappingText
         {
             return nil
         }
+        let fragment = attributed.attributedSubstring(from: NSRange(
+            location: range.lowerBound, length: range.count
+        ))
         if range.isEmpty
         {
             return NativeWrappingLine(
-                range: range, inlineOffset: inlineOffset, native: nil,
+                range: range, inlineOffset: inlineOffset,
+                attributed: fragment, native: nil,
                 advance: 0, trailingWhitespace: 0
             )
         }
+        let typesetter = CTTypesetterCreateWithAttributedString(fragment)
         let native = CTTypesetterCreateLineWithOffset(
             typesetter,
-            CFRange(location: range.lowerBound, length: range.count),
+            CFRange(location: 0, length: range.count),
             inlineOffset
         )
         let advance = CTLineGetTypographicBounds(native, nil, nil, nil)
@@ -66,7 +69,8 @@ package struct NativeWrappingText
             return nil
         }
         return NativeWrappingLine(
-            range: range, inlineOffset: inlineOffset, native: native,
+            range: range, inlineOffset: inlineOffset,
+            attributed: fragment, native: native,
             advance: advance, trailingWhitespace: trailing
         )
     }
