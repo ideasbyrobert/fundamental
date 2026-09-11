@@ -4,7 +4,7 @@ import Testing
 @Suite("The layout target boundary")
 struct LayoutArchitectureTests
 {
-    @Test("production depends on projection and native wrapping")
+    @Test("production depends on projection wrapping and paragraph composition")
     func dependency() throws
     {
         let package = try String(
@@ -12,7 +12,10 @@ struct LayoutArchitectureTests
             encoding: .utf8
         )
         let expected = ".target(name: \"FundamentalLayout\",\n"
-            + "                dependencies: [projection, nativeWrapping])"
+            + "                dependencies: [\n"
+            + "                    projection, nativeWrapping, "
+            + "paragraph, nativeParagraph\n"
+            + "                ])"
         #expect(package.contains(
             "let projection: Target.Dependency = \"FundamentalProjection\""
         ))

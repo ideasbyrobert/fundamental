@@ -42,7 +42,9 @@ let package = Package(
         ),
         .target(name: "FundamentalProjection", dependencies: [document]),
         .target(name: "FundamentalLayout",
-                dependencies: [projection, nativeWrapping]),
+                dependencies: [
+                    projection, nativeWrapping, paragraph, nativeParagraph
+                ]),
         .target(
             name: "FundamentalViewport",
             dependencies: ["FundamentalLayout"]
@@ -85,7 +87,10 @@ let package = Package(
         ),
         .testTarget(
             name: "FundamentalLayoutTests",
-            dependencies: [document, layout, projection, nativeWrapping]
+            dependencies: [
+                document, layout, projection, nativeWrapping,
+                paragraph, nativeParagraph
+            ]
         ),
         .testTarget(
             name: "FundamentalViewportTests",
