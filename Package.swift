@@ -102,6 +102,7 @@ let package = Package(
             name: "FundamentalMacOracleTests",
             dependencies: [document, oracle, presentation]
         ),
-        .testTarget(name: "lintTests", dependencies: ["lint"])
+        .testTarget(name: "lintTests", dependencies: ["lint"]),
+        .testTarget(name: "bundleTests", dependencies: ["bundle"])
     ]
 )

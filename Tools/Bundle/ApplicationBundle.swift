@@ -5,6 +5,7 @@ struct ApplicationBundle
     let executable: URL
     let destination: URL
     let version: String
+    let resources: [URL]
 
     func write() throws
     {
@@ -36,6 +37,7 @@ struct ApplicationBundle
                                     withIntermediateDirectories: true)
         try manager.copyItem(at: executable,
                              to: binaries.appending(path: "Fundamental"))
+        try copyResources(to: contents)
         let data = try PropertyListSerialization.data(
             fromPropertyList: information, format: .xml, options: 0
         )

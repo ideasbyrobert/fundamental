@@ -17,6 +17,15 @@ struct BundledPatternTests
             .hyphenate("extraordinary").boundaries == [2, 10])
         #expect(try catalog.dictionary(.russian)
             .hyphenate("район").boundaries == [3])
+        if let path = ProcessInfo.processInfo.environment[
+            "FUNDAMENTAL_PATTERN_LOCATION_RECORD"
+        ]
+        {
+            let resource = try BundledParagraphPatterns.directory
+            try Data(resource.path.utf8).write(
+                to: URL(fileURLWithPath: path), options: .atomic
+            )
+        }
     }
 
     @Test

@@ -20,27 +20,14 @@ enum Bundle
     static func write() throws
     {
         let arguments = CommandLine.arguments
-        guard (3 ... 4).contains(arguments.count)
+        guard arguments.count >= 3
         else
         {
-            print("Usage: bundle executable destination.app [build-version]")
+            print("Usage: bundle executable destination.app [build-version] "
+                + "[--resource path.bundle]...")
             throw CocoaError(.fileReadInvalidFileName)
         }
-        let version = arguments.count == 4 ? arguments[3] : "1"
-        let parts = version.split(separator: ".",
-                                  omittingEmptySubsequences: false)
-        guard (1 ... 3).contains(parts.count), parts.allSatisfy(
-            { !$0.isEmpty && $0.utf8.allSatisfy { (48 ... 57).contains($0) } }
-        )
-        else
-        {
-            throw CocoaError(.propertyListWriteInvalid)
-        }
-        let bundle = ApplicationBundle(
-            executable: URL(fileURLWithPath: arguments[1]).standardizedFileURL,
-            destination: URL(fileURLWithPath: arguments[2]).standardizedFileURL,
-            version: version
-        )
+        let bundle = try BundleArguments(arguments).application
         try bundle.write()
         print(bundle.destination.path)
     }
