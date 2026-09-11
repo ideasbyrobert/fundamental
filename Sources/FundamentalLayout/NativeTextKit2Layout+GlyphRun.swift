@@ -33,7 +33,7 @@ extension NativeTextKit2Layout
             $0 >= range.location && $0 < range.location + range.length
         }).sorted()
         let glyphs = try glyphs(
-            native, baseline: baseline, baselineOffset: style.baselineOffset
+            native, baseline: baseline
         )
         {
             try glyphSlices(

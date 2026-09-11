@@ -58,7 +58,7 @@ extension NativeTextKit2Layout
     ) throws -> LayoutGlyphRun
     {
         let glyphs = try glyphs(
-            native, baseline: baseline, baselineOffset: 0
+            native, baseline: baseline
         )
         {
             _ in []

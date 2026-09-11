@@ -5,7 +5,6 @@ extension NativeTextKit2Layout
     func glyphs(
         _ run: NativeGlyphRun,
         baseline: LayoutPoint,
-        baselineOffset: Double,
         sourceSlices: (CFIndex) throws -> [LayoutSourceSlice]
     ) throws -> [LayoutGlyph]
     {
@@ -18,7 +17,7 @@ extension NativeTextKit2Layout
                 identifier: UInt32(run.glyphs[index]),
                 position: try point(
                     x: baseline.x + position.x,
-                    y: baseline.y - position.y - baselineOffset
+                    y: baseline.y - position.y
                 ),
                 advance: LayoutVector(dx: advance.width, dy: -advance.height),
                 sourceSlices: try sourceSlices(run.indices[index])
