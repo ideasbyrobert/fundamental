@@ -1,6 +1,5 @@
 import AppKit
 import CoreText
-import FundamentalProjection
 
 extension NativeTextKit2Layout
 {

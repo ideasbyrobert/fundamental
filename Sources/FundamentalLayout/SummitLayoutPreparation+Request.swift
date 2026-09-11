@@ -1,5 +1,3 @@
-import FundamentalProjection
-
 extension SummitLayoutPreparation
 {
     static func request(
