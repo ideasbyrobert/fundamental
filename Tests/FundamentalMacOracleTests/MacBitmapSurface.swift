@@ -1,8 +1,6 @@
 import CoreGraphics
 import FundamentalPresentation
 
-@testable import FundamentalMacOracle
-
 @MainActor
 final class MacBitmapSurface
 {

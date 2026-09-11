@@ -1,8 +1,6 @@
 import FundamentalPresentation
 import Testing
 
-@testable import FundamentalMacOracle
-
 extension MacRasterExecutorTests
 {
     @Test("native glyph clipping removes only excluded pixels")

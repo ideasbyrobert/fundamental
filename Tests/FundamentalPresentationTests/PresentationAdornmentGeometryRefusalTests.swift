@@ -1,7 +1,5 @@
 import Testing
 
-@testable import FundamentalPresentation
-
 extension PresentationAdornmentTests
 {
     @MainActor

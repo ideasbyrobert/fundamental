@@ -1,8 +1,6 @@
 import Foundation
 import Testing
 
-@testable import FundamentalDocument
-
 extension CanonicalSemanticTableRecordCodecTests
 {
     static let evidenceCell =

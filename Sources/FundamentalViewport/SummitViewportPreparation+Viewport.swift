@@ -1,5 +1,3 @@
-import FundamentalLayout
-
 extension SummitViewportPreparation
 {
     package func viewport(

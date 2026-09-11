@@ -1,4 +1,3 @@
-@testable import FundamentalMacOracle
 @testable import FundamentalPresentation
 
 enum MacRasterSnapshotFixture

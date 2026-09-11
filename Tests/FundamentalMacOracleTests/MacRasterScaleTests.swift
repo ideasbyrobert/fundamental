@@ -1,7 +1,6 @@
 import FundamentalPresentation
 import Testing
 
-@testable import FundamentalMacOracle
 @testable import FundamentalPresentation
 
 extension MacRasterExecutorTests

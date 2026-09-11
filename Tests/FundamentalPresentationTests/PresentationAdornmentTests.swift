@@ -1,6 +1,5 @@
 import Testing
 
-@testable import FundamentalDocument
 @testable import FundamentalPresentation
 
 @Suite("Presentation adornments")

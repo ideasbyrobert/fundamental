@@ -2,7 +2,6 @@ import Foundation
 import Testing
 
 @testable import FundamentalLayout
-@testable import FundamentalProjection
 
 extension LayoutListMarkerTests
 {

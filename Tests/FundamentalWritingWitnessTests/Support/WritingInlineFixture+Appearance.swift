@@ -2,7 +2,6 @@ import AppKit
 import Testing
 
 @testable import FundamentalDocument
-@testable import FundamentalWritingWitness
 
 extension WritingInlineFixture
 {

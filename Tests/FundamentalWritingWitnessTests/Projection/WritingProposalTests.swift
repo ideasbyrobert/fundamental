@@ -1,9 +1,6 @@
 import Foundation
 import Testing
 
-@testable import FundamentalDocument
-@testable import FundamentalWritingWitness
-
 @Suite("Canonical native writing proposals")
 struct WritingProposalTests
 {

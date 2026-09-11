@@ -1,5 +1,3 @@
-import FundamentalDocument
-
 extension WritingComposition
 {
     var presentation: WritingProjection

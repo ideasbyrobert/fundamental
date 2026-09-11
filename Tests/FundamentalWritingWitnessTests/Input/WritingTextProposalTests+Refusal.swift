@@ -1,7 +1,6 @@
 import Foundation
 import Testing
 
-@testable import FundamentalDocument
 @testable import FundamentalWritingWitness
 
 extension WritingProposalTests

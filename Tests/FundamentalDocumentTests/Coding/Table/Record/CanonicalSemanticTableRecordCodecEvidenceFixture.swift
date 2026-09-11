@@ -1,5 +1,3 @@
-@testable import FundamentalDocument
-
 extension CanonicalSemanticTableRecordCodecTests
 {
     static let tallEvidenceCell =

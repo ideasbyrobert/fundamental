@@ -1,6 +1,5 @@
 import Testing
 
-@testable import FundamentalMacOracle
 @testable import FundamentalPresentation
 
 extension MacRasterOriginTests

@@ -1,7 +1,5 @@
 import Testing
 
-@testable import FundamentalDocument
-
 extension ResolvedPostEditCaretTests
 {
     @Test("decomposed and control interiors honor logical affinity")

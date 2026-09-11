@@ -1,7 +1,6 @@
 import CoreText
 import Testing
 
-@testable import FundamentalMacOracle
 @testable import FundamentalPresentation
 
 @Suite("Native glyph drawing from retained line origins")

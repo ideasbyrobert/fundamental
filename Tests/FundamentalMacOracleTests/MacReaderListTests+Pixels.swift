@@ -1,7 +1,6 @@
 import Testing
 
 @testable import FundamentalDocument
-@testable import FundamentalMacOracle
 @testable import FundamentalPresentation
 
 extension MacReaderListTests

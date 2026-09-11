@@ -1,9 +1,6 @@
 import AppKit
 import Testing
 
-@testable import FundamentalDocument
-@testable import FundamentalWritingWitness
-
 @MainActor
 @Suite(.serialized)
 struct WritingAcceptanceTests
