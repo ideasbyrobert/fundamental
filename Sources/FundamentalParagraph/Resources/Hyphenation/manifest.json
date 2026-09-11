@@ -1,0 +1,35 @@
+[
+  {
+    "filename" : "en_US.patterns",
+    "left" : 2,
+    "license" : "LicenseRef-Kuiken-notice",
+    "locale" : "en_US",
+    "revision" : "5684c0f51c0b81133db2efbe60a408b4155a3ff5",
+    "right" : 3,
+    "sha256" : "bdae1aa7083f991e8c059e701cbcccb97cf9e7102a26a25633303bde85d8f9a6",
+    "sourceFilename" : "hyph-en-us.tex",
+    "sourceSHA256" : "f4ffcd96c5cbc886bdad23f95dcae8edc3cd3620eae62f7946eceda97c4e68f8"
+  },
+  {
+    "filename" : "en_GB.patterns",
+    "left" : 2,
+    "license" : "MIT",
+    "locale" : "en_GB",
+    "revision" : "5684c0f51c0b81133db2efbe60a408b4155a3ff5",
+    "right" : 3,
+    "sha256" : "95f8c4e9e11a8eb87d4febecf6be414434af6da492b2ebbf25e85bc591910b35",
+    "sourceFilename" : "hyph-en-gb.tex",
+    "sourceSHA256" : "e95bb4ab350f620c41c231c4785d7bdb4f91949d3e631b30e08b3ead3c340a52"
+  },
+  {
+    "filename" : "ru_RU.patterns",
+    "left" : 2,
+    "license" : "LPPL-1.3c",
+    "locale" : "ru_RU",
+    "revision" : "5684c0f51c0b81133db2efbe60a408b4155a3ff5",
+    "right" : 2,
+    "sha256" : "fade1c7500bec1c977117704213d8b632726c4ed985f5191cb429afdb714f60e",
+    "sourceFilename" : "hyph-ru.tex",
+    "sourceSHA256" : "ce988fcc66e5e29d7474df5ab5b489d3f52a50ebccf570997f992d84221b922a"
+  }
+]
