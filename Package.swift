@@ -35,7 +35,7 @@ let package = Package(
                 dependencies: [document, wrapping],
                 resources: [.copy("Resources/Hyphenation")]),
         .target(name: "FundamentalNativeParagraph",
-                dependencies: [document, paragraph, nativeWrapping]),
+                dependencies: [document, paragraph, wrapping, nativeWrapping]),
         .target(name: "FundamentalStorage", dependencies: [document]),
         .executableTarget(name: "FundamentalWritingWitness",
             dependencies: [document, storage]
