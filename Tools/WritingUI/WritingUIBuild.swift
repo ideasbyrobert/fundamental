@@ -25,8 +25,7 @@ struct WritingUIBuild
         let manager = FileManager.default
         try manager.createDirectory(at: snapshot,
                                       withIntermediateDirectories: false)
-        for name in ["Package.swift", "Sources", "Tests", "Tools",
-                     "UITests", "FundamentalUITests.xcodeproj"]
+        for name in ["Package.swift", "Sources", "Tests", "Tools"]
         {
             try manager.copyItem(at: source.appending(path: name),
                                  to: snapshot.appending(path: name))
