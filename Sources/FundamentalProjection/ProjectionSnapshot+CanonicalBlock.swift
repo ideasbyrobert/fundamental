@@ -20,17 +20,15 @@ extension ProjectionSnapshot
             return .prose(source: source, prose: ProjectedProse(
                 role: item.kind == .bulleted
                     ? .bulleted(listPosition) : .numbered(listPosition),
-                runs: projectBlockRuns(item.runs, blockID: blockID)
+                runs: item.runs, blockID: blockID
             ))
         case let .paragraph(paragraph):
             return .prose(
                 source: source,
                 prose: ProjectedProse(
                     role: .body,
-                    runs: projectBlockRuns(
-                        paragraph.runs,
-                        blockID: blockID
-                    )
+                    runs: paragraph.runs,
+                    blockID: blockID
                 )
             )
         case let .heading(heading):

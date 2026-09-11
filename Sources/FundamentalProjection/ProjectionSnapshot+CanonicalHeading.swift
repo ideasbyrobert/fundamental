@@ -20,10 +20,8 @@ extension ProjectionSnapshot
             source: source,
             prose: ProjectedProse(
                 role: role,
-                runs: projectBlockRuns(
-                    heading.runs,
-                    blockID: source.blockID
-                )
+                runs: heading.runs,
+                blockID: source.blockID
             )
         )
     }

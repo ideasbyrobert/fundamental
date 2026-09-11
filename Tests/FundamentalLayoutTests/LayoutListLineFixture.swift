@@ -26,7 +26,7 @@ enum LayoutListLineFixture
         ))
         return (block, ProjectedProse(
             role: kind == .numbered ? .numbered(position) : .bulleted(position),
-            runs: prose.runs
+            runs: prose.paragraph.runs, blockID: block.blockID
         ))
     }
 

@@ -3,7 +3,7 @@ import FundamentalDocument
 
 extension ProjectionSnapshot
 {
-    static func project(
+    package static func project(
         _ trait: SemanticInlineTrait
     ) -> ProjectedInlineTrait
     {
