@@ -25,8 +25,8 @@ extension DocumentSessionScopeTests
         let session = DocumentSession(state: try source.state(range))
         let pending = session.prepareSave()
         let assignment: SemanticRunScopeAssignment = linked
-            ? .link(try #require(SemanticLinkDestination(second)))
-            : .language(try #require(SemanticLanguageIdentifier(second)))
+            ? .link(try ScopeTestValue.link(second))
+            : .language(try ScopeTestValue.language(second))
         guard case .applied = session.submit(.scope(session.observation,
             SemanticRunScopeChange(range: range, assignment: assignment)
         ))

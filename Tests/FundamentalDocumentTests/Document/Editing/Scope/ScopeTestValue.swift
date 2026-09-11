@@ -45,8 +45,7 @@ enum ScopeTestValue
 
     static func assignments() throws -> [SemanticRunScopeAssignment]
     {
-        [.link(try #require(SemanticLinkDestination(newLink))), .link(nil),
-         .language(try #require(SemanticLanguageIdentifier(newLanguage))),
-         .language(nil)]
+        [.link(try link(newLink)), .link(nil),
+         .language(try language(newLanguage)), .language(nil)]
     }
 }
