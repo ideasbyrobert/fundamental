@@ -56,6 +56,7 @@ enum StagedAssertions
             "sourceUTF16": original.collection.source.source.utf16,
             "width": width, "segments": records
         ])
+        try ComposerDrawingEvidence.write(name, paragraph: staged.paragraph)
         return staged
     }
 

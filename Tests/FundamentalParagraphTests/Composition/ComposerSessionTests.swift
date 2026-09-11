@@ -35,6 +35,10 @@ struct ComposerSessionTests
                 try ShapingFixture.attributes($0, size: 18)
             }
             try ParagraphAssertions.verify(paragraph)
+            for plan in paragraph.segments.flatMap(\.lines)
+            {
+                _ = try ComposerDrawingEvidence.describe(plan)
+            }
             for glyph in paragraph.segments.flatMap(\.lines)
                 .flatMap({ $0.shaped.runs }).flatMap(\.glyphs)
             {
