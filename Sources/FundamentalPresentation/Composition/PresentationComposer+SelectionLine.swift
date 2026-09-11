@@ -51,11 +51,21 @@ extension PresentationComposer
         }
         return (
             PresentationSelectionLine(
-                residentID: resident.residentID, line: line,
+                residentID: resident.residentID,
+                isCode: isCode(resident.content), line: line,
                 lowerCaret: lower, upperCaret: upper
             ),
             last.sourcePoint.utf16Offset
         )
+    }
+
+    static func isCode(_ content: PresentedResidentContent) -> Bool
+    {
+        if case .code = content
+        {
+            return true
+        }
+        return false
     }
 
     static func exactCaret(

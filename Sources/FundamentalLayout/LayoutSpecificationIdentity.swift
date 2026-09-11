@@ -12,7 +12,7 @@ package struct LayoutSpecificationIdentity:
         resolvedFonts: [LayoutFontIdentity]
     )
     {
-        version = 1
+        version = 2
         self.parameters = parameters
         self.resolvedFonts = resolvedFonts
     }

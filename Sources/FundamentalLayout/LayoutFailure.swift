@@ -2,6 +2,7 @@ package enum LayoutFailure: Error, Equatable, Sendable
 {
     case missingNativeLine
     case unrepresentableListGeometry
+    case unrepresentableCodeWrapping
     case missingResolvedFontIdentity
     case nonfiniteNativeGeometry
     case invalidNativeSourceRange

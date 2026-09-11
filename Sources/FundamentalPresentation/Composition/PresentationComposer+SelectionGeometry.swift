@@ -7,6 +7,12 @@ extension PresentationComposer
         direction: PresentationSelectionDirection?
     )?
     {
+        if value.isCode,
+           value.lowerCaret == value.line.firstCaretSite,
+           value.upperCaret == value.line.caretSites.last
+        {
+            return completeCodeGeometry(value)
+        }
         guard let advance = selectionAdvance(value)
         else
         {

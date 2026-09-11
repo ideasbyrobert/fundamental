@@ -30,6 +30,17 @@ extension NativeTextKit2Layout
                 coreTextWidth: measured.advance
             )
         }
+        return try glyphRuns(measured, baseline: baseline,
+                             segments: segments, text: text)
+    }
+
+    func glyphRuns(
+        _ measured: NativeWrappingLine,
+        baseline: LayoutPoint,
+        segments: [NativeSourceSegment],
+        text: NSString
+    ) throws -> [LayoutGlyphRun]
+    {
         guard let line = measured.native
         else
         {

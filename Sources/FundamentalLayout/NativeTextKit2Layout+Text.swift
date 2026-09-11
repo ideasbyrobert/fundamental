@@ -36,7 +36,7 @@ extension NativeTextKit2Layout
         originY: Double
     ) throws -> [LayoutLine]
     {
-        try textLines(
+        try plannedCodeLines(
             runs: code.runs,
             width: width,
             originX: 0,
