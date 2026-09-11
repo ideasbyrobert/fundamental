@@ -1,5 +1,6 @@
 import AppKit
 import CoreText
+import FundamentalNativeWrapping
 import FundamentalProjection
 
 extension NativeTextKit2Layout
@@ -24,6 +25,11 @@ extension NativeTextKit2Layout
                 pointContext: pointContext
             )]
         }
+        guard let shaping = NativeWrappingText(attributed)
+        else
+        {
+            throw LayoutFailure.invalidNativeSourceRange
+        }
         let storage = NSTextContentStorage()
         let manager = NSTextLayoutManager()
         let container = NSTextContainer(size: CGSize(
@@ -36,7 +42,8 @@ extension NativeTextKit2Layout
         storage.attributedString = attributed
         manager.ensureLayout(for: storage.documentRange)
         return try nativeLines(
-            storage: storage, manager: manager, attributed: attributed,
+            storage: storage, manager: manager,
+            shaping: shaping,
             segments: segments, defaultFont: fontIdentity(font as CTFont),
             originX: originX, originY: originY, pointContext: pointContext
         )

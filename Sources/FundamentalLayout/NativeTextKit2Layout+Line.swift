@@ -1,5 +1,6 @@
 import AppKit
 import CoreText
+import FundamentalNativeWrapping
 import FundamentalProjection
 
 extension NativeTextKit2Layout
@@ -9,7 +10,7 @@ extension NativeTextKit2Layout
         fragment: NSTextLayoutFragment,
         selectionExtent: LayoutSelectionExtent,
         range: NSRange,
-        attributed: NSAttributedString,
+        shaping: NativeWrappingText,
         text: NSString,
         segments: [NativeSourceSegment],
         defaultFont: LayoutFontIdentity,
@@ -18,7 +19,7 @@ extension NativeTextKit2Layout
         pointContext: NativeTextPointContext
     ) throws -> LayoutLine
     {
-        guard NSMaxRange(range) <= attributed.length
+        guard NSMaxRange(range) <= shaping.attributed.length
         else
         {
             throw LayoutFailure.invalidNativeSourceRange
@@ -43,7 +44,6 @@ extension NativeTextKit2Layout
             segments: segments,
             text: text
         )
-        let substring = attributed.attributedSubstring(from: range)
         let lineText = text.substring(with: range)
         guard sourceSlices.map(\.text).joined() == lineText,
               sourceSlices.reduce(0, { $0 + $1.range.count })
@@ -73,9 +73,9 @@ extension NativeTextKit2Layout
             remainingCaretStops: Array(caretStops.dropFirst()),
             defaultFont: defaultFont,
             glyphRuns: try glyphRuns(
-                substring,
+                shaping, range: range,
+                inlineOffset: fragmentFrame.minX + bounds.minX,
                 textKitAdvance: textKitAdvance,
-                documentOffset: range.location,
                 baseline: baseline,
                 segments: segments,
                 text: text

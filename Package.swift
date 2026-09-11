@@ -5,6 +5,7 @@ import PackageDescription
 let document: Target.Dependency = "FundamentalDocument"
 let storage: Target.Dependency = "FundamentalStorage"
 let wrapping: Target.Dependency = "FundamentalWrapping"
+let nativeWrapping: Target.Dependency = "FundamentalNativeWrapping"
 let writing: Target.Dependency = "FundamentalWritingWitness"
 let projection: Target.Dependency = "FundamentalProjection"
 let layout: Target.Dependency = "FundamentalLayout"
@@ -19,23 +20,22 @@ let package = Package(
     products: [
         .executable(name: "Fundamental",
                     targets: ["FundamentalWritingWitness"]),
-        .executable(
-            name: "FundamentalApplication",
-            targets: ["FundamentalApplication"]
-        ),
+        .executable(name: "FundamentalApplication",
+                    targets: ["FundamentalApplication"]),
         .executable(name: "lint", targets: ["lint"]),
         .executable(name: "bundle", targets: ["bundle"])
     ],
     targets: [
         .target(name: "FundamentalDocument"),
         .target(name: "FundamentalWrapping"),
+        .target(name: "FundamentalNativeWrapping", dependencies: [wrapping]),
         .target(name: "FundamentalStorage", dependencies: [document]),
-        .executableTarget(
-            name: "FundamentalWritingWitness",
+        .executableTarget(name: "FundamentalWritingWitness",
             dependencies: [document, storage]
         ),
         .target(name: "FundamentalProjection", dependencies: [document]),
-        .target(name: "FundamentalLayout", dependencies: [projection]),
+        .target(name: "FundamentalLayout",
+                dependencies: [projection, nativeWrapping]),
         .target(
             name: "FundamentalViewport",
             dependencies: ["FundamentalLayout"]
@@ -52,14 +52,14 @@ let package = Package(
             name: "FundamentalMacOracle",
             dependencies: ["FundamentalPresentation"]
         ),
-        .executableTarget(
-            name: "FundamentalApplication",
-            dependencies: ["FundamentalMacOracle"]
-        ),
+        .executableTarget(name: "FundamentalApplication",
+                          dependencies: ["FundamentalMacOracle"]),
         .executableTarget(name: "lint"),
         .executableTarget(name: "bundle"),
         .testTarget(name: "FundamentalDocumentTests", dependencies: [document]),
         .testTarget(name: "FundamentalWrappingTests", dependencies: [wrapping]),
+        .testTarget(name: "FundamentalNativeWrappingTests",
+                    dependencies: [wrapping, nativeWrapping]),
         .testTarget(
             name: "FundamentalStorageTests",
             dependencies: [document, storage]
@@ -74,7 +74,7 @@ let package = Package(
         ),
         .testTarget(
             name: "FundamentalLayoutTests",
-            dependencies: [document, layout, projection]
+            dependencies: [document, layout, projection, nativeWrapping]
         ),
         .testTarget(
             name: "FundamentalViewportTests",

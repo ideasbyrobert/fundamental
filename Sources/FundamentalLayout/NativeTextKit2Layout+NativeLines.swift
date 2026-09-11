@@ -1,5 +1,6 @@
 import AppKit
 import CoreText
+import FundamentalNativeWrapping
 import FundamentalProjection
 
 extension NativeTextKit2Layout
@@ -7,7 +8,7 @@ extension NativeTextKit2Layout
     func nativeLines(
         storage: NSTextContentStorage,
         manager: NSTextLayoutManager,
-        attributed: NSAttributedString,
+        shaping: NativeWrappingText,
         segments: [NativeSourceSegment],
         defaultFont: LayoutFontIdentity,
         originX: Double,
@@ -15,7 +16,7 @@ extension NativeTextKit2Layout
         pointContext: NativeTextPointContext
     ) throws -> [LayoutLine]
     {
-        let text = attributed.string as NSString
+        let text = shaping.attributed.string as NSString
         var lines: [LayoutLine] = []
         var failure: LayoutFailure? = nil
         manager.enumerateTextLayoutFragments(
@@ -52,7 +53,7 @@ extension NativeTextKit2Layout
                             originX: originX
                         ),
                         range: range,
-                        attributed: attributed,
+                        shaping: shaping,
                         text: text,
                         segments: segments,
                         defaultFont: defaultFont,
