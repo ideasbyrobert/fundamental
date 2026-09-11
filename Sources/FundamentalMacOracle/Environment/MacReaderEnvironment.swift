@@ -27,15 +27,6 @@ package struct MacReaderEnvironment
         self.palette = palette
     }
 
-    init(
-        display: MacDisplayIdentity,
-        palette: MacAppearancePalette
-    )
-    {
-        self.display = display
-        self.palette = palette
-    }
-
     package func surface(
         viewportWidth: Double,
         visibleOriginY: Double,

@@ -6,7 +6,6 @@ struct WritingListMarker
 {
     let label: String
     let frame: CGRect
-    let baseline: CGFloat
     let origin: CGPoint
     private let line: CTLine
 
@@ -40,7 +39,6 @@ struct WritingListMarker
         self.label = label
         self.line = line
         self.origin = origin
-        self.baseline = baseline
         frame = CGRect(x: origin.x, y: baseline - ascent,
                        width: width, height: ascent + descent)
     }

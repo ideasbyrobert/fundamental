@@ -60,7 +60,6 @@ extension ViewportWindowFixture
             )
         )
         return ViewportWindowTestProduct(
-            projection: projection,
             eager: eager,
             indexed: indexed,
             request: request,

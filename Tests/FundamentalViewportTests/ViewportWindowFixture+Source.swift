@@ -23,25 +23,4 @@ extension ViewportWindowFixture
             encoding: .utf8
         )
     }
-
-    static func source(
-        target: String
-    ) throws -> String
-    {
-        let directory = repositoryRoot
-            .appendingPathComponent("Sources")
-            .appendingPathComponent(target)
-        return try FileManager.default.contentsOfDirectory(
-            atPath: directory.path
-        ).sorted().filter
-        {
-            $0.hasSuffix(".swift")
-        }.map
-        {
-            try String(
-                contentsOf: directory.appendingPathComponent($0),
-                encoding: .utf8
-            )
-        }.joined()
-    }
 }
