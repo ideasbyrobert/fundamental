@@ -1,4 +1,5 @@
 @testable import FundamentalNativeParagraph
+@testable import FundamentalParagraph
 import Testing
 
 @MainActor
@@ -18,4 +19,13 @@ enum ParagraphFixture
         )
     }
 
+    static func compose(
+        _ value: ParagraphHyphens, width: Double, size: Double = 18
+    ) throws -> ParagraphComposition
+    {
+        try ParagraphComposition(legacy:value, width: width)
+        {
+            try ShapingFixture.attributes($0, size: size)
+        }
+    }
 }
