@@ -27,10 +27,19 @@ struct LayoutSourceDiscoveryTests
         )
         let expected = paths.sorted().map
         {
-            fixture.root.appendingPathComponent($0).path
+            fixture.root.appendingPathComponent($0)
+                .resolvingSymlinksInPath().path
         }
-        #expect(try fixture.sources.files().map(\.path) == expected)
-        #expect(try fixture.sources.files().map(\.path) == expected)
+        let first = try fixture.sources.files().map
+        {
+            $0.resolvingSymlinksInPath().path
+        }
+        let second = try fixture.sources.files().map
+        {
+            $0.resolvingSymlinksInPath().path
+        }
+        #expect(first == expected)
+        #expect(second == expected)
         #expect(try fixture.sources.text() == paths.sorted().joined())
     }
 

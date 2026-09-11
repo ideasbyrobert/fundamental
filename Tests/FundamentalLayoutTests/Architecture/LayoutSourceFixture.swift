@@ -7,7 +7,6 @@ struct LayoutSourceFixture
     init() throws
     {
         root = FileManager.default.temporaryDirectory
-            .resolvingSymlinksInPath()
             .appendingPathComponent("LayoutSources-\(UUID().uuidString)")
         try FileManager.default.createDirectory(
             at: root,
