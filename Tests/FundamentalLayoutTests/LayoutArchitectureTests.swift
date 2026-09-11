@@ -39,19 +39,10 @@ struct LayoutArchitectureTests
         let directory = root.appendingPathComponent(
             "Sources/FundamentalLayout"
         )
-        let names = try FileManager.default.contentsOfDirectory(
-            atPath: directory.path
-        ).filter
+        let source = try LayoutArchitectureSources(directory: directory).text
         {
-            $0.hasPrefix("Layout") && $0.hasSuffix(".swift")
+            $0.hasPrefix("Layout")
         }
-        let source = try names.map
-        {
-            try String(
-                contentsOf: directory.appendingPathComponent($0),
-                encoding: .utf8
-            )
-        }.joined()
         for forbidden in [
             "import AppKit",
             "import CoreText",
@@ -79,14 +70,6 @@ struct LayoutArchitectureTests
         let directory = root.appendingPathComponent(
             "Sources/FundamentalLayout"
         )
-        return try FileManager.default.contentsOfDirectory(
-            atPath: directory.path
-        ).sorted().map
-        {
-            try String(
-                contentsOf: directory.appendingPathComponent($0),
-                encoding: .utf8
-            )
-        }.joined()
+        return try LayoutArchitectureSources(directory: directory).text()
     }
 }
