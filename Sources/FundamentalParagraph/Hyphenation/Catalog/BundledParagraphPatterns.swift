@@ -11,14 +11,7 @@ enum BundledParagraphPatterns
     {
         get throws
         {
-            guard let url = Bundle.module.url(
-                forResource: "Hyphenation", withExtension: nil
-            )
-            else
-            {
-                throw PatternFailure.invalidResource
-            }
-            return url
+            try ParagraphPatternBundle.directory()
         }
     }
 
