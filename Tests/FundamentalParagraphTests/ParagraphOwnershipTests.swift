@@ -1,6 +1,7 @@
 import Foundation
 @testable import FundamentalDocument
 import FundamentalNativeParagraph
+import FundamentalParagraph
 import Testing
 
 @Suite("Paragraph snapshots preserve canonical ownership")
@@ -22,6 +23,9 @@ struct ParagraphOwnershipTests
         let initial = session.state
         let source = try ParagraphSessionFixture.source(session)
         let words = try NativeParagraphWords(source: source, language: .english)
+        let candidates = try ParagraphOwnedCandidates(
+            words, catalog: OwnedFixture.catalog()
+        )
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
         let original = try encoder.encode(source.paragraph.runs)
@@ -65,5 +69,10 @@ struct ParagraphOwnershipTests
         #expect(restored.source.utf16 == source.source.utf16)
         #expect(!session.isDirty && !session.canUndo && session.canRedo)
         #expect(try encoder.encode(words.source.paragraph.runs) == original)
+        let retained = try #require(candidates.matching(6..<7).first)
+        let value = try OwnedFixture.candidates(retained.outcome)
+        #expect(value.candidates.map(\.sourceOffset) == [8, 11, 13, 15])
+        #expect(try encoder.encode(candidates.words.source.paragraph.runs)
+            == original)
     }
 }

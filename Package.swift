@@ -67,7 +67,9 @@ let package = Package(
         .testTarget(name: "FundamentalNativeWrappingTests",
                     dependencies: [wrapping, nativeWrapping]),
         .testTarget(name: "FundamentalParagraphTests",
-                    dependencies: [document, paragraph, nativeParagraph]),
+                    dependencies: [
+                        document, wrapping, paragraph, nativeParagraph
+                    ]),
         .testTarget(
             name: "FundamentalStorageTests",
             dependencies: [document, storage]
