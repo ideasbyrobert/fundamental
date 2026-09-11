@@ -22,7 +22,9 @@ extension WritingUIBuild
             "-parse-as-library", "-F", frameworks,
             "-Xlinker", "-rpath", "-Xlinker", frameworks,
             "-Xlinker", "-rpath", "-Xlinker", libraries,
-            source.appending(path: "TestTools/NativeTestHost.swift").path,
+            source.appending(
+                path: "Tools/NativeTestHost/NativeTestHost.swift"
+            ).path,
             "-o", evidence.appending(path: "NativeTestHost").path
         ]).run(in: source,
                log: evidence.appending(path: "native-test-host.log"))
