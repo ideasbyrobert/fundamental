@@ -24,8 +24,8 @@ struct ViewportResidentExtentWindow: Equatable, Sendable
               request.visibleBounds.minX == 0,
               request.visibleBounds.size.width
                 == indexed.documentSize.width,
-              let precedingBounds = Self.precedingBounds(request),
-              let followingBounds = Self.followingBounds(request),
+              let precedingBounds = ViewportOverscanBounds.preceding(request),
+              let followingBounds = ViewportOverscanBounds.following(request),
               let admitted = Self.admitResidents(
                   indexed: indexed,
                   request: request,
