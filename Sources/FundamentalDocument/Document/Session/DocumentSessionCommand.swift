@@ -1,6 +1,7 @@
 package enum DocumentSessionCommand: Equatable, Sendable
 {
     case edit(DocumentObservation, CanonicalDocumentEdit)
+    case replace(DocumentObservation, SemanticTextBatchReplacement)
     case input(DocumentObservation, DocumentInputTransaction)
     case select(DocumentObservation, DocumentSelection)
     case style(DocumentObservation, SemanticBlockStyleChange)
@@ -14,7 +15,8 @@ package enum DocumentSessionCommand: Equatable, Sendable
     {
         switch self
         {
-        case let .edit(observation, _), let .input(observation, _),
+        case let .edit(observation, _), let .replace(observation, _),
+             let .input(observation, _),
              let .select(observation, _),
              let .style(observation, _), let .convertCode(observation, _),
              let .inline(observation, _), let .typing(observation, _),
@@ -27,7 +29,7 @@ package enum DocumentSessionCommand: Equatable, Sendable
     {
         switch self
         {
-        case .edit, .style, .convertCode, .inline, .scope:
+        case .edit, .replace, .style, .convertCode, .inline, .scope:
             true
         case let .input(_, transaction):
             transaction.edit != nil

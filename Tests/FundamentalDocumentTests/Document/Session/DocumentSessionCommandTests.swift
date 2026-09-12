@@ -20,11 +20,16 @@ extension DocumentSessionTransitionTests
         let typing = SemanticInlineTraitAssignment(trait: .emphasis,
                                                    enabled: true)
         let input = DocumentInputTransaction(edit: edit, selection: selection)
+        let substitution = try #require(SemanticTextSubstitution(
+            range: selection.range, text: "X", attributes: .direct(traits: [])
+        ))
+        let batch = try #require(SemanticTextBatchReplacement([substitution]))
         let assignment = try ScopeTestValue.assignments()[0]
         let scope = SemanticRunScopeChange(range: selection.range,
                                            assignment: assignment)
         let commands: [DocumentSessionCommand] = [
             .edit(fixture.observation, edit),
+            .replace(fixture.observation, batch),
             .select(fixture.observation, selection),
             .style(fixture.observation, change),
             .convertCode(fixture.observation, conversion),
@@ -42,6 +47,10 @@ extension DocumentSessionTransitionTests
             case let .edit(observation, value):
                 #expect(observation == fixture.observation)
                 #expect(value == edit)
+            case let .replace(observation, value):
+                #expect(observation == fixture.observation)
+                #expect(value == batch)
+                #expect(command.changesContent)
             case let .select(observation, value):
                 #expect(observation == fixture.observation)
                 #expect(value == selection)
