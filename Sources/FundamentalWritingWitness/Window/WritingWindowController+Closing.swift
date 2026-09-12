@@ -9,6 +9,7 @@ extension WritingWindowController
 
     func windowWillClose(_ notification: Notification)
     {
+        fileOwner.recovery?.stop()
         discardApproved = true
         didClose?()
     }
@@ -31,16 +32,17 @@ extension WritingWindowController
         {
             return false
         }
-        if !fileOwner.session.isDirty ||
-            (fileOwner.binding == nil && current.text.isEmpty)
+        let pristine = fileOwner.binding == nil && current.text.isEmpty &&
+            !fileOwner.session.canUndo && !fileOwner.session.canRedo &&
+            (fileOwner.recovery?.sequence ?? 0) == 0
+        if !fileOwner.session.isDirty || pristine
         {
-            return true
+            return closeAfterRecovery(discard: false)
         }
         switch confirmDiscard()
         {
         case .discard:
-            discardApproved = true
-            return true
+            return closeAfterRecovery(discard: true)
         case .cancel:
             return false
         case .save:

@@ -5,9 +5,14 @@ final class WritingApplicationDelegate: NSObject, NSApplicationDelegate
 {
     var controllers: [WritingWindowController] = []
     var terminationPending = false
+    let recoveryStore: WritingRecoveryStore?
 
-    init(controller: WritingWindowController)
+    init(
+        controller: WritingWindowController,
+        recoveryStore: WritingRecoveryStore? = nil
+    )
     {
+        self.recoveryStore = recoveryStore
         super.init()
         retain(controller)
     }
@@ -17,6 +22,7 @@ final class WritingApplicationDelegate: NSObject, NSApplicationDelegate
         controllers.first?.documentWindow.center()
         controllers.first?.showWindow(nil)
         NSApplication.shared.activate()
+        Task { await offerRecovery() }
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(
@@ -28,6 +34,10 @@ final class WritingApplicationDelegate: NSObject, NSApplicationDelegate
 
     func retain(_ controller: WritingWindowController)
     {
+        if let recoveryStore
+        {
+            controller.installRecovery(using: recoveryStore)
+        }
         controllers.append(controller)
         controller.didClose =
         {

@@ -40,7 +40,8 @@ extension WritingWindowController
                 choosingLocation = true
                 let selected = await WritingFilePanels.save(
                     for: documentWindow,
-                    name: fileOwner.binding?.location.url.lastPathComponent
+                    name: fileOwner.binding?.location.url.lastPathComponent ??
+                        fileOwner.displayName
                 )
                 choosingLocation = false
                 guard let selected

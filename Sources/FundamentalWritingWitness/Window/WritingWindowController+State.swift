@@ -5,12 +5,15 @@ extension WritingWindowController
     func updateDocumentState()
     {
         let location = fileOwner.binding?.location.url
-        let name = location?.lastPathComponent ?? "Untitled"
+        let unbound = fileOwner.displayName +
+            (fileOwner.isRecovered ? " — Recovered" : "")
+        let name = location?.lastPathComponent ?? unbound
         documentWindow.title = fileOwner.isSaving ? "\(name) — Saving" : name
         documentWindow.representedURL = location
         documentWindow.isDocumentEdited = fileOwner.session.isDirty
         formatting.update(bridge.projection)
         finder?.refresh()
+        fileOwner.recovery?.observe(bridge.projection)
     }
 
     func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool

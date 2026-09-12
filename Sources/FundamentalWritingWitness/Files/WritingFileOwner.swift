@@ -9,6 +9,7 @@ final class WritingFileOwner
     let storage: any WritingDocumentStorage
     var binding: WritingFileBinding?
     var displayName = "Untitled"
+    var isRecovered = false
     var recoverySource: URL?
     var recovery: WritingRecoveryCoordinator?
     var retainedItems: [URL] = []

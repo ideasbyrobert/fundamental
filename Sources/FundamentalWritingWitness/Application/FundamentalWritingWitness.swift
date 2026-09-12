@@ -17,7 +17,11 @@ enum FundamentalWritingWitness
             print("Fundamental could not create its writing witness.")
             return
         }
-        let delegate = WritingApplicationDelegate(controller: controller)
+        let store = WritingRecoveryStore(
+            directory: WritingRecoveryLocation.directory()
+        )
+        let delegate = WritingApplicationDelegate(controller: controller,
+                                                    recoveryStore: store)
         WritingApplicationMenu.install(in: application)
         application.setActivationPolicy(.regular)
         application.delegate = delegate
