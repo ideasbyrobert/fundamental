@@ -38,12 +38,7 @@ extension WritingUIFormattingRoute
             control(group, in: journey.window).click()
             return
         }
-        let bar = journey.app.menuBars.firstMatch
-        bar.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.05))
-            .hover()
-        let format = bar.menuBarItems["Format"]
-        XCTAssertTrue(format.wait(for: \.isHittable, toEqual: true, timeout: 5))
-        format.click()
+        let format = journey.openMenu("Format")
         let submenu = format.menuItems[group]
         XCTAssertTrue(submenu.wait(for: \.isHittable,
                                    toEqual: true, timeout: 5))

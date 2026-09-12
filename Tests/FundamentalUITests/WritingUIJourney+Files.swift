@@ -69,7 +69,7 @@ extension WritingUIJourney
         XCTAssertTrue(editor.waitForExistence(timeout: 5))
     }
 
-    private func go(to location: URL)
+    func go(to location: URL)
     {
         app.typeKey("g", modifierFlags: [.command, .shift])
         let path = app.textFields["PathTextField"]
