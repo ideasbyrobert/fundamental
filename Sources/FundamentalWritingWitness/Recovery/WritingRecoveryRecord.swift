@@ -7,13 +7,14 @@ struct WritingRecoveryRecord: Sendable
     let sequence: UInt64
     let name: String
     let source: URL?
+    let requiresRecovery: Bool
     let snapshot: EditableDocumentSnapshot
 
     var revision: UInt64 { snapshot.snapshot.document.revision.value }
 
     init?(
         identifier: UUID, sequence: UInt64, name: String, source: URL?,
-        snapshot: EditableDocumentSnapshot
+        snapshot: EditableDocumentSnapshot, requiresRecovery: Bool = true
     )
     {
         guard name.utf16.count <= 1_024,
@@ -27,6 +28,7 @@ struct WritingRecoveryRecord: Sendable
         self.sequence = sequence
         self.name = name
         self.source = source
+        self.requiresRecovery = requiresRecovery
         self.snapshot = snapshot
     }
 }

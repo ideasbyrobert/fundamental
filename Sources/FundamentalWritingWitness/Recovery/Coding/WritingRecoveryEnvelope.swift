@@ -9,6 +9,7 @@ struct WritingRecoveryEnvelope: Codable
     let sequence: UInt64
     let name: String
     let source: URL?
+    let requiresRecovery: Bool?
     let document: Data
     let anchor: WritingRecoveryPoint
     let focus: WritingRecoveryPoint
@@ -21,6 +22,7 @@ struct WritingRecoveryEnvelope: Codable
         sequence = record.sequence
         name = record.name
         source = record.source
+        requiresRecovery = record.requiresRecovery
         document = try WritingRecoveryCodec.documentCodec.encode(
             record.snapshot.snapshot.document
         )
@@ -45,7 +47,8 @@ struct WritingRecoveryEnvelope: Codable
                   selection: DocumentSelection(range: range)
               ), let record = WritingRecoveryRecord(
                   identifier: identifier, sequence: sequence, name: name,
-                  source: source, snapshot: snapshot
+                  source: source, snapshot: snapshot,
+                  requiresRecovery: requiresRecovery ?? true
               )
         else
         {

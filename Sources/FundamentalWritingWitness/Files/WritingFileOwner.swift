@@ -8,6 +8,9 @@ final class WritingFileOwner
     let session: DocumentSession
     let storage: any WritingDocumentStorage
     var binding: WritingFileBinding?
+    var displayName = "Untitled"
+    var recoverySource: URL?
+    var recovery: WritingRecoveryCoordinator?
     var retainedItems: [URL] = []
     var didChange: (@MainActor () -> Void)?
 

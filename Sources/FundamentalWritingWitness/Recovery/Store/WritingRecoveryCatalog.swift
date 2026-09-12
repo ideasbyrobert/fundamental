@@ -4,6 +4,11 @@ struct WritingRecoveryCatalog: Sendable
 {
     let records: [WritingRecoveryRecord]
     let unreadable: [URL]
+
+    var recoverable: [WritingRecoveryRecord]
+    {
+        records.filter(\.requiresRecovery)
+    }
 }
 
 extension WritingRecoveryStore

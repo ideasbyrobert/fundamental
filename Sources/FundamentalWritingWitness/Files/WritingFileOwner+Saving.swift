@@ -18,6 +18,7 @@ extension WritingFileOwner
         {
             condition = .absent
         }
+        let checkpoint = recovery?.prepareSave()
         let ticket = session.prepareSave()
         didChange?()
         defer
@@ -26,6 +27,10 @@ extension WritingFileOwner
         }
         do
         {
+            if let checkpoint
+            {
+                await recovery?.checkpoint(checkpoint)
+            }
             let receipt = try await storage.save(
                 ticket.document, at: location, condition: condition
             )
@@ -36,6 +41,7 @@ extension WritingFileOwner
             {
                 throw WritingFileFailure.acknowledgementRefused
             }
+            await recovery?.saved(ticket.document.revision.value)
         }
         catch
         {
