@@ -5,19 +5,7 @@ extension WritingUIJourney
 {
     func useAppearance(_ appearance: XCUIDevice.Appearance)
     {
-        let prior = XCUIDevice.shared.appearance
-        test.addTeardownBlock
-        {
-            await MainActor.run
-            {
-                XCUIDevice.shared.appearance = prior
-                XCTAssertEqual(XCUIDevice.shared.appearance, prior)
-                print("Restored device appearance: \(prior.rawValue)")
-            }
-        }
-        print("Initial device appearance: \(prior.rawValue)")
-        XCUIDevice.shared.appearance = appearance
-        XCTAssertEqual(XCUIDevice.shared.appearance, appearance)
+        WritingUIAppearance.use(appearance, test: test)
     }
 
     func expectAppearance(_ appearance: XCUIDevice.Appearance) throws

@@ -10,7 +10,10 @@ struct WritingUIFixture
     let identifier: String
     let applicationURL: URL
 
-    init(test: XCTestCase) throws
+    init(
+        test: XCTestCase, restoresZoom: Bool = false,
+        appearance: XCUIDevice.Appearance? = nil
+    ) throws
     {
         let settings = Bundle(for: WritingUITests.self)
         let path = try XCTUnwrap(settings.object(
@@ -27,6 +30,7 @@ struct WritingUIFixture
         _ = try XCTUnwrap(NSRunningApplication.runningApplications(
             withBundleIdentifier: identity
         ).isEmpty ? true : nil, "Refuse an already running application")
+        if let appearance { WritingUIAppearance.use(appearance, test: test) }
         directory = FileManager.default.temporaryDirectory.appending(
             path: "FundamentalUI-" + UUID().uuidString,
             directoryHint: .isDirectory
@@ -35,6 +39,10 @@ struct WritingUIFixture
             at: directory, withIntermediateDirectories: true
         )
         app = XCUIApplication(url: url)
+        if !restoresZoom
+        {
+            app.launchArguments = ["-FundamentalWritingZoomPercentage", "100"]
+        }
         let recovery = directory.appending(path: "Recovery")
         let recoveryKey = "FUNDAMENTAL_UI_RECOVERY_DIRECTORY"
         app.launchEnvironment[recoveryKey] = recovery.path
@@ -43,14 +51,12 @@ struct WritingUIFixture
         let pasteboard = clipboard
         test.addTeardownBlock
         {
-            await MainActor.run
+            @MainActor in
+            if application.state != .notRunning
             {
-                if application.state != .notRunning
-                {
-                    application.terminate()
-                }
-                pasteboard.restore()
+                application.terminate()
             }
+            pasteboard.restore()
         }
         let metadata = ["application": url.path, "identifier": identity,
                         "evidence": directory.path, "recovery": recovery.path]
