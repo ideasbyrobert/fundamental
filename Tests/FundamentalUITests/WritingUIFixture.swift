@@ -7,6 +7,8 @@ struct WritingUIFixture
     let app: XCUIApplication
     let directory: URL
     let clipboard: WritingUIPasteboard
+    let identifier: String
+    let applicationURL: URL
 
     init(test: XCTestCase) throws
     {
@@ -17,6 +19,8 @@ struct WritingUIFixture
         let url = URL(fileURLWithPath: path)
         let bundle = try XCTUnwrap(Bundle(url: url))
         let identity = try XCTUnwrap(bundle.bundleIdentifier)
+        identifier = identity
+        applicationURL = url
         _ = try XCTUnwrap(identity.hasPrefix(
             "com.ideasbyrobert.Fundamental.UITesting."
         ) ? true : nil, "The application must be an isolated UI fixture")
@@ -31,6 +35,9 @@ struct WritingUIFixture
             at: directory, withIntermediateDirectories: true
         )
         app = XCUIApplication(url: url)
+        let recovery = directory.appending(path: "Recovery")
+        let recoveryKey = "FUNDAMENTAL_UI_RECOVERY_DIRECTORY"
+        app.launchEnvironment[recoveryKey] = recovery.path
         clipboard = WritingUIPasteboard()
         let application = app
         let pasteboard = clipboard
@@ -46,7 +53,7 @@ struct WritingUIFixture
             }
         }
         let metadata = ["application": url.path, "identifier": identity,
-                        "evidence": directory.path]
+                        "evidence": directory.path, "recovery": recovery.path]
         let data = try JSONSerialization.data(
             withJSONObject: metadata, options: [.prettyPrinted, .sortedKeys]
         )

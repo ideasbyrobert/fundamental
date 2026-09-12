@@ -87,6 +87,12 @@
                 102000000000000000000113,
                 102000000000000000000115,
                 102000000000000000000117,
+                102000000000000000000119,
+                102000000000000000000121,
+                102000000000000000000123,
+                102000000000000000000125,
+                102000000000000000000127,
+                102000000000000000000129,
             );
             name = FundamentalUITests;
             path = ".";
@@ -163,6 +169,12 @@
                 102000000000000000000114,
                 102000000000000000000116,
                 102000000000000000000118,
+                102000000000000000000120,
+                102000000000000000000122,
+                102000000000000000000124,
+                102000000000000000000126,
+                102000000000000000000128,
+                102000000000000000000130,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -720,6 +732,66 @@
         102000000000000000000118 = {
             isa = PBXBuildFile;
             fileRef = 102000000000000000000117;
+        };
+        102000000000000000000119 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+Find.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000120 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000119;
+        };
+        102000000000000000000121 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+Find.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000122 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000121;
+        };
+        102000000000000000000123 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIRecoveryRecord.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000124 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000123;
+        };
+        102000000000000000000125 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIFixture+Recovery.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000126 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000125;
+        };
+        102000000000000000000127 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+Recovery.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000128 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000127;
+        };
+        102000000000000000000129 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+FindOptions.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000130 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000129;
         };
         102000000000000000000013 = {
             isa = XCBuildConfiguration;

@@ -7,22 +7,25 @@ struct WritingUIJourney
     let fixture: WritingUIFixture
     let test: XCTestCase
     let documentName: String
+    let initialWindowName: String
 
     init(
         fixture: WritingUIFixture, test: XCTestCase,
-        documentName: String = "Formatting.fun"
+        documentName: String = "Formatting.fun",
+        initialWindowName: String = "Untitled"
     )
     {
         self.fixture = fixture
         self.test = test
         self.documentName = documentName
+        self.initialWindowName = initialWindowName
     }
 
     var app: XCUIApplication { fixture.app }
     var window: XCUIElement
     {
         let named = app.windows[documentName]
-        return named.exists ? named : app.windows["Untitled"]
+        return named.exists ? named : app.windows[initialWindowName]
     }
     var editor: XCUIElement { window.textViews["Fundamental document"] }
 
@@ -34,15 +37,19 @@ struct WritingUIJourney
             activity in
             defer
             {
-                let text = XCTAttachment(data: Data(app.debugDescription.utf8),
-                    uniformTypeIdentifier: "public.utf8-plain-text")
-                text.name = name + " accessibility"
-                text.lifetime = .keepAlways
-                activity.add(text)
-                let image = XCTAttachment(screenshot: app.screenshot())
-                image.name = name
-                image.lifetime = .keepAlways
-                activity.add(image)
+                if app.state != .notRunning
+                {
+                    let data = Data(app.debugDescription.utf8)
+                    let text = XCTAttachment(data: data,
+                        uniformTypeIdentifier: "public.utf8-plain-text")
+                    text.name = name + " accessibility"
+                    text.lifetime = .keepAlways
+                    activity.add(text)
+                    let image = XCTAttachment(screenshot: app.screenshot())
+                    image.name = name
+                    image.lifetime = .keepAlways
+                    activity.add(image)
+                }
             }
             return try action()
         }
