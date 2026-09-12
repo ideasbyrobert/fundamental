@@ -21,7 +21,7 @@ enum FundamentalWritingWitness
             directory: WritingRecoveryLocation.directory()
         )
         let delegate = WritingApplicationDelegate(controller: controller,
-                                                    recoveryStore: store)
+            recoveryStore: store, zoomPreferences: WritingZoomPreferences())
         WritingApplicationMenu.install(in: application)
         application.setActivationPolicy(.regular)
         application.delegate = delegate

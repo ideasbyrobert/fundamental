@@ -7,13 +7,16 @@ final class WritingApplicationDelegate: NSObject, NSApplicationDelegate
     var terminationPending = false
     var choosingTextImport = false
     let recoveryStore: WritingRecoveryStore?
+    let zoomPreferences: WritingZoomPreferences?
 
     init(
         controller: WritingWindowController,
-        recoveryStore: WritingRecoveryStore? = nil
+        recoveryStore: WritingRecoveryStore? = nil,
+        zoomPreferences: WritingZoomPreferences? = nil
     )
     {
         self.recoveryStore = recoveryStore
+        self.zoomPreferences = zoomPreferences
         super.init()
         retain(controller)
     }
@@ -35,6 +38,11 @@ final class WritingApplicationDelegate: NSObject, NSApplicationDelegate
 
     func retain(_ controller: WritingWindowController)
     {
+        if let zoomPreferences
+        {
+            controller.zoomPreferences = zoomPreferences
+            controller.applyZoom(zoomPreferences.zoom)
+        }
         if let recoveryStore
         {
             controller.installRecovery(using: recoveryStore)

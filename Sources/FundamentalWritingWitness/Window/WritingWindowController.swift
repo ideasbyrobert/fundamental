@@ -18,6 +18,7 @@ final class WritingWindowController:
     var codeLanguageSheet: WritingCodeLanguageSheet?
     var scopeSheet: WritingScopeSheet?
     var finder: WritingFindController?
+    var zoomPreferences: WritingZoomPreferences?
     var didClose: (@MainActor () -> Void)?
     var openDestination: @MainActor (URL) -> Bool =
         { NSWorkspace.shared.open($0) }

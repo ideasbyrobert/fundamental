@@ -18,6 +18,11 @@ extension WritingWindowController
 
     func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool
     {
+        if let action = item.action,
+           WritingApplicationMenu.zoomActions.contains(action)
+        {
+            return validateZoom(item)
+        }
         if WritingApplicationMenu.findActions.contains(item.action)
         {
             return !choosingLocation && !hasFormattingSheet

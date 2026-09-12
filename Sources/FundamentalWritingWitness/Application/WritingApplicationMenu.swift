@@ -29,6 +29,9 @@ struct WritingApplicationMenu
         let format = NSMenuItem(title: "Format", action: nil, keyEquivalent: "")
         format.submenu = formatMenu()
         main.addItem(format)
+        let view = NSMenuItem(title: "View", action: nil, keyEquivalent: "")
+        view.submenu = viewMenu()
+        main.addItem(view)
         return main
     }
 

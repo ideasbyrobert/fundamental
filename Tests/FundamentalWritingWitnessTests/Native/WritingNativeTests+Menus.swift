@@ -55,7 +55,7 @@ extension WritingNativeTests
         _ = NSApplication.shared
         let menu = WritingApplicationMenu.make()
         #expect(menu.items.map(\.title) == [
-            "Fundamental", "File", "Edit", "Format"
+            "Fundamental", "File", "Edit", "Format", "View"
         ])
         let file = try #require(menu.item(withTitle: "File")?.submenu)
         let edit = try #require(menu.item(withTitle: "Edit")?.submenu)
