@@ -28,5 +28,6 @@ extension WritingUIBuild
             "-o", evidence.appending(path: "NativeTestHost").path
         ]).run(in: source,
                log: evidence.appending(path: "native-test-host.log"))
+        try nativeTestBundle()
     }
 }
