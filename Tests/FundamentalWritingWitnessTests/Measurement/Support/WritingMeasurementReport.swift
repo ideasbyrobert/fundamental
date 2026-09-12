@@ -27,6 +27,7 @@ struct WritingMeasurementReport
             "paragraphs": corpus.paragraphCount,
             "corpus": corpus.semantic ? "mixed semantic" : "body paragraphs",
             "scoped": corpus.scoped,
+            "recoveryObservation": true,
             "utf16Units": corpus.utf16Count,
             "location": location.rawValue,
             "sampleCount": samples.count,

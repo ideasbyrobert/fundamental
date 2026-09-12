@@ -29,8 +29,10 @@ struct WritingMeasurementTests
         let window = try WritingTestWindow(session: DocumentSession(
             state: seed.state, initiallySaved: true
         ))
+        let recovery = try WritingMeasurementRecovery(window: window)
         defer
         {
+            recovery.stop()
             window.close()
         }
         let projection = try #require(WritingProjection(window.session.state))
@@ -73,6 +75,7 @@ struct WritingMeasurementTests
                 )) == text)
             }
         }
+        try recovery.expectObserved(window)
         let report = WritingMeasurementReport(
             samples: samples, corpus: corpus, location: location
         )
