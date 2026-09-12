@@ -10,10 +10,15 @@ extension WritingWindowController
         documentWindow.representedURL = location
         documentWindow.isDocumentEdited = fileOwner.session.isDirty
         formatting.update(bridge.projection)
+        finder?.refresh()
     }
 
     func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool
     {
+        if WritingApplicationMenu.findActions.contains(item.action)
+        {
+            return !choosingLocation && !hasFormattingSheet
+        }
         if item.action == #selector(openLink(_:))
         {
             return validateOpenLink(item)

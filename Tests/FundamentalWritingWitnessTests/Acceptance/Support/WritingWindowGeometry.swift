@@ -28,7 +28,9 @@ struct WritingWindowGeometry
         #expect(native.standardWindowButton(.zoomButton) != nil)
     }
 
-    static func expectVisibleCaret(_ window: WritingTestWindow) throws
+    static func expectVisibleCaret(
+        _ window: WritingTestWindow, context: String = ""
+    ) throws
     {
         _ = try WritingWindowCapture.capture(window)
         let native = window.controller.documentWindow
@@ -48,6 +50,7 @@ struct WritingWindowGeometry
         let frame = fragment?.layoutFragmentFrame
         let viewport = layout.textViewportLayoutController.viewportBounds
         #expect(rectangle.height > 0, """
+            \(context)
             selection \(window.view.selectedRange()), frame \(rectangle)
             visible \(visible), viewport \(window.view.visibleRect)
             fragment \(String(describing: frame))

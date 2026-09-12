@@ -60,6 +60,7 @@ struct WritingApplicationMenu
         menu.addItem(NSMenuItem(title: "Select All",
                                 action: #selector(NSText.selectAll(_:)),
                                 keyEquivalent: "a"))
+        addFind(to: menu)
         return menu
     }
 }

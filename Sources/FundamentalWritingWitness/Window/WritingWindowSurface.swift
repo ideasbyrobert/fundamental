@@ -47,7 +47,7 @@ struct WritingWindowSurface
         )
         window.isReleasedWhenClosed = false
         window.minSize = NSSize(width: 360, height: 280)
-        window.contentView = scroll
+        window.contentView = WritingWindowContent(scroll: scroll)
         guard bridge.project(in: view)
         else
         {

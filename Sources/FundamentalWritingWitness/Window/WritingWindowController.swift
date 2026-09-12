@@ -17,6 +17,7 @@ final class WritingWindowController:
     var closeTask: Task<Bool, Never>?
     var codeLanguageSheet: WritingCodeLanguageSheet?
     var scopeSheet: WritingScopeSheet?
+    var finder: WritingFindController?
     var didClose: (@MainActor () -> Void)?
     var openDestination: @MainActor (URL) -> Bool =
         { NSWorkspace.shared.open($0) }

@@ -71,7 +71,8 @@ extension WritingNativeTests
             $0.target == nil
         })
         #expect(edit.items.map(\.title) == [
-            "Undo", "Redo", "", "Cut", "Copy", "Paste", "Select All"
+            "Undo", "Redo", "", "Cut", "Copy", "Paste", "Select All", "",
+            "Find…", "Find and Replace…", "Find Next", "Find Previous"
         ])
         #expect(edit.items.filter { !$0.isSeparatorItem }.allSatisfy
         {
@@ -80,5 +81,8 @@ extension WritingNativeTests
         #expect(edit.items[0].keyEquivalent == "z")
         #expect(edit.items[1].keyEquivalent == "Z")
         #expect(edit.items[1].keyEquivalentModifierMask == [.command])
+        #expect(edit.items[8...11].map(\.keyEquivalent) == ["f", "f", "g", "g"])
+        #expect(edit.items[9].keyEquivalentModifierMask == [.command, .option])
+        #expect(edit.items[11].keyEquivalentModifierMask == [.command, .shift])
     }
 }

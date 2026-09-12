@@ -23,7 +23,7 @@ extension WritingWindowController
         }
     }
 
-    private func updateWritingGeometry()
+    func updateWritingGeometry()
     {
         let size = scrollView.contentSize
         textView.minSize = NSSize(width: 0, height: size.height)
