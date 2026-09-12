@@ -22,7 +22,8 @@ extension WritingNativeBridge
         guard let prior, matches(prior, in: view),
               let next = prior.replacing(actual, with: inserted,
                                          selecting: selected),
-              let presentation = WritingTextPresentation(next.presentation)
+              let presentation = WritingTextPresentation(next.presentation,
+                                                          zoom: zoom)
         else
         {
             project(in: view)

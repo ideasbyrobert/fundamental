@@ -33,7 +33,7 @@ struct WritingListMarker
         let baseline = paragraphOrigin.y + bounds.minY + source.glyphOrigin.y
         let leading = paragraphOrigin.x + bounds.minX + source.glyphOrigin.x
         let origin = CGPoint(
-            x: leading - 10 - width,
+            x: leading - font.pointSize * 0.5 - width,
             y: baseline
         )
         self.label = label

@@ -6,7 +6,7 @@ struct WritingTypingAppearance
 {
     let attributes: [NSAttributedString.Key: Any]
 
-    init?(_ projection: WritingProjection)
+    init?(_ projection: WritingProjection, zoom: WritingZoom = WritingZoom())
     {
         let blocks = projection.snapshot.snapshot.document.content.blocks
         let caret = projection.selection.location
@@ -27,9 +27,10 @@ struct WritingTypingAppearance
             }
             return false
         }.count
-        guard let base = WritingTypography.attributes(
+        guard let original = WritingTypography.attributes(
             for: blocks[index].block, ordinal: &ordinal
-        ), let font = base[.font] as? NSFont,
+        ), let base = WritingZoomAppearance.scale(original, by: zoom),
+              let font = base[.font] as? NSFont,
               let inline = WritingRunAppearance.attributes(
                   typing, font: font
               )

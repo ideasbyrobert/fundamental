@@ -9,6 +9,7 @@ final class WritingNativeBridge: NSObject, NSTextViewDelegate
     var projecting = false
     var composing = false
     var composition: WritingComposition?
+    var zoom = WritingZoom()
     var didChange: (@MainActor () -> Void)?
 
     init?(session: DocumentSession)
@@ -27,7 +28,7 @@ final class WritingNativeBridge: NSObject, NSTextViewDelegate
     {
         guard view.textLayoutManager != nil, view.textStorage != nil,
               let next = WritingProjection(session.state),
-              let presentation = WritingTextPresentation(next)
+              let presentation = WritingTextPresentation(next, zoom: zoom)
         else
         {
             return false

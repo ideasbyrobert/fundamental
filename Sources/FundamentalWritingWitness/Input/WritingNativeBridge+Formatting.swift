@@ -42,7 +42,7 @@ extension WritingNativeBridge
 
     func updateTyping(in view: NSTextView)
     {
-        guard let appearance = WritingTypingAppearance(projection)
+        guard let appearance = WritingTypingAppearance(projection, zoom: zoom)
         else
         {
             return

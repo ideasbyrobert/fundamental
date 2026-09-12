@@ -9,9 +9,9 @@ struct WritingTextPresentation
     let terminalAttributes: [NSAttributedString.Key: Any]
     let hasListMarkers: Bool
 
-    init?(_ projection: WritingProjection)
+    init?(_ projection: WritingProjection, zoom: WritingZoom = WritingZoom())
     {
-        guard let typing = WritingTypingAppearance(projection)
+        guard let typing = WritingTypingAppearance(projection, zoom: zoom)
         else
         {
             return nil
@@ -23,9 +23,9 @@ struct WritingTextPresentation
         var ordinal = 0
         for (index, block) in blocks.enumerated()
         {
-            guard let appearance = WritingTypography.attributes(
+            guard let base = WritingTypography.attributes(
                 for: block.block, ordinal: &ordinal
-            )
+            ), let appearance = WritingZoomAppearance.scale(base, by: zoom)
             else
             {
                 return nil
