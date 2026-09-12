@@ -99,6 +99,8 @@
                 102000000000000000000137,
                 102000000000000000000139,
                 102000000000000000000141,
+                102000000000000000000143,
+                102000000000000000000145,
             );
             name = FundamentalUITests;
             path = ".";
@@ -187,6 +189,8 @@
                 102000000000000000000138,
                 102000000000000000000140,
                 102000000000000000000142,
+                102000000000000000000144,
+                102000000000000000000146,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -864,6 +868,26 @@
         102000000000000000000142 = {
             isa = PBXBuildFile;
             fileRef = 102000000000000000000141;
+        };
+        102000000000000000000143 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+DailyWriting.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000144 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000143;
+        };
+        102000000000000000000145 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUIJourney+DailyRecovery.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000146 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000145;
         };
         102000000000000000000013 = {
             isa = XCBuildConfiguration;
