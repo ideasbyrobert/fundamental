@@ -30,6 +30,17 @@ extension WritingApplicationMenu
         menu.addItem(saveAs)
         menu.addItem(.separator())
         menu.addItem(NSMenuItem(
+            title: "Import Text…",
+            action: #selector(WritingApplicationDelegate.importText(_:)),
+            keyEquivalent: ""
+        ))
+        menu.addItem(NSMenuItem(
+            title: "Export Text…",
+            action: #selector(WritingWindowController.exportText(_:)),
+            keyEquivalent: ""
+        ))
+        menu.addItem(.separator())
+        menu.addItem(NSMenuItem(
             title: "Close",
             action: #selector(NSWindow.performClose(_:)),
             keyEquivalent: "w"

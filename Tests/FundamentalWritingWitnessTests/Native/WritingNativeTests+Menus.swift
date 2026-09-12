@@ -64,7 +64,8 @@ extension WritingNativeTests
             "Paragraph Style", "Text Style", "List"
         ])
         #expect(file.items.map(\.title) == [
-            "New", "Open…", "", "Save", "Save As…", "", "Close"
+            "New", "Open…", "", "Save", "Save As…", "",
+            "Import Text…", "Export Text…", "", "Close"
         ])
         #expect(file.items.filter { !$0.isSeparatorItem }.allSatisfy
         {

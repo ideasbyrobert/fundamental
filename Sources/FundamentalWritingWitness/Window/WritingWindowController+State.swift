@@ -44,7 +44,8 @@ extension WritingWindowController
             return validateFormatting(item, group: group)
         }
         if item.action == #selector(saveDocument(_:)) ||
-            item.action == #selector(saveDocumentAs(_:))
+            item.action == #selector(saveDocumentAs(_:)) ||
+            item.action == #selector(exportText(_:))
         {
             return !fileOwner.isSaving && !choosingLocation &&
                 !hasFormattingSheet

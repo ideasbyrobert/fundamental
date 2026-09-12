@@ -5,6 +5,7 @@ final class WritingApplicationDelegate: NSObject, NSApplicationDelegate
 {
     var controllers: [WritingWindowController] = []
     var terminationPending = false
+    var choosingTextImport = false
     let recoveryStore: WritingRecoveryStore?
 
     init(
