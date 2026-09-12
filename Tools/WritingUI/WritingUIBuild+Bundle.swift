@@ -25,6 +25,7 @@ extension WritingUIBuild
         info["CFBundleIdentifier"] = identity
         info["CFBundleName"] = "Fundamental UI Study"
         info["CFBundleDisplayName"] = "Fundamental UI Study"
+        info.removeValue(forKey: "CFBundleDocumentTypes")
         try PropertyListSerialization.data(
             fromPropertyList: info, format: .xml, options: 0
         ).write(to: location, options: .atomic)
