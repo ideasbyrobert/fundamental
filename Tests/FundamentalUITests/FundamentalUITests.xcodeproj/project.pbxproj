@@ -101,6 +101,7 @@
                 102000000000000000000141,
                 102000000000000000000143,
                 102000000000000000000145,
+                102000000000000000000147,
             );
             name = FundamentalUITests;
             path = ".";
@@ -191,6 +192,7 @@
                 102000000000000000000142,
                 102000000000000000000144,
                 102000000000000000000146,
+                102000000000000000000148,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -888,6 +890,16 @@
         102000000000000000000146 = {
             isa = PBXBuildFile;
             fileRef = 102000000000000000000145;
+        };
+        102000000000000000000147 = {
+            isa = PBXFileReference;
+            lastKnownFileType = sourcecode.swift;
+            path = "WritingUITests+VoiceOver.swift";
+            sourceTree = "<group>";
+        };
+        102000000000000000000148 = {
+            isa = PBXBuildFile;
+            fileRef = 102000000000000000000147;
         };
         102000000000000000000013 = {
             isa = XCBuildConfiguration;
