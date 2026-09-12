@@ -13,7 +13,8 @@ extension WritingUITests
         let app = fixture.app
         let firstTexts = ["First heading", "First item 😀",
                           "First detail e\u{301}"]
-        let secondTexts = ["Second heading", "Second item Ω", "Second detail 😀"]
+        let secondTexts = ["Второй заголовок", "Русский пункт 🇦🇲",
+                           "Детали е\u{301} 👨‍👩‍👧‍👦"]
         let originalFirst = try first.step("Write the first named document")
         {
             try first.writeHeadingDocument(firstTexts, using: .toolbar)
